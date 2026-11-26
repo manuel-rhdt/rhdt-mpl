@@ -24,7 +24,7 @@ axes.axisbelow: True
 axes.grid: False
 grid.color: B0B0B0
 grid.linewidth: 0.8
-axes.prop_cycle: cycler('color', ['EE7733', '0077BB', '33BBEE', 'EE3377', 'CC3311', '009988'])
+axes.prop_cycle: cycler('color', ['00A051', 'A54570', '0044D3', '844D1E', '008176', '5CD34B', '212E5C', '6C1F1D'])   # colibri-dark
 
 # Lines and markers (no marker edge)
 lines.linewidth: 1.5

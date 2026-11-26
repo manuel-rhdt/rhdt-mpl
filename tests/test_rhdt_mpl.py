@@ -39,7 +39,8 @@ def test_named_colors():
     import matplotlib as mpl, matplotlib.colors as mc
     assert mc.to_hex("rhdt:tol-vibrant:orange") == "#ee7733" and mc.to_hex("rhdt:okabe-ito:sky blue") == "#56b4e9"
     assert mc.to_hex("rhdt:ok6:navy") == "#1d5e85" and mc.to_hex("rhdt:ok8:navy") == "#2a5b88"
-    assert mc.to_hex("rhdt:orange") == mc.to_hex("rhdt:tol-vibrant:orange")      # short form: default palette
+    assert mc.to_hex("rhdt:benjamini gorget") == "#00a051"                       # short form: default palette (colibri-dark)
+    assert not mc.is_color_like("rhdt:orange")                                    # Tol Vibrant needs its full name
     assert not mc.is_color_like("rhdt:navy") and not mc.is_color_like("rhdt:tol-vibrant:nope")
     assert mc.to_hex("orange") == "#ffa500" and not mc.is_color_like("tol-vibrant:orange")   # no unprefixed names
     n = sum(len(p) for p in rhdt_mpl.PALETTES.values()) + len(rhdt_mpl.PALETTES[rhdt_mpl.palettes.DEFAULT_PALETTE])
@@ -57,6 +58,8 @@ def test_colibri():
         assert len(rhdt_mpl.PALETTES[key]) == 8
         assert set(rhdt_mpl.SOURCES[key]) == set(rhdt_mpl.PALETTES[key])      # every color has its source
     assert list(rhdt_mpl.PALETTES["colibri"])[0] == "leadbeateri gorget"
+    assert set(rhdt_mpl.PARTNERS) == set(rhdt_mpl.PALETTES["colibri-dark"])
+    assert set(rhdt_mpl.PARTNERS.values()) == set(rhdt_mpl.PALETTES["colibri"])     # a bijection of the two palettes
     assert mc.to_hex("rhdt:colibri:mosquitus crown") == "#b60042"              # the stand-in of an out-of-gamut color
     assert rhdt_mpl.wide_css("colibri", "mosquitus crown").startswith("oklch(0.49")
     assert rhdt_mpl.wide_css("colibri", "pyra gorget") is None                 # inside sRGB: exact
@@ -87,6 +90,12 @@ def test_species_palettes():
         assert gone not in rhdt_mpl.PALETTES
 
 
+def test_default_cycle_is_colibri_dark():
+    import matplotlib as mpl
+    rhdt_mpl.use(backend=False)
+    assert mpl_cycle() == list(rhdt_mpl.PALETTES["colibri-dark"].values())
+
+
 def test_colormaps():
     import matplotlib as mpl
     assert mpl.rcParams["image.cmap"] == "ok_orchid"
@@ -103,4 +112,5 @@ if __name__ == "__main__":
     test_named_colors()
     test_colibri()
     test_species_palettes()
+    test_default_cycle_is_colibri_dark()
     test_backend_and_fonts("/tmp/claude-0/-home-user/b31222e4-7591-5457-af74-51ed8c3e5c07/scratchpad")

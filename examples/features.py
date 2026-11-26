@@ -53,9 +53,9 @@ theory = 30 * (1 - np.exp(-xs / 4))
 for c, name, k, m in zip(oklab.family("rhdt:tol-vibrant:cyan", 3), ["InfoNCE", "MINE", "SMILE"],
                          [0.30, 0.22, 0.15], "^v<"):
     ax.plot(xs, k * theory, color=c, lw=1.2, marker=m, markevery=6, markersize=3.5, label=name)
-ax.plot(xs, 0.6 * theory, color=oklab.muted("rhdt:orange"), ls="--", lw=1.2, label="baseline")
+ax.plot(xs, 0.6 * theory, color=oklab.muted("rhdt:tol-vibrant:orange"), ls="--", lw=1.2, label="baseline")
 ax.plot(xs, theory, color="black", lw=2, zorder=10, label="theory")
-ax.plot(xs, theory * (1 - 0.04 * np.sin(xs)), color="rhdt:orange", marker="o", markevery=6, markersize=3.5,
+ax.plot(xs, theory * (1 - 0.04 * np.sin(xs)), color="rhdt:tol-vibrant:orange", marker="o", markevery=6, markersize=3.5,
         label="ML-PWS")
 ax.set(title="named colors", xlabel="x", ylabel="MI (bit)", xlim=(0, 16.5))
 ax.legend(fontsize=6.5, loc="center right")

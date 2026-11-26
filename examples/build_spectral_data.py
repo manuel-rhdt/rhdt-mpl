@@ -5,7 +5,8 @@ Dryad doi:10.5061/dryad.02v6wwq8w), mixing species and patches freely:
   colibri       eight bright colors, the most vivid one per hue sector (with a preference for well measured ones),
                 with the blue chosen to be as far as possible from the others; ordered so the first k are best separated
   colibri-dark  for each of them a darker partner of similar hue (lightness lower by 0.08 to 0.26), also from the data,
-                chosen jointly so that the eight darker colors are as distinct from each other as possible
+                chosen jointly so that the eight darker colors are as distinct from each other as possible, and
+                ordered by their own separation (PARTNERS records which bright color each one partners)
 Colors are the median spectrum of the specimens of one species, sex and patch (at least two specimens), converted with
 the CIE 1931 observer under D65.  A color outside the sRGB gamut keeps its exact value as an OKLCH string in WIDE; the
 hex in the palette is then its nearest sRGB color (chroma reduced at constant lightness and hue), made unique.
@@ -101,6 +102,19 @@ def pick_dark(cand, bright):
     return best[1]
 
 
+def order_by_separation(S):
+    """Farthest-point order, from the start that makes the first k colors best separated for every k."""
+    best = None
+    for start in S:
+        order = [start]
+        while len(order) < len(S):
+            order.append(max((c for c in S if c not in order), key=lambda c: min(dist(c, o) for o in order)))
+        score = [min(dist(order[a], order[b]) for a in range(k) for b in range(a)) for k in range(2, len(S) + 1)]
+        if best is None or score > best[0]:
+            best = (score, order)
+    return best[1]
+
+
 def name_of(c):
     return f"{c['species'].split('_')[1]} {c['patch']}"
 
@@ -144,6 +158,8 @@ def main(data_dir):
     cand = candidates(data_dir)
     bright = pick_bright(cand)
     dark = pick_dark(cand, bright)
+    partners = {name_of(d): name_of(b) for b, d in zip(bright, dark)}      # dark color -> its bright partner
+    dark = order_by_separation(dark)
     pal, wide, src, used = {}, {}, {}, set()
     for label, S in (("colibri", bright), ("colibri-dark", dark)):
         pal[label], wide[label], src[label] = {}, {}, {}
@@ -173,6 +189,9 @@ def main(data_dir):
             lines.append(f'    "{label}": {{')
             lines += [f'        "{k}": "{v}",' for k, v in d.items()]
             lines.append("    },")
+    lines += ["}", "", "# dark color -> the bright color of colibri it is the darker partner of (colibri-dark is ordered by its own",
+              "# separation, not by its partners)", "PARTNERS = {"]
+    lines += [f'    "{k}": "{v}",' for k, v in partners.items()]
     lines += ["}", "", "SOURCES = {"]
     for label in ("colibri", "colibri-dark"):
         lines.append(f'    "{label}": {{')

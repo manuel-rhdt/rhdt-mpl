@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 from cycler import cycler
 
 out = sys.argv[1] if len(sys.argv) > 1 else "."
-rows = [("ok6", rhdt_mpl.cycle("ok6")), ("ok8", rhdt_mpl.cycle("ok8")),
-        ("Tol Vibrant (current default)",
-         cycler(color=rhdt_mpl.palette("tol-vibrant", ["orange", "blue", "cyan", "magenta", "red", "teal"])))]
+rows = [("colibri-dark (default)", rhdt_mpl.cycle("colibri-dark")), ("colibri", rhdt_mpl.cycle("colibri")),
+        ("ok8", rhdt_mpl.cycle("ok8")),
+        ("Tol Vibrant", cycler(color=rhdt_mpl.palette("tol-vibrant", ["orange", "blue", "cyan", "magenta", "red", "teal"])))]
 rng = np.random.default_rng(3)
 x = np.linspace(0, 10, 200)
 centers = rng.uniform(-2.2, 2.2, (8, 2))
@@ -22,7 +22,7 @@ for r, (name, cyc) in enumerate(rows):
         ax.set_prop_cycle(cyc)
     for i in range(6):   # 6 series
         a1.plot(x, np.sin(x / 1.6 + 0.55 * i) * np.exp(-x / 14) + 0.0)
-    for i in range(8):   # 8 series: ok6 and Tol Vibrant wrap around
+    for i in range(8):   # 8 series: Tol Vibrant wraps around
         a2.plot(x, 0.45 * i + 0.3 * np.sin(x / 1.8 + 0.5 * i))
     for i in range(8):
         a3.scatter(*pts[i].T, s=10, lw=0)

@@ -1,6 +1,6 @@
 """Color palettes, copied from site.manuel-rhdt.de/post/colors (data/colors.yaml)."""
 
-from .spectral_data import COLIBRI, COLIBRI_DARK, SOURCES, WIDE      # noqa: E402,F401
+from .spectral_data import COLIBRI, COLIBRI_DARK, PARTNERS, SOURCES, WIDE      # noqa: E402,F401
 
 PALETTES = {
     "tol-bright": {"blue": "#4477AA", "cyan": "#66CCEE", "green": "#228833",
@@ -50,9 +50,9 @@ PALETTES = {
 OK_PRINT_LINESTYLES = ["-", "--", ":", "-.", (0, (5, 1, 1, 1)), (0, (1, 1))]
 
 #: Palette used for the default property cycle, and the entries of it that are cycled
-#: (the grey is left out; the paper figures use it for baselines).
-DEFAULT_PALETTE = "tol-vibrant"
-DEFAULT_CYCLE = ["orange", "blue", "cyan", "magenta", "red", "teal"]
+#: .
+DEFAULT_PALETTE = "colibri-dark"
+DEFAULT_CYCLE = None            # all eight colors
 
 
 def cycle(name):
@@ -73,7 +73,7 @@ def colors(name, names=None):
 def named_colors():
     """``{"rhdt:palette:name": hex}`` for every color of every palette, e.g.
     ``"rhdt:tol-vibrant:orange"``, ``"rhdt:okabe-ito:sky blue"``, ``"rhdt:ok6:navy"``; plus the short
-    form ``"rhdt:orange"`` for the colors of the default palette (Tol Vibrant).  Short forms exist only
+    form ``"rhdt:benjamini gorget"`` for the colors of the default palette (colibri-dark).  Short forms exist only
     there because a bare name is ambiguous across palettes (``blue`` has three different values)."""
     out = {f"rhdt:{pal}:{name}": hexval for pal, d in PALETTES.items() for name, hexval in d.items()}
     out.update({f"rhdt:{name}": hexval for name, hexval in PALETTES[DEFAULT_PALETTE].items()})

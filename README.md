@@ -56,7 +56,7 @@ ax.set_ylabel(r"$\hat\rho_{ij}(t)$")
 
 <img src="docs/colors.svg" alt="All palettes, cycles, named colors and OKLab helpers with their syntax" width="100%">
 
-The default cycle is Tol Vibrant without the grey (orange, blue, cyan, magenta, red, teal). Palettes:
+The default cycle is `colibri-dark` (eight colors measured in hummingbirds, see below). Palettes:
 `tol-bright`, `tol-vibrant`, `tol-muted`, `tol-pale`, `tol-dark`, `okabe-ito`, `colibri` (eight saturated hummingbird
 colors measured in hummingbirds) and `colibri-dark` (their darker partners), the species palettes `sunangel`, `ruby-topaz`, `starfrontlet`, `sapphire`, `violet-crowned` and `broad-billed`, and
 the two cycles `ok6` and `ok8`.
@@ -86,7 +86,7 @@ ax.bar(x, h, color="rhdt:tol-pale:pale blue", edgecolor="rhdt:tol-dark:dark blue
 ax.plot(x, y, color="rhdt:okabe-ito:sky blue")
 ```
 
-The colors of the default palette (Tol Vibrant) also have the short form `"rhdt:orange"`. Other palettes have none,
+The colors of the default palette (`colibri-dark`) also have the short form `"rhdt:benjamini gorget"`. Other palettes have none,
 because bare names are ambiguous: `blue` is three different colors across the palettes, and `ok6:navy` differs from
 `ok8:navy`. Matplotlib's own CSS4 names (`"orange"`, `"navy"`) are untouched. `rhdt_mpl.named_colors()` lists all names.
 The palettes are also available as `matplotlib.color_sequences["rhdt:ok6"]` and so on.
@@ -120,7 +120,9 @@ hummingbirds:
 - **`colibri`** and **`colibri-dark`**: colors taken only from the measured spectra of the database below, mixing species
   and patches freely. `colibri` is eight bright colors, the most vivid one in each hue sector (red, orange, yellow-green,
   green, teal, blue, violet, magenta), ordered so that the first k colors are the best separated; `colibri-dark` gives each of
-  them a darker partner of similar hue, so a series and its secondary or background counterpart can share a hue. The entries
+  them a darker partner of similar hue, so a series and its secondary or background counterpart can share a hue
+  (`rhdt_mpl.PARTNERS` maps each dark color to its bright partner). `colibri-dark` is the default cycle and is ordered by
+  its own separation, so its first k colors are the best separated of the dark ones. The entries
   are named after their source, `<species epithet> <patch>`, for example `rhdt:colibri:mosquitus crown` (the ruby-topaz
   crown) or `rhdt:colibri-dark:colombica belly`; `rhdt_mpl.SOURCES["colibri"]` lists species, sex, patch and the number of
   specimens of each. Use them as cycles: `rhdt_mpl.set_cycle("colibri")` and `set_cycle("colibri-dark")`.
@@ -169,7 +171,7 @@ markers with; so figures currently show the sRGB stand-ins.
 ```python
 from rhdt_mpl import oklab
 
-oklab.muted("rhdt:orange")                  # same hue, less chroma, a bit lighter: for secondary lines
+oklab.muted("rhdt:tol-vibrant:orange")     # same hue, less chroma, a bit lighter: for secondary lines
 oklab.family("rhdt:tol-vibrant:cyan", 3)    # three lightness steps of one hue, dark to light
 oklab.lighten("#0077BB", 0.1)               # +0.1 OKLab lightness
 oklab.darken("#0077BB", 0.1)

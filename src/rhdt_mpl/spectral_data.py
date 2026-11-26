@@ -18,14 +18,14 @@ COLIBRI = {
 }
 
 COLIBRI_DARK = {
-    "benjamini gorget": "#00a051",
-    "longirostris gorget": "#a54570",
-    "oenone crown": "#0044d3",
-    "aequatorialis crown": "#844d1e",
-    "coelestis crown": "#008176",
     "kingii crown": "#5cd34b",
     "colombica belly": "#212e5c",
+    "coelestis crown": "#008176",
+    "longirostris gorget": "#a54570",
+    "oenone crown": "#0044d3",
     "pyra belly": "#6c1f1d",
+    "benjamini gorget": "#00a051",
+    "aequatorialis crown": "#844d1e",
 }
 
 WIDE = {
@@ -37,9 +37,9 @@ WIDE = {
         "mosquitus crown": "oklch(0.4949 0.2091 12.29)",
     },
     "colibri-dark": {
-        "benjamini gorget": "oklch(0.6187 0.2364 151.88)",
-        "oenone crown": "oklch(0.4614 0.2307 262.71)",
         "coelestis crown": "oklch(0.5437 0.1601 184.45)",
+        "oenone crown": "oklch(0.4614 0.2307 262.71)",
+        "benjamini gorget": "oklch(0.6187 0.2364 151.88)",
     },
     "ruby-topaz": {
         "gorget": "oklch(0.7483 0.1858 57.05)",
@@ -54,6 +54,19 @@ WIDE = {
     },
 }
 
+# dark color -> the bright color of colibri it is the darker partner of (colibri-dark is ordered by its own
+# separation, not by its partners)
+PARTNERS = {
+    "benjamini gorget": "leadbeateri gorget",
+    "longirostris gorget": "strophianus gorget",
+    "oenone crown": "coeruleogularis gorget",
+    "aequatorialis crown": "pyra gorget",
+    "coelestis crown": "phalerata crown",
+    "kingii crown": "microrhynchum gorget",
+    "colombica belly": "vestita gorget",
+    "pyra belly": "mosquitus crown",
+}
+
 SOURCES = {
     "colibri": {
         "leadbeateri gorget": ('Heliodoxa_leadbeateri', 'Males', 'gorget', 2),
@@ -66,13 +79,13 @@ SOURCES = {
         "mosquitus crown": ('Chrysolampis_mosquitus', 'Males', 'crown', 4),
     },
     "colibri-dark": {
-        "benjamini gorget": ('Urosticte_benjamini', 'Males', 'gorget', 2),
-        "longirostris gorget": ('Heliomaster_longirostris', 'Males', 'gorget', 3),
-        "oenone crown": ('Chrysuronia_oenone', 'Males', 'crown', 2),
-        "aequatorialis crown": ('Androdon_aequatorialis', 'Males', 'crown', 2),
-        "coelestis crown": ('Aglaiocercus_coelestis', 'Females', 'crown', 9),
         "kingii crown": ('Aglaiocercus_kingii', 'Males', 'crown', 10),
         "colombica belly": ('Thalurania_colombica', 'Males', 'belly', 13),
+        "coelestis crown": ('Aglaiocercus_coelestis', 'Females', 'crown', 9),
+        "longirostris gorget": ('Heliomaster_longirostris', 'Males', 'gorget', 3),
+        "oenone crown": ('Chrysuronia_oenone', 'Males', 'crown', 2),
         "pyra belly": ('Topaza_pyra', 'Males', 'belly', 2),
+        "benjamini gorget": ('Urosticte_benjamini', 'Males', 'gorget', 2),
+        "aequatorialis crown": ('Androdon_aequatorialis', 'Males', 'crown', 2),
     },
 }

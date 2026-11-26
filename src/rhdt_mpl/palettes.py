@@ -28,11 +28,11 @@ PALETTES = {
     "colibri": {"violetear": "#710bc6", "topaz": "#e8ca17", "ruby": "#c6001f", "emerald": "#00ae64",
                 "fuchsia": "#e825bc", "copper": "#db7d24", "sapphire": "#005dca", "turquoise": "#31c8c9"},
     # Hummingbird species: one palette per bird, colors named after plumage parts, designed in OKLCH from the general
-    # appearance of the adult male (Anna's, ruby-throated and rufous sampled from photographs) (examples/design_species_palettes.py).  The gorget (or the most striking patch) is first.
+    # appearance of the adult male (Anna's, ruby-throated, rufous and Costa's sampled from photographs) (examples/design_species_palettes.py).  The gorget (or the most striking patch) is first.
     "anna": {"gorget": "#f64e88", "crown": "#e88a6e", "gold": "#c09a3e", "back": "#5a6338", "flank": "#765842", "belly": "#8b847d", "wing": "#b3aca1", "bill": "#302e29"},
     "ruby-throated": {"gorget": "#f1562f", "crown": "#a1958a", "back": "#9c8465", "collar": "#fcf3ea", "belly": "#e9cfb6", "wing": "#bc8b70", "tail": "#9b5972", "bill": "#50565c"},
     "rufous": {"gorget": "#f0363e", "bronze": "#b54d2d", "crown": "#ec804d", "back": "#d27143", "bib": "#eee7e8", "wing": "#baa9b8", "tip": "#37241f", "bill": "#3b3946"},
-    "costa": {"gorget": "#6e00b9", "back": "#439458", "flank": "#93b99a", "belly": "#ecebe7", "wing": "#504635", "bill": "#181b1f"},
+    "costa": {"gorget": "#bf0edc", "crown": "#d056d6", "flare": "#770ba8", "back": "#76825a", "chest": "#beb6db", "wing": "#6e5d68", "tail": "#231c1c", "bill": "#13121e"},
     "crimson-topaz": {"body": "#bb0021", "throat": "#e8cf23", "head": "#17141e", "tail": "#004f38", "wing": "#502828", "sheen": "#2e9e52"},
     "sparkling-violetear": {"ear": "#6228c5", "breast": "#1c65c8", "back": "#20a04e", "belly": "#43bd99", "tail": "#202b51", "bill": "#181b1f"},
     "ok8": {"navy": "#2a5b88", "gold": "#d6ab1b", "rust": "#8e3b1c",

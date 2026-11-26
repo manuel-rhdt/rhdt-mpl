@@ -1,5 +1,5 @@
 """Hummingbird species palettes, designed in OKLCH (L, C, h) per plumage part, from the general appearance
-of the adult male; Anna's, the ruby-throated and the rufous hummingbird are sampled from reference photographs.  Prints the dict used in rhdt_mpl/palettes.py.
+of the adult male; Anna's, the ruby-throated, the rufous and Costa's hummingbird are sampled from reference photographs.  Prints the dict used in rhdt_mpl/palettes.py.
 
     python examples/design_species_palettes.py
 """
@@ -34,13 +34,15 @@ SPECIES = {
         "wing":   "#baa9b8",            # pale lilac-grey wing
         "tip":    "#37241f",            # dark tail tips
         "bill":   "#3b3946"}),
-    "costa": ("Calypte costae", {
-        "gorget": (0.44, 0.25, 302),    # violet-purple throat and crown
-        "back":   (0.60, 0.12, 150),    # green
-        "flank":  (0.75, 0.06, 150),
-        "belly":  (0.94, 0.005, 90),    # whitish
-        "wing":   (0.40, 0.03, 80),     # grey-brown
-        "bill":   (0.22, 0.01, 260)}),
+    "costa": ("Calypte costae", {       # from two reference photographs, matching draw_costa.py
+        "gorget": "#bf0edc",            # brilliant violet-magenta gorget
+        "crown":  "#d056d6",            # magenta crown
+        "flare":  "#770ba8",            # deep violet gorget flares
+        "back":   "#76825a",            # sage-green back and flanks (second photograph)
+        "chest":  "#beb6db",            # pale lavender-grey chest
+        "wing":   "#6e5d68",            # dusky grey-mauve wing
+        "tail":   "#231c1c",            # near-black tail
+        "bill":   "#13121e"}),
     "crimson-topaz": ("Topaza pella", {
         "body":   (0.50, 0.21, 24),     # crimson
         "throat": (0.85, 0.17, 100),    # golden-yellow

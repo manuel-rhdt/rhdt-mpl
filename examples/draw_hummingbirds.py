@@ -72,9 +72,7 @@ SCALES = [(x, y) for y in range(110, 162, 7) for x in range(124 + (y // 7 % 2) *
 
 def bird(key):
     p = PALETTES[key]
-    g = {"costa": lambda: dict(gorget=p["gorget"], crown=p["gorget"], back=p["back"], belly=p["belly"], flank=p["flank"],
-                       wing=p["wing"], tail=D(p["back"], .12), bill=p["bill"], fork=False, flare=True),
-         "crimson-topaz": lambda: dict(gorget=p["throat"], crown=p["head"], back=p["body"], belly=D(p["body"], .04),
+    g = {"crimson-topaz": lambda: dict(gorget=p["throat"], crown=p["head"], back=p["body"], belly=D(p["body"], .04),
                                flank=D(p["body"], .1), wing=p["wing"], tail=D(p["body"], .12), bill=p["head"],
                                fork=False, head=p["head"], streamers=p["head"], throat_rim=p["sheen"]),
          "sparkling-violetear": lambda: dict(gorget=p["back"], crown=p["back"], back=p["back"], belly=p["belly"],
@@ -165,9 +163,9 @@ def bird(key):
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    # anna.svg, ruby-throated.svg and rufous.svg are drawn separately, after reference photographs
-    # (draw_anna.py, draw_ruby_throated.py, draw_rufous.py)
-    for key in ("costa", "crimson-topaz", "sparkling-violetear"):
+    # anna.svg, ruby-throated.svg, rufous.svg and costa.svg are drawn separately, after reference photographs
+    # (draw_anna.py, draw_ruby_throated.py, draw_rufous.py, draw_costa.py)
+    for key in ("crimson-topaz", "sparkling-violetear"):
         with open(os.path.join(OUT, f"{key}.svg"), "w") as fh:
             fh.write(bird(key))
         print("wrote", key)

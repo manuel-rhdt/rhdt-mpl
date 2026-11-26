@@ -42,10 +42,9 @@ def row(ax, y, title, code, swatches, lines=False, h=0.43):
         else:
             ax.add_patch(Rectangle((x, y), SW, h, color=col, lw=0))
             if label:
-                ax.text(x + SW / 2, y + h / 2, wrap(label), fontsize=4.8, ha="center", va="center",
+                fs = 4.8 if max(len(w) for w in label.split()) <= 10 else 3.9
+                ax.text(x + SW / 2, y + h / 2, wrap(label), fontsize=fs, ha="center", va="center",
                         color=ink(col), linespacing=0.95)
-    if title.startswith("tol-vibrant"):
-        ax.plot([x0, x0 + 6 * SW + 5 * GAP], [y - 0.05] * 2, color="0.3", lw=1)
 
 
 # ---------------------------------------------------------------- figure 1: colors
@@ -53,13 +52,14 @@ vib = PALETTES["tol-vibrant"]
 default = ["orange", "blue", "cyan", "magenta", "red", "teal"]
 rows = [
     ("sec", "Palettes   rhdt_mpl.palette(name, names=None)  returns a list of hex   |   rhdt_mpl.set_palette(name, names=None)"),
+    ("colibri-dark   (default cycle)", 'rhdt_mpl.palette("colibri-dark")', list(PALETTES["colibri-dark"].items())),
+    ("colibri", 'rhdt_mpl.palette("colibri")', list(PALETTES["colibri"].items())),
     ("tol-bright", 'rhdt_mpl.palette("tol-bright")', list(PALETTES["tol-bright"].items())),
     ("tol-vibrant", 'rhdt_mpl.palette("tol-vibrant")', list(vib.items())),
     ("tol-muted", 'rhdt_mpl.palette("tol-muted")', list(PALETTES["tol-muted"].items())),
     ("tol-pale", 'rhdt_mpl.palette("tol-pale")', list(PALETTES["tol-pale"].items())),
     ("tol-dark", 'rhdt_mpl.palette("tol-dark")', list(PALETTES["tol-dark"].items())),
     ("okabe-ito", 'rhdt_mpl.palette("okabe-ito")', list(PALETTES["okabe-ito"].items())),
-    ("colibri   (hummingbird jewel tones)", 'rhdt_mpl.palette("colibri")', list(PALETTES["colibri"].items())),
     ("sec", "Cycles   rhdt_mpl.set_cycle(name)   |   ax.set_prop_cycle(rhdt_mpl.cycle(name))   |   first k are most separated"),
     ("ok6", 'rhdt_mpl.set_cycle("ok6")', list(PALETTES["ok6"].items())),
     ("ok8", 'rhdt_mpl.set_cycle("ok8")', list(PALETTES["ok8"].items())),
@@ -67,27 +67,27 @@ rows = [
     ("sec", "Individual colors by name   \"rhdt:palette:name\", accepted wherever Matplotlib takes a color"),
     ("default palette, short", 'color="rhdt:benjamini gorget"',
      [("benjamini gorget", PALETTES["colibri-dark"]["benjamini gorget"])]),
-    ("full form", 'color="rhdt:tol-vibrant:orange"',
-     [("orange", PALETTES["tol-vibrant"]["orange"])]),
+    ("full form", 'color="rhdt:colibri:mosquitus crown"',
+     [("mosquitus crown", PALETTES["colibri"]["mosquitus crown"])]),
     ("other palettes", 'color="rhdt:tol-pale:pale blue"',
      [("pale blue", PALETTES["tol-pale"]["pale blue"])]),
     ("same name, other palette", 'color="rhdt:ok6:navy"   "rhdt:ok8:navy"',
      [("ok6:navy", PALETTES["ok6"]["navy"]), ("ok8:navy", PALETTES["ok8"]["navy"])]),
-    ("with helpers", 'oklab.muted("rhdt:tol-vibrant:orange")',
-     [("orange", PALETTES["tol-vibrant"]["orange"]), ("muted", oklab.muted("rhdt:tol-vibrant:orange"))]),
+    ("with helpers", 'oklab.muted("rhdt:colibri:pyra gorget")',
+     [("pyra gorget", PALETTES["colibri"]["pyra gorget"]), ("muted", oklab.muted("rhdt:colibri:pyra gorget"))]),
     ("sec", "OKLab helpers   from rhdt_mpl import oklab   all return \"#rrggbb\""),
-    ("muted   (chroma x 0.5, lighter)", 'oklab.muted("#EE7733")',
-     [("#EE7733", "#EE7733"), ("muted", oklab.muted("#EE7733")),
-      ("#0077BB", "#0077BB"), ("muted", oklab.muted("#0077BB")),
-      ("#009988", "#009988"), ("muted", oklab.muted("#009988"))]),
-    ("family   (lightness steps)", 'oklab.family("#33BBEE", 4)', [(f"{i+1}", c) for i, c in enumerate(oklab.family("#33BBEE", 4))]
-     + [("", None)] + [(f"{i+1}", c) for i, c in enumerate(oklab.family("#EE7733", 4))]),
+    ("muted   (chroma x 0.5, lighter)", 'oklab.muted("#de421b")',
+     [("#de421b", "#de421b"), ("muted", oklab.muted("#de421b")),
+      ("#007cb3", "#007cb3"), ("muted", oklab.muted("#007cb3")),
+      ("#00b1ab", "#00b1ab"), ("muted", oklab.muted("#00b1ab"))]),
+    ("family   (lightness steps)", 'oklab.family("#007cb3", 4)', [(f"{i+1}", c) for i, c in enumerate(oklab.family("#007cb3", 4))]
+     + [("", None)] + [(f"{i+1}", c) for i, c in enumerate(oklab.family("#de421b", 4))]),
     ("lighten / darken", 'oklab.lighten(c, .12) / .darken(c, .12)',
-     [("dark", oklab.darken("#0077BB", .12)), ("c", "#0077BB"), ("light", oklab.lighten("#0077BB", .12)),
-      ("", None), ("dark", oklab.darken("#EE7733", .12)), ("c", "#EE7733"), ("light", oklab.lighten("#EE7733", .12))]),
+     [("dark", oklab.darken("#007cb3", .12)), ("c", "#007cb3"), ("light", oklab.lighten("#007cb3", .12)),
+      ("", None), ("dark", oklab.darken("#de421b", .12)), ("c", "#de421b"), ("light", oklab.lighten("#de421b", .12))]),
     ("rotate_hue / mix", 'oklab.rotate_hue(c, 25)   oklab.mix(a, b, t)',
-     [("−25°", oklab.rotate_hue("#009988", -25)), ("c", "#009988"), ("+25°", oklab.rotate_hue("#009988", 25)), ("", None)]
-     + [(f"t={t:.2f}".rstrip("0").rstrip("."), oklab.mix("#EE7733", "#0077BB", t)) for t in (0, .25, .5, .75, 1)]),
+     [("−25°", oklab.rotate_hue("#00b1ab", -25)), ("c", "#00b1ab"), ("+25°", oklab.rotate_hue("#00b1ab", 25)), ("", None)]
+     + [(f"t={t:.2f}".rstrip("0").rstrip("."), oklab.mix("#de421b", "#007cb3", t)) for t in (0, .25, .5, .75, 1)]),
 ]
 RH = 0.62
 H = 0.55 + sum(0.5 if r[0] == "sec" else RH for r in rows)

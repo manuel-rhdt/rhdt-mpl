@@ -64,7 +64,7 @@ In the cycles `ok6`, `ok8` and `colibri` the first k colors are the best separat
 
 ```python
 rhdt_mpl.palette("okabe-ito")                    # list of hex colors
-rhdt_mpl.palette("tol-vibrant", ["orange", "teal"])   # select and order by name
+rhdt_mpl.palette("colibri", ["pyra gorget", "mosquitus crown"])   # select and order by name
 rhdt_mpl.set_palette("okabe-ito")                # use as the color cycle
 rhdt_mpl.set_cycle("ok8")                        # any palette, or "ok-print"
 ax.set_prop_cycle(rhdt_mpl.cycle("ok6"))         # per axes
@@ -81,7 +81,7 @@ Every palette color is registered with Matplotlib as `"rhdt:<palette>:<name>"`, 
 `rcParams` and the `oklab` helpers:
 
 ```python
-ax.plot(x, y, color="rhdt:tol-vibrant:orange")
+ax.plot(x, y, color="rhdt:colibri:pyra gorget")
 ax.bar(x, h, color="rhdt:tol-pale:pale blue", edgecolor="rhdt:tol-dark:dark blue")
 ax.plot(x, y, color="rhdt:okabe-ito:sky blue")
 ```
@@ -166,18 +166,18 @@ markers with; so figures currently show the sRGB stand-ins.
 
 ## Color helpers in OKLab
 
-<img src="docs/oklab_helpers.svg" alt="Each OKLab helper applied to the Tol Vibrant colors, and the black, bright, muted pattern in a plot" width="100%">
+<img src="docs/oklab_helpers.svg" alt="Each OKLab helper applied to the colibri colors, and the black, bright, muted pattern in a plot" width="100%">
 
 ```python
 from rhdt_mpl import oklab
 
-oklab.muted("rhdt:tol-vibrant:orange")     # same hue, less chroma, a bit lighter: for secondary lines
-oklab.family("rhdt:tol-vibrant:cyan", 3)    # three lightness steps of one hue, dark to light
-oklab.lighten("#0077BB", 0.1)               # +0.1 OKLab lightness
-oklab.darken("#0077BB", 0.1)
+oklab.muted("rhdt:colibri:pyra gorget")    # same hue, less chroma, a bit lighter: for secondary lines
+oklab.family("rhdt:colibri:coeruleogularis gorget", 3)    # three lightness steps of one hue, dark to light
+oklab.lighten("#007cb3", 0.1)               # +0.1 OKLab lightness
+oklab.darken("#007cb3", 0.1)
 oklab.rotate_hue("#009988", -20)            # degrees in OKLCH
-oklab.mix("#EE7733", "#0077BB", 0.3)        # interpolate in OKLab
-oklab.adjust("#EE7733", dL=0.05, scale_C=0.8)   # set or shift L, C, h, or scale C
+oklab.mix("#de421b", "#007cb3", 0.3)        # interpolate in OKLab
+oklab.adjust("#de421b", dL=0.05, scale_C=0.8)   # set or shift L, C, h, or scale C
 oklab.to_oklab(c), oklab.to_oklch(c), oklab.oklab(L, a, b), oklab.oklch(L, C, h), oklab.lightness(c)
 ```
 

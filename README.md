@@ -89,7 +89,141 @@ ax.plot(x, y, color="rhdt:okabe-ito:sky blue")
 The colors of the default palette (`colibri`) also have the short form `"rhdt:ruby"`. Other palettes have none,
 because bare names are ambiguous: `blue` is three different colors across the palettes, and `ok6:navy` differs from
 `ok8:navy`. Matplotlib's own CSS4 names (`"orange"`, `"navy"`) are untouched. `rhdt_mpl.named_colors()` lists all names.
-The palettes are also available as `matplotlib.color_sequences["rhdt:ok6"]` and so on.
+The palettes are also available as `matplotlib.color_sequences["rhdt:ok6"]` and so on. The table below lists every name.
+
+<!-- named-colors:begin -->
+<details>
+<summary>All 130 named colors (click to expand)</summary>
+
+The full name of every color is `rhdt:<palette>:<name>`; the colors of the default palette (`colibri`) also have the short form `rhdt:<name>`. Hex values are sRGB; for colors outside sRGB the hex is the nearest sRGB color.
+
+| | name | hex | notes |
+|---|---|---|---|
+| <img src="docs/swatches/4477aa.svg" width="40" height="16" alt="#4477AA"> | `rhdt:tol-bright:blue` | `#4477aa` |  |
+| <img src="docs/swatches/66ccee.svg" width="40" height="16" alt="#66CCEE"> | `rhdt:tol-bright:cyan` | `#66ccee` |  |
+| <img src="docs/swatches/228833.svg" width="40" height="16" alt="#228833"> | `rhdt:tol-bright:green` | `#228833` |  |
+| <img src="docs/swatches/ccbb44.svg" width="40" height="16" alt="#CCBB44"> | `rhdt:tol-bright:yellow` | `#ccbb44` |  |
+| <img src="docs/swatches/ee6677.svg" width="40" height="16" alt="#EE6677"> | `rhdt:tol-bright:red` | `#ee6677` |  |
+| <img src="docs/swatches/aa3377.svg" width="40" height="16" alt="#AA3377"> | `rhdt:tol-bright:purple` | `#aa3377` |  |
+| <img src="docs/swatches/bbbbbb.svg" width="40" height="16" alt="#BBBBBB"> | `rhdt:tol-bright:grey` | `#bbbbbb` |  |
+| <img src="docs/swatches/ee7733.svg" width="40" height="16" alt="#EE7733"> | `rhdt:tol-vibrant:orange` | `#ee7733` |  |
+| <img src="docs/swatches/0077bb.svg" width="40" height="16" alt="#0077BB"> | `rhdt:tol-vibrant:blue` | `#0077bb` |  |
+| <img src="docs/swatches/33bbee.svg" width="40" height="16" alt="#33BBEE"> | `rhdt:tol-vibrant:cyan` | `#33bbee` |  |
+| <img src="docs/swatches/ee3377.svg" width="40" height="16" alt="#EE3377"> | `rhdt:tol-vibrant:magenta` | `#ee3377` |  |
+| <img src="docs/swatches/cc3311.svg" width="40" height="16" alt="#CC3311"> | `rhdt:tol-vibrant:red` | `#cc3311` |  |
+| <img src="docs/swatches/009988.svg" width="40" height="16" alt="#009988"> | `rhdt:tol-vibrant:teal` | `#009988` |  |
+| <img src="docs/swatches/bbbbbb.svg" width="40" height="16" alt="#BBBBBB"> | `rhdt:tol-vibrant:grey` | `#bbbbbb` |  |
+| <img src="docs/swatches/332288.svg" width="40" height="16" alt="#332288"> | `rhdt:tol-muted:indigo` | `#332288` |  |
+| <img src="docs/swatches/88ccee.svg" width="40" height="16" alt="#88CCEE"> | `rhdt:tol-muted:cyan` | `#88ccee` |  |
+| <img src="docs/swatches/44aa99.svg" width="40" height="16" alt="#44AA99"> | `rhdt:tol-muted:teal` | `#44aa99` |  |
+| <img src="docs/swatches/117733.svg" width="40" height="16" alt="#117733"> | `rhdt:tol-muted:green` | `#117733` |  |
+| <img src="docs/swatches/999933.svg" width="40" height="16" alt="#999933"> | `rhdt:tol-muted:olive` | `#999933` |  |
+| <img src="docs/swatches/ddcc77.svg" width="40" height="16" alt="#DDCC77"> | `rhdt:tol-muted:sand` | `#ddcc77` |  |
+| <img src="docs/swatches/cc6677.svg" width="40" height="16" alt="#CC6677"> | `rhdt:tol-muted:rose` | `#cc6677` |  |
+| <img src="docs/swatches/882255.svg" width="40" height="16" alt="#882255"> | `rhdt:tol-muted:wine` | `#882255` |  |
+| <img src="docs/swatches/aa4499.svg" width="40" height="16" alt="#AA4499"> | `rhdt:tol-muted:purple` | `#aa4499` |  |
+| <img src="docs/swatches/dddddd.svg" width="40" height="16" alt="#DDDDDD"> | `rhdt:tol-muted:pale grey` | `#dddddd` |  |
+| <img src="docs/swatches/bbccee.svg" width="40" height="16" alt="#BBCCEE"> | `rhdt:tol-pale:pale blue` | `#bbccee` |  |
+| <img src="docs/swatches/cceeff.svg" width="40" height="16" alt="#CCEEFF"> | `rhdt:tol-pale:pale cyan` | `#cceeff` |  |
+| <img src="docs/swatches/ccddaa.svg" width="40" height="16" alt="#CCDDAA"> | `rhdt:tol-pale:pale green` | `#ccddaa` |  |
+| <img src="docs/swatches/eeeebb.svg" width="40" height="16" alt="#EEEEBB"> | `rhdt:tol-pale:pale yellow` | `#eeeebb` |  |
+| <img src="docs/swatches/ffcccc.svg" width="40" height="16" alt="#FFCCCC"> | `rhdt:tol-pale:pale red` | `#ffcccc` |  |
+| <img src="docs/swatches/dddddd.svg" width="40" height="16" alt="#DDDDDD"> | `rhdt:tol-pale:pale grey` | `#dddddd` |  |
+| <img src="docs/swatches/222255.svg" width="40" height="16" alt="#222255"> | `rhdt:tol-dark:dark blue` | `#222255` |  |
+| <img src="docs/swatches/225555.svg" width="40" height="16" alt="#225555"> | `rhdt:tol-dark:dark cyan` | `#225555` |  |
+| <img src="docs/swatches/225522.svg" width="40" height="16" alt="#225522"> | `rhdt:tol-dark:dark green` | `#225522` |  |
+| <img src="docs/swatches/666633.svg" width="40" height="16" alt="#666633"> | `rhdt:tol-dark:dark yellow` | `#666633` |  |
+| <img src="docs/swatches/663333.svg" width="40" height="16" alt="#663333"> | `rhdt:tol-dark:dark red` | `#663333` |  |
+| <img src="docs/swatches/555555.svg" width="40" height="16" alt="#555555"> | `rhdt:tol-dark:dark grey` | `#555555` |  |
+| <img src="docs/swatches/000000.svg" width="40" height="16" alt="#000000"> | `rhdt:okabe-ito:black` | `#000000` |  |
+| <img src="docs/swatches/e69f00.svg" width="40" height="16" alt="#E69F00"> | `rhdt:okabe-ito:orange` | `#e69f00` |  |
+| <img src="docs/swatches/56b4e9.svg" width="40" height="16" alt="#56B4E9"> | `rhdt:okabe-ito:sky blue` | `#56b4e9` |  |
+| <img src="docs/swatches/009e73.svg" width="40" height="16" alt="#009E73"> | `rhdt:okabe-ito:bluish green` | `#009e73` |  |
+| <img src="docs/swatches/f0e442.svg" width="40" height="16" alt="#F0E442"> | `rhdt:okabe-ito:yellow` | `#f0e442` |  |
+| <img src="docs/swatches/0072b2.svg" width="40" height="16" alt="#0072B2"> | `rhdt:okabe-ito:blue` | `#0072b2` |  |
+| <img src="docs/swatches/d55e00.svg" width="40" height="16" alt="#D55E00"> | `rhdt:okabe-ito:vermilion` | `#d55e00` |  |
+| <img src="docs/swatches/cc79a7.svg" width="40" height="16" alt="#CC79A7"> | `rhdt:okabe-ito:reddish purple` | `#cc79a7` |  |
+| <img src="docs/swatches/1d5e85.svg" width="40" height="16" alt="#1d5e85"> | `rhdt:ok6:navy` | `#1d5e85` |  |
+| <img src="docs/swatches/c8b222.svg" width="40" height="16" alt="#c8b222"> | `rhdt:ok6:gold` | `#c8b222` |  |
+| <img src="docs/swatches/8b3e09.svg" width="40" height="16" alt="#8b3e09"> | `rhdt:ok6:brown` | `#8b3e09` |  |
+| <img src="docs/swatches/f487c5.svg" width="40" height="16" alt="#f487c5"> | `rhdt:ok6:pink` | `#f487c5` |  |
+| <img src="docs/swatches/469172.svg" width="40" height="16" alt="#469172"> | `rhdt:ok6:green` | `#469172` |  |
+| <img src="docs/swatches/a351fb.svg" width="40" height="16" alt="#a351fb"> | `rhdt:ok6:violet` | `#a351fb` |  |
+| <img src="docs/swatches/00a051.svg" width="40" height="16" alt="#00a051"> | `rhdt:colibri:emerald` | `#00a051` | also `rhdt:emerald`; Urosticte benjamini ♂ gorget, 2 specimens; exact color outside sRGB: `oklch(0.6187 0.2364 151.88)` |
+| <img src="docs/swatches/e422c5.svg" width="40" height="16" alt="#e422c5"> | `rhdt:colibri:tourmaline` | `#e422c5` | also `rhdt:tourmaline`; Heliangelus strophianus ♂ gorget, 2 specimens |
+| <img src="docs/swatches/4a36ee.svg" width="40" height="16" alt="#4a36ee"> | `rhdt:colibri:amethyst` | `#4a36ee` | also `rhdt:amethyst`; Eriocnemis vestita ♂ gorget, 15 specimens |
+| <img src="docs/swatches/c76313.svg" width="40" height="16" alt="#c76313"> | `rhdt:colibri:amber` | `#c76313` | also `rhdt:amber`; Coeligena bonapartei ♂ rump, 5 specimens |
+| <img src="docs/swatches/007cb3.svg" width="40" height="16" alt="#007cb3"> | `rhdt:colibri:sapphire` | `#007cb3` | also `rhdt:sapphire`; Lepidopyga coeruleogularis ♂ gorget, 2 specimens; exact color outside sRGB: `oklch(0.5563 0.1832 238.53)` |
+| <img src="docs/swatches/b60042.svg" width="40" height="16" alt="#b60042"> | `rhdt:colibri:ruby` | `#b60042` | also `rhdt:ruby`; Chrysolampis mosquitus ♂ crown, 4 specimens; exact color outside sRGB: `oklch(0.4949 0.2091 12.29)` |
+| <img src="docs/swatches/008176.svg" width="40" height="16" alt="#008176"> | `rhdt:colibri:jade` | `#008176` | also `rhdt:jade`; Aglaiocercus coelestis ♀ crown, 9 specimens; exact color outside sRGB: `oklch(0.5437 0.1601 184.45)` |
+| <img src="docs/swatches/7d8c00.svg" width="40" height="16" alt="#7d8c00"> | `rhdt:colibri:peridot` | `#7d8c00` | also `rhdt:peridot`; Eriocnemis vestita ♂ rump, 15 specimens; exact color outside sRGB: `oklch(0.6075 0.1413 117.03)` |
+| <img src="docs/swatches/07841c.svg" width="40" height="16" alt="#07841c"> | `rhdt:colibri-dark:malachite` | `#07841c` | Lafresnaya lafresnayi ♂ gorget, 2 specimens; darker partner of `emerald` |
+| <img src="docs/swatches/a54570.svg" width="40" height="16" alt="#a54570"> | `rhdt:colibri-dark:rhodolite` | `#a54570` | Heliomaster longirostris ♂ gorget, 3 specimens; darker partner of `tourmaline` |
+| <img src="docs/swatches/212a8c.svg" width="40" height="16" alt="#212a8c"> | `rhdt:colibri-dark:iolite` | `#212a8c` | Goldmania violiceps ♂ crown, 2 specimens; darker partner of `amethyst` |
+| <img src="docs/swatches/844d1e.svg" width="40" height="16" alt="#844d1e"> | `rhdt:colibri-dark:bronzite` | `#844d1e` | Androdon aequatorialis ♂ crown, 2 specimens; darker partner of `amber` |
+| <img src="docs/swatches/0044d3.svg" width="40" height="16" alt="#0044d3"> | `rhdt:colibri-dark:lapis` | `#0044d3` | Chrysuronia oenone ♂ crown, 2 specimens; darker partner of `sapphire`; exact color outside sRGB: `oklch(0.4614 0.2307 262.71)` |
+| <img src="docs/swatches/6c1f1d.svg" width="40" height="16" alt="#6c1f1d"> | `rhdt:colibri-dark:garnet` | `#6c1f1d` | Topaza pyra ♂ belly, 2 specimens; darker partner of `ruby` |
+| <img src="docs/swatches/005761.svg" width="40" height="16" alt="#005761"> | `rhdt:colibri-dark:apatite` | `#005761` | Aglaiocercus coelestis ♂ rump, 13 specimens; darker partner of `jade`; exact color outside sRGB: `oklch(0.4169 0.0823 208.45)` |
+| <img src="docs/swatches/414900.svg" width="40" height="16" alt="#414900"> | `rhdt:colibri-dark:serpentine` | `#414900` | Heliodoxa imperatrix ♂ crown, 2 specimens; darker partner of `peridot`; exact color outside sRGB: `oklch(0.3841 0.0923 116.88)` |
+| <img src="docs/swatches/e444b6.svg" width="40" height="16" alt="#e444b6"> | `rhdt:sunangel:gorget` | `#e444b6` |  |
+| <img src="docs/swatches/30721e.svg" width="40" height="16" alt="#30721e"> | `rhdt:sunangel:crown` | `#30721e` |  |
+| <img src="docs/swatches/413f23.svg" width="40" height="16" alt="#413f23"> | `rhdt:sunangel:belly` | `#413f23` |  |
+| <img src="docs/swatches/3e5509.svg" width="40" height="16" alt="#3e5509"> | `rhdt:sunangel:mantle` | `#3e5509` |  |
+| <img src="docs/swatches/433d12.svg" width="40" height="16" alt="#433d12"> | `rhdt:sunangel:rump` | `#433d12` |  |
+| <img src="docs/swatches/8f7a73.svg" width="40" height="16" alt="#8f7a73"> | `rhdt:sunangel:wing` | `#8f7a73` |  |
+| <img src="docs/swatches/443730.svg" width="40" height="16" alt="#443730"> | `rhdt:sunangel:tail` | `#443730` |  |
+| <img src="docs/swatches/464746.svg" width="40" height="16" alt="#464746"> | `rhdt:sunangel:bill` | `#464746` |  |
+| <img src="docs/swatches/ff8a1b.svg" width="40" height="16" alt="#ff8a1b"> | `rhdt:ruby-topaz:gorget` | `#ff8a1b` | exact color outside sRGB: `oklch(0.7483 0.1858 57.05)` |
+| <img src="docs/swatches/ba0040.svg" width="40" height="16" alt="#ba0040"> | `rhdt:ruby-topaz:crown` | `#ba0040` | exact color outside sRGB: `oklch(0.4949 0.2091 12.29)` |
+| <img src="docs/swatches/554236.svg" width="40" height="16" alt="#554236"> | `rhdt:ruby-topaz:belly` | `#554236` |  |
+| <img src="docs/swatches/2e1d09.svg" width="40" height="16" alt="#2e1d09"> | `rhdt:ruby-topaz:mantle` | `#2e1d09` |  |
+| <img src="docs/swatches/462f1d.svg" width="40" height="16" alt="#462f1d"> | `rhdt:ruby-topaz:rump` | `#462f1d` |  |
+| <img src="docs/swatches/897672.svg" width="40" height="16" alt="#897672"> | `rhdt:ruby-topaz:wing` | `#897672` |  |
+| <img src="docs/swatches/4f2612.svg" width="40" height="16" alt="#4f2612"> | `rhdt:ruby-topaz:tail` | `#4f2612` |  |
+| <img src="docs/swatches/222124.svg" width="40" height="16" alt="#222124"> | `rhdt:ruby-topaz:bill` | `#222124` |  |
+| <img src="docs/swatches/6842e7.svg" width="40" height="16" alt="#6842e7"> | `rhdt:starfrontlet:gorget` | `#6842e7` |  |
+| <img src="docs/swatches/00d645.svg" width="40" height="16" alt="#00d645"> | `rhdt:starfrontlet:crown` | `#00d645` | exact color outside sRGB: `oklch(0.7475 0.2549 149.96)` |
+| <img src="docs/swatches/b36916.svg" width="40" height="16" alt="#b36916"> | `rhdt:starfrontlet:belly` | `#b36916` |  |
+| <img src="docs/swatches/4f5436.svg" width="40" height="16" alt="#4f5436"> | `rhdt:starfrontlet:mantle` | `#4f5436` |  |
+| <img src="docs/swatches/c76313.svg" width="40" height="16" alt="#c76313"> | `rhdt:starfrontlet:rump` | `#c76313` |  |
+| <img src="docs/swatches/816a5d.svg" width="40" height="16" alt="#816a5d"> | `rhdt:starfrontlet:wing` | `#816a5d` |  |
+| <img src="docs/swatches/231d11.svg" width="40" height="16" alt="#231d11"> | `rhdt:starfrontlet:tail` | `#231d11` |  |
+| <img src="docs/swatches/1a1b1b.svg" width="40" height="16" alt="#1a1b1b"> | `rhdt:starfrontlet:bill` | `#1a1b1b` |  |
+| <img src="docs/swatches/0043be.svg" width="40" height="16" alt="#0043be"> | `rhdt:sapphire:gorget` | `#0043be` | exact color outside sRGB: `oklch(0.4333 0.2055 258.45)` |
+| <img src="docs/swatches/0043d6.svg" width="40" height="16" alt="#0043d6"> | `rhdt:sapphire:crown` | `#0043d6` | exact color outside sRGB: `oklch(0.4614 0.2307 262.71)` |
+| <img src="docs/swatches/4d661f.svg" width="40" height="16" alt="#4d661f"> | `rhdt:sapphire:belly` | `#4d661f` |  |
+| <img src="docs/swatches/446817.svg" width="40" height="16" alt="#446817"> | `rhdt:sapphire:mantle` | `#446817` |  |
+| <img src="docs/swatches/96451e.svg" width="40" height="16" alt="#96451e"> | `rhdt:sapphire:rump` | `#96451e` |  |
+| <img src="docs/swatches/8a7465.svg" width="40" height="16" alt="#8a7465"> | `rhdt:sapphire:wing` | `#8a7465` |  |
+| <img src="docs/swatches/b66f2b.svg" width="40" height="16" alt="#b66f2b"> | `rhdt:sapphire:tail` | `#b66f2b` |  |
+| <img src="docs/swatches/433234.svg" width="40" height="16" alt="#433234"> | `rhdt:sapphire:bill` | `#433234` |  |
+| <img src="docs/swatches/6c41b8.svg" width="40" height="16" alt="#6c41b8"> | `rhdt:violet-crowned:crown` | `#6c41b8` |  |
+| <img src="docs/swatches/d9d7d5.svg" width="40" height="16" alt="#d9d7d5"> | `rhdt:violet-crowned:throat` | `#d9d7d5` |  |
+| <img src="docs/swatches/cdcbc6.svg" width="40" height="16" alt="#cdcbc6"> | `rhdt:violet-crowned:belly` | `#cdcbc6` |  |
+| <img src="docs/swatches/746e2c.svg" width="40" height="16" alt="#746e2c"> | `rhdt:violet-crowned:back` | `#746e2c` |  |
+| <img src="docs/swatches/787132.svg" width="40" height="16" alt="#787132"> | `rhdt:violet-crowned:rump` | `#787132` |  |
+| <img src="docs/swatches/a18e86.svg" width="40" height="16" alt="#a18e86"> | `rhdt:violet-crowned:wing` | `#a18e86` |  |
+| <img src="docs/swatches/756247.svg" width="40" height="16" alt="#756247"> | `rhdt:violet-crowned:tail` | `#756247` |  |
+| <img src="docs/swatches/e27e78.svg" width="40" height="16" alt="#e27e78"> | `rhdt:violet-crowned:bill` | `#e27e78` |  |
+| <img src="docs/swatches/272b90.svg" width="40" height="16" alt="#272b90"> | `rhdt:broad-billed:gorget` | `#272b90` |  |
+| <img src="docs/swatches/4e9560.svg" width="40" height="16" alt="#4e9560"> | `rhdt:broad-billed:crown` | `#4e9560` |  |
+| <img src="docs/swatches/21501b.svg" width="40" height="16" alt="#21501b"> | `rhdt:broad-billed:belly` | `#21501b` |  |
+| <img src="docs/swatches/375e39.svg" width="40" height="16" alt="#375e39"> | `rhdt:broad-billed:rump` | `#375e39` |  |
+| <img src="docs/swatches/b8b7b3.svg" width="40" height="16" alt="#b8b7b3"> | `rhdt:broad-billed:vent` | `#b8b7b3` |  |
+| <img src="docs/swatches/7b6a61.svg" width="40" height="16" alt="#7b6a61"> | `rhdt:broad-billed:wing` | `#7b6a61` |  |
+| <img src="docs/swatches/181c25.svg" width="40" height="16" alt="#181c25"> | `rhdt:broad-billed:tail` | `#181c25` |  |
+| <img src="docs/swatches/ed6f41.svg" width="40" height="16" alt="#ed6f41"> | `rhdt:broad-billed:bill` | `#ed6f41` |  |
+| <img src="docs/swatches/2a5b88.svg" width="40" height="16" alt="#2a5b88"> | `rhdt:ok8:navy` | `#2a5b88` |  |
+| <img src="docs/swatches/d6ab1b.svg" width="40" height="16" alt="#d6ab1b"> | `rhdt:ok8:gold` | `#d6ab1b` |  |
+| <img src="docs/swatches/8e3b1c.svg" width="40" height="16" alt="#8e3b1c"> | `rhdt:ok8:rust` | `#8e3b1c` |  |
+| <img src="docs/swatches/a936fb.svg" width="40" height="16" alt="#a936fb"> | `rhdt:ok8:violet` | `#a936fb` |  |
+| <img src="docs/swatches/4fbc90.svg" width="40" height="16" alt="#4fbc90"> | `rhdt:ok8:mint` | `#4fbc90` |  |
+| <img src="docs/swatches/f87fd8.svg" width="40" height="16" alt="#f87fd8"> | `rhdt:ok8:pink` | `#f87fd8` |  |
+| <img src="docs/swatches/228a8f.svg" width="40" height="16" alt="#228a8f"> | `rhdt:ok8:teal` | `#228a8f` |  |
+| <img src="docs/swatches/d0603d.svg" width="40" height="16" alt="#d0603d"> | `rhdt:ok8:coral` | `#d0603d` |  |
+
+</details>
+<!-- named-colors:end -->
 
 ## Colormaps
 
@@ -125,11 +259,13 @@ hummingbirds:
   least 16.9 apart (OKLab, times 100), and no pair shares a hue family. The last two, `jade` and `peridot`, add a teal and an
   olive-yellow and are allowed to resemble earlier colors (`jade` is 10.3 from `sapphire`, `peridot` 9.4 from `emerald`); from
   this dataset there are only about six clearly distinct bright hues, and a more distinct olive would be a dark, drab one.
-  `colibri-dark` gives each of them a darker partner of similar hue, with the same
-  name and in the same order, for secondary or background series. Each color comes
+  `colibri-dark` gives each of them a darker
+  partner of similar hue, named after a gem of that color and in the same order, for secondary or background series:
+  `malachite` (of `emerald`), `rhodolite` (`tourmaline`), `iolite` (`amethyst`), `bronzite` (`amber`), `lapis` (`sapphire`),
+  `garnet` (`ruby`), `apatite` (`jade`) and `serpentine` (`peridot`); `rhdt_mpl.PARTNERS` maps each dark name to its bright one. Each color comes
   from one species and patch: `rhdt_mpl.SOURCES["colibri"]` lists species, sex, patch and the number of specimens, for example
   `ruby` is the crown of the ruby-topaz (4 specimens) and `amethyst` the gorget of the glowing puffleg (15).
-  Use them by name, `rhdt:colibri:ruby` and `rhdt:colibri-dark:ruby`, or as cycles: `rhdt_mpl.set_cycle("colibri")`.
+  Use them by name, `rhdt:colibri:ruby` and `rhdt:colibri-dark:garnet`, or as cycles: `rhdt_mpl.set_cycle("colibri")`.
 - **One palette per species**, eight colors named after plumage parts, the most striking patch first: `sunangel`,
   `ruby-topaz`, `starfrontlet`, `sapphire`, `violet-crowned` (its first color is the `crown`, then the white `throat`) and
   `broad-billed`. For the first four, the **gorget, crown, belly, mantle and rump are measured reflectance spectra** of males

@@ -1,6 +1,6 @@
 """Color palettes, copied from site.manuel-rhdt.de/post/colors (data/colors.yaml)."""
 
-from .spectral_data import COLIBRI, COLIBRI_DARK, SOURCES, WIDE      # noqa: E402,F401
+from .spectral_data import COLIBRI, COLIBRI_DARK, PARTNERS, SOURCES, WIDE      # noqa: E402,F401
 
 PALETTES = {
     "tol-bright": {"blue": "#4477AA", "cyan": "#66CCEE", "green": "#228833",

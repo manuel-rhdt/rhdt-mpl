@@ -26,3 +26,6 @@ with tempfile.TemporaryDirectory() as tmp:
             subprocess.run(["pdftocairo", "-svg", os.path.join(tmp, n + ".pdf"), os.path.join(docs, n + ".svg")],
                            check=True)
             print("wrote", os.path.join(docs, n + ".svg"))
+
+# the table of all named colors in the README, with its swatch images
+subprocess.run([sys.executable, os.path.join(here, "make_color_table.py")], check=True)

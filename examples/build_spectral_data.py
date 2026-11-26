@@ -6,7 +6,7 @@ Dryad doi:10.5061/dryad.02v6wwq8w), mixing species and patches freely:
                 lines and markers on a white background), ordered so that the first k are best separated
   colibri-dark  for each of them a darker partner of similar hue (lightness lower by 0.08 to 0.26), also from the data,
                 chosen jointly so that the eight darker colors are as distinct from each other as possible; the
-                entries have the same names as their bright partners, in the same order
+                entries are named after gems of those colors, in the same order as their bright partners (PARTNERS maps the names)
 Colors are the median spectrum of the specimens of one species, sex and patch (at least two specimens), converted with
 the CIE 1931 observer under D65.  A color outside the sRGB gamut keeps its exact value as an OKLCH string in WIDE; the
 hex in the palette is then its nearest sRGB color (chroma reduced at constant lightness and hue), made unique.
@@ -38,6 +38,9 @@ PICKS = {
     "amethyst": ("Eriocnemis_vestita", "Males", "gorget"),
     "tourmaline": ("Heliangelus_strophianus", "Males", "gorget"),
 }
+# the dark partner of each bright color gets a name of its own (a gem or mineral of that color)
+DARK_NAMES = {"emerald": "malachite", "tourmaline": "rhodolite", "amethyst": "iolite", "amber": "bronzite",
+              "sapphire": "lapis", "ruby": "garnet", "jade": "apatite", "peridot": "serpentine"}
 MIN_CONTRAST = 3.0
 
 
@@ -169,7 +172,8 @@ def main(data_dir):
     bright = pick_bright(cand)
     dark = pick_dark(cand, bright)
     for b, d in zip(bright, dark):
-        d["name"] = b["name"]
+        d["name"] = DARK_NAMES[b["name"]]
+    partners = {d["name"]: b["name"] for b, d in zip(bright, dark)}              # dark color -> its bright partner
     pal, wide, src, used = {}, {}, {}, set()
     for label, S in (("colibri", bright), ("colibri-dark", dark)):
         pal[label], wide[label], src[label] = {}, {}, {}
@@ -199,6 +203,9 @@ def main(data_dir):
             lines.append(f'    "{label}": {{')
             lines += [f'        "{k}": "{v}",' for k, v in d.items()]
             lines.append("    },")
+    lines += ["}", "", "# dark color -> the bright color of colibri it is the darker partner of (the same index in both palettes)",
+              "PARTNERS = {"]
+    lines += [f'    "{k}": "{v}",' for k, v in partners.items()]
     lines += ["}", "", "SOURCES = {"]
     for label in ("colibri", "colibri-dark"):
         lines.append(f'    "{label}": {{')

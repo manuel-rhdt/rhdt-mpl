@@ -57,7 +57,10 @@ def test_colibri():
     for key in ("colibri", "colibri-dark"):
         assert len(rhdt_mpl.PALETTES[key]) == 8
         assert set(rhdt_mpl.SOURCES[key]) == set(rhdt_mpl.PALETTES[key])      # every color has its source
-    assert list(rhdt_mpl.PALETTES["colibri"]) == list(rhdt_mpl.PALETTES["colibri-dark"])   # same names, same order
+    assert not set(rhdt_mpl.PALETTES["colibri"]) & set(rhdt_mpl.PALETTES["colibri-dark"])  # the dark colors have names of their own
+    assert list(rhdt_mpl.PARTNERS.values()) == list(rhdt_mpl.PALETTES["colibri"])          # partners in the order of colibri
+    assert list(rhdt_mpl.PARTNERS) == list(rhdt_mpl.PALETTES["colibri-dark"])
+    assert rhdt_mpl.PARTNERS["garnet"] == "ruby" and mc.to_hex("rhdt:colibri-dark:garnet") == "#6c1f1d"
     assert list(rhdt_mpl.PALETTES["colibri"])[:2] == ["emerald", "tourmaline"]
     assert mc.to_hex("rhdt:colibri:ruby") == "#b60042"                          # the stand-in of an out-of-gamut color
     assert rhdt_mpl.wide_css("colibri", "ruby").startswith("oklch(0.49")
@@ -100,6 +103,17 @@ def test_default_cycle_is_colibri():
     assert mpl_cycle() == list(rhdt_mpl.PALETTES["colibri"].values())
 
 
+def test_readme_lists_all_named_colors():
+    import os
+    readme = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "README.md")).read()
+    rows = [l for l in readme.splitlines() if l.startswith("| <img")]
+    expected = sum(len(p) for p in rhdt_mpl.PALETTES.values())
+    assert len(rows) == expected, (len(rows), expected)          # regenerate with examples/make_color_table.py
+    for palette, colors in rhdt_mpl.PALETTES.items():
+        for name, hexv in colors.items():
+            assert any(f"`rhdt:{palette}:{name}` | `{hexv.lower()}`" in r for r in rows), (palette, name)
+
+
 def test_colormaps():
     import matplotlib as mpl
     assert mpl.rcParams["image.cmap"] == "ok_orchid"
@@ -116,5 +130,6 @@ if __name__ == "__main__":
     test_named_colors()
     test_colibri()
     test_species_palettes()
+    test_readme_lists_all_named_colors()
     test_default_cycle_is_colibri()
     test_backend_and_fonts("/tmp/claude-0/-home-user/b31222e4-7591-5457-af74-51ed8c3e5c07/scratchpad")

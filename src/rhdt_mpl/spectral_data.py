@@ -18,14 +18,14 @@ COLIBRI = {
 }
 
 COLIBRI_DARK = {
-    "emerald": "#07841c",
-    "tourmaline": "#a54570",
-    "amethyst": "#212a8c",
-    "amber": "#844d1e",
-    "sapphire": "#0044d3",
-    "ruby": "#6c1f1d",
-    "jade": "#005761",
-    "peridot": "#414900",
+    "malachite": "#07841c",
+    "rhodolite": "#a54570",
+    "iolite": "#212a8c",
+    "bronzite": "#844d1e",
+    "lapis": "#0044d3",
+    "garnet": "#6c1f1d",
+    "apatite": "#005761",
+    "serpentine": "#414900",
 }
 
 WIDE = {
@@ -37,9 +37,9 @@ WIDE = {
         "peridot": "oklch(0.6075 0.1413 117.03)",
     },
     "colibri-dark": {
-        "sapphire": "oklch(0.4614 0.2307 262.71)",
-        "jade": "oklch(0.4169 0.0823 208.45)",
-        "peridot": "oklch(0.3841 0.0923 116.88)",
+        "lapis": "oklch(0.4614 0.2307 262.71)",
+        "apatite": "oklch(0.4169 0.0823 208.45)",
+        "serpentine": "oklch(0.3841 0.0923 116.88)",
     },
     "ruby-topaz": {
         "gorget": "oklch(0.7483 0.1858 57.05)",
@@ -54,6 +54,18 @@ WIDE = {
     },
 }
 
+# dark color -> the bright color of colibri it is the darker partner of (the same index in both palettes)
+PARTNERS = {
+    "malachite": "emerald",
+    "rhodolite": "tourmaline",
+    "iolite": "amethyst",
+    "bronzite": "amber",
+    "lapis": "sapphire",
+    "garnet": "ruby",
+    "apatite": "jade",
+    "serpentine": "peridot",
+}
+
 SOURCES = {
     "colibri": {
         "emerald": ('Urosticte_benjamini', 'Males', 'gorget', 2),
@@ -66,13 +78,13 @@ SOURCES = {
         "peridot": ('Eriocnemis_vestita', 'Males', 'rump', 15),
     },
     "colibri-dark": {
-        "emerald": ('Lafresnaya_lafresnayi', 'Males', 'gorget', 2),
-        "tourmaline": ('Heliomaster_longirostris', 'Males', 'gorget', 3),
-        "amethyst": ('Goldmania_violiceps', 'Males', 'crown', 2),
-        "amber": ('Androdon_aequatorialis', 'Males', 'crown', 2),
-        "sapphire": ('Chrysuronia_oenone', 'Males', 'crown', 2),
-        "ruby": ('Topaza_pyra', 'Males', 'belly', 2),
-        "jade": ('Aglaiocercus_coelestis', 'Males', 'rump', 13),
-        "peridot": ('Heliodoxa_imperatrix', 'Males', 'crown', 2),
+        "malachite": ('Lafresnaya_lafresnayi', 'Males', 'gorget', 2),
+        "rhodolite": ('Heliomaster_longirostris', 'Males', 'gorget', 3),
+        "iolite": ('Goldmania_violiceps', 'Males', 'crown', 2),
+        "bronzite": ('Androdon_aequatorialis', 'Males', 'crown', 2),
+        "lapis": ('Chrysuronia_oenone', 'Males', 'crown', 2),
+        "garnet": ('Topaza_pyra', 'Males', 'belly', 2),
+        "apatite": ('Aglaiocercus_coelestis', 'Males', 'rump', 13),
+        "serpentine": ('Heliodoxa_imperatrix', 'Males', 'crown', 2),
     },
 }

@@ -16,9 +16,11 @@ from matplotlib import font_manager as fm
 
 from .palettes import PALETTES, DEFAULT_PALETTE, DEFAULT_CYCLE, colors
 
-__all__ = ["use", "set_palette", "palette", "PALETTES", "font_dir"]
+__all__ = ["use", "set_palette", "palette", "panel_labels", "PALETTES", "font_dir",
+           "TWO_COLUMN"]
 
 BACKEND = "module://umbruch_matplotlib"
+TWO_COLUMN = 510 / 72   # figure width in inches used for the ML-PWS paper figures
 MATH_FONT = "Noto Sans Math"   # needs a backend with config.math_font
 
 _here = resources.files(__package__)
@@ -34,6 +36,14 @@ def palette(name, names=None):
 def set_palette(name, names=None):
     """Use palette *name* (optionally only/ordered *names*) as the property cycle."""
     mpl.rcParams["axes.prop_cycle"] = mpl.cycler(color=colors(name, names))
+
+
+def panel_labels(axes, labels="abcdefghijklmnopqrstuvwxyz", x=0.0, y=1.01, size=10):
+    """Bold lowercase panel letters at the top left of each axes, as in the ML-PWS figures."""
+    import numpy as np
+    for ax, label in zip(np.ravel(axes), labels):
+        ax.text(x, y, label, transform=ax.transAxes, fontsize=size, fontweight="bold",
+                va="bottom", ha="left")
 
 
 def _register_fonts():

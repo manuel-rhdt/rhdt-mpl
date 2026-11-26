@@ -23,9 +23,9 @@ PALETTES = {
 }
 
 #: Palette used for the default property cycle, and the entries of it that are cycled
-#: (the grey is left out: it reads as "inactive" rather than as a data series).
-DEFAULT_PALETTE = "tol-bright"
-DEFAULT_CYCLE = ["blue", "red", "green", "yellow", "cyan", "purple"]
+#: (the grey is left out; the paper figures use it for baselines).
+DEFAULT_PALETTE = "tol-vibrant"
+DEFAULT_CYCLE = ["orange", "blue", "cyan", "magenta", "red", "teal"]
 
 
 def colors(name, names=None):

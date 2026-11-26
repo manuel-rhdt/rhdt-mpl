@@ -53,9 +53,15 @@ def test_named_colors():
 
 def test_colibri():
     import matplotlib.colors as mc
-    assert list(rhdt_mpl.PALETTES["colibri"]) == ["violetear", "topaz", "ruby", "emerald", "fuchsia", "copper",
-                                                  "sapphire", "turquoise"]
-    assert mc.to_hex("rhdt:colibri:ruby") == "#c6001f"
+    for key in ("colibri", "colibri-dark"):
+        assert len(rhdt_mpl.PALETTES[key]) == 8
+        assert set(rhdt_mpl.SOURCES[key]) == set(rhdt_mpl.PALETTES[key])      # every color has its source
+    assert list(rhdt_mpl.PALETTES["colibri"])[0] == "leadbeateri gorget"
+    assert mc.to_hex("rhdt:colibri:mosquitus crown") == "#b60042"              # the stand-in of an out-of-gamut color
+    assert rhdt_mpl.wide_css("colibri", "mosquitus crown").startswith("oklch(0.49")
+    assert rhdt_mpl.wide_css("colibri", "pyra gorget") is None                 # inside sRGB: exact
+    stand = [h for k in ("colibri", "colibri-dark") for h in rhdt_mpl.PALETTES[k].values()]
+    assert len(set(stand)) == 16                                               # stand-ins are distinct
     rhdt_mpl.set_cycle("colibri")
     assert len(mpl_cycle()) == 8
     rhdt_mpl.use(backend=False)

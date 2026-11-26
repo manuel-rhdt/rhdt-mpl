@@ -17,9 +17,9 @@ from matplotlib import font_manager as fm
 from . import okmaps  # registers ok_dusk, ok_orchid (+ _r)
 from . import oklab  # OKLab color helpers
 from .palettes import (PALETTES, DEFAULT_PALETTE, DEFAULT_CYCLE, OK_PRINT_LINESTYLES, colors, cycle,
-                       named_colors)
+                       named_colors, wide_css, WIDE, SOURCES)
 
-__all__ = ["use", "set_palette", "set_cycle", "cycle", "register_colors", "named_colors", "palette", "panel_labels", "PALETTES", "font_dir",
+__all__ = ["use", "set_palette", "set_cycle", "cycle", "register_colors", "named_colors", "wide_css", "SOURCES", "palette", "panel_labels", "PALETTES", "font_dir",
            "TWO_COLUMN", "oklab"]
 
 BACKEND = "module://umbruch_matplotlib"

@@ -58,7 +58,7 @@ ax.set_ylabel(r"$\hat\rho_{ij}(t)$")
 
 The default cycle is Tol Vibrant without the grey (orange, blue, cyan, magenta, red, teal). Palettes:
 `tol-bright`, `tol-vibrant`, `tol-muted`, `tol-pale`, `tol-dark`, `okabe-ito`, `colibri` (eight saturated hummingbird
-jewel tones), the species palettes `sunangel`, `ruby-topaz`, `starfrontlet`, `sapphire`, `violet-crowned` and `broad-billed`, and
+colors measured in hummingbirds) and `colibri-dark` (their darker partners), the species palettes `sunangel`, `ruby-topaz`, `starfrontlet`, `sapphire`, `violet-crowned` and `broad-billed`, and
 the two cycles `ok6` and `ok8`.
 In the cycles `ok6`, `ok8` and `colibri` the first k colors are the best separated. The hummingbird palettes have their own section below.
 
@@ -117,9 +117,13 @@ plt.imshow(z, cmap="ok_blue_r")      # single-hue: ok_blue, ok_teal, ok_green, o
 The birds are generated reference images (males, hovering), not photographs. Two kinds of palette are named after
 hummingbirds:
 
-- **`colibri`**: eight saturated jewel tones, ordered so that the first k colors are the best separated: violetear
-  `#710bc6`, topaz `#e8ca17`, ruby `#c6001f`, emerald `#00ae64`, fuchsia `#e825bc`, copper `#db7d24`, sapphire `#005dca`,
-  turquoise `#31c8c9`. Use it as a cycle: `rhdt_mpl.set_cycle("colibri")`.
+- **`colibri`** and **`colibri-dark`**: colors taken only from the measured spectra of the database below, mixing species
+  and patches freely. `colibri` is eight bright colors, the most vivid one in each hue sector (red, orange, yellow-green,
+  green, teal, blue, violet, magenta), ordered so that the first k colors are the best separated; `colibri-dark` gives each of
+  them a darker partner of similar hue, so a series and its secondary or background counterpart can share a hue. The entries
+  are named after their source, `<species epithet> <patch>`, for example `rhdt:colibri:mosquitus crown` (the ruby-topaz
+  crown) or `rhdt:colibri-dark:colombica belly`; `rhdt_mpl.SOURCES["colibri"]` lists species, sex, patch and the number of
+  specimens of each. Use them as cycles: `rhdt_mpl.set_cycle("colibri")` and `set_cycle("colibri-dark")`.
 - **One palette per species**, eight colors named after plumage parts, the most striking patch first: `sunangel`,
   `ruby-topaz`, `starfrontlet`, `sapphire`, `violet-crowned` (its first color is the `crown`, then the white `throat`) and
   `broad-billed`. For the first four, the **gorget, crown, belly, mantle and rump are measured reflectance spectra** of males
@@ -145,8 +149,18 @@ matters, a dark part for a theory line, quieter parts for secondary lines. Iride
 the spectra were measured on museum study skins and live birds, so the measured colors are one view of each patch. The
 images agree with the measurements within ΔE 2 to 13 (OKLab, times 100) for the gorgets and crowns; the largest differences
 are the ruby-topaz belly (22, nearly black in the image and brown in the measurement) and the starfrontlet rump (17). The
-palettes use the measurements. The `colibri` palette is the one meant for cycles; the species palettes are for choosing
+palettes use the measurements. The `colibri` palettes are the ones meant for cycles; the species palettes are for choosing
 colors by name.
+
+### Colors outside sRGB
+
+Some measured colors, mostly iridescent greens, blues and reds, lie outside the sRGB gamut (5.5 % of the database).
+Matplotlib only knows sRGB, so the palettes hold their **nearest sRGB color** (chroma reduced at constant OKLab lightness and
+hue) and keep the **exact color** separately: `rhdt_mpl.wide_css("colibri", "mosquitus crown")` returns
+`"oklch(0.4949 0.2091 12.29)"`, and `rhdt_mpl.WIDE` has all of them (for the colibri palettes and the measured patches of the
+species palettes). They are marked with a dot in the figure above. Umbruch accepts such colors in CSS (text, boxes) and
+writes them to the PDF in CIELAB or Rec. 2020, but **not yet in SVG**, which is what the backend draws lines, bars and
+markers with; so figures currently show the sRGB stand-ins.
 
 ## Color helpers in OKLab
 

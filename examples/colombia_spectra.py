@@ -66,6 +66,15 @@ def linear_rgb_to_hex(lin):
     return ok.oklab(*lab), False
 
 
+def exact_oklch(lin):
+    """(L, C, h) of a linear sRGB color that may lie outside the gamut (no clipping), and whether it is outside."""
+    from rhdt_mpl import oklab as ok
+    lin = np.asarray(lin, float)
+    L, a, b = ok._M2 @ np.cbrt(ok._M1 @ lin)
+    wide = not bool(np.all(lin >= -1e-4) and np.all(lin <= 1 + 1e-4))
+    return float(L), float(np.hypot(a, b)), float(np.degrees(np.arctan2(b, a)) % 360), wide
+
+
 def patch_colors(meta, spec, species, sex="Males", average="median"):
     """{patch name: hex} for *species*: the median spectrum over its specimens of that sex, per patch."""
     out = {}

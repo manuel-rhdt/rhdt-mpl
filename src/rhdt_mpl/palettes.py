@@ -1,5 +1,7 @@
 """Color palettes, copied from site.manuel-rhdt.de/post/colors (data/colors.yaml)."""
 
+from .spectral_data import COLIBRI, COLIBRI_DARK, SOURCES, WIDE      # noqa: E402,F401
+
 PALETTES = {
     "tol-bright": {"blue": "#4477AA", "cyan": "#66CCEE", "green": "#228833",
                    "yellow": "#CCBB44", "red": "#EE6677", "purple": "#AA3377",
@@ -23,10 +25,10 @@ PALETTES = {
     # Ordered so that the first k colors are the most separated.
     "ok6": {"navy": "#1d5e85", "gold": "#c8b222", "brown": "#8b3e09",
             "pink": "#f487c5", "green": "#469172", "violet": "#a351fb"},
-    # Hummingbird jewel tones (gorgets, crowns and backs), designed in OKLCH; ordered so that the
-    # first k are well separated.
-    "colibri": {"violetear": "#710bc6", "topaz": "#e8ca17", "ruby": "#c6001f", "emerald": "#00ae64",
-                "fuchsia": "#e825bc", "copper": "#db7d24", "sapphire": "#005dca", "turquoise": "#31c8c9"},
+    # Colors measured in the Colombian hummingbird reflectance database, species and patches mixed (spectral_data.py,
+    # examples/build_spectral_data.py): eight bright colors, and for each a darker partner of similar hue.
+    "colibri": COLIBRI,
+    "colibri-dark": COLIBRI_DARK,
     # Hummingbird species, males: one palette per bird, colors named after plumage parts, the most striking patch first.
     # For the four Colombian species (tourmaline sunangel, ruby-topaz, golden-bellied starfrontlet, golden-tailed sapphire) the
     # gorget, crown, belly, mantle and rump are measured reflectance spectra (Beltran, Shultz & Parra, Dryad
@@ -76,3 +78,9 @@ def named_colors():
     out = {f"rhdt:{pal}:{name}": hexval for pal, d in PALETTES.items() for name, hexval in d.items()}
     out.update({f"rhdt:{name}": hexval for name, hexval in PALETTES[DEFAULT_PALETTE].items()})
     return out
+
+
+def wide_css(palette, name):
+    """The exact color of palette entry *name* as a CSS ``oklch()`` string when it lies outside the sRGB gamut (the hex
+    in the palette is then its nearest sRGB color), else ``None``."""
+    return WIDE.get(palette, {}).get(name)

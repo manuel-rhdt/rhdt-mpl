@@ -45,7 +45,7 @@ gs = fig.add_gridspec(1, 3, left=0.07, right=0.98, bottom=0.07, top=2.45 / (H_SW
 x = np.linspace(0, 10, 60)
 theory = 30 * (1 - np.exp(-x / 4))
 demos = [("starfrontlet", "gorget", "crown", "rump"), ("sapphire", "gorget", "mantle", "rump"),
-         ("violet-crowned", "crown", "bill", "back")]
+         ("broad-billed", "gorget", "crown", "rump")]
 axs = []
 for k, (key, hi, c1, c2) in enumerate(demos):
     a = fig.add_subplot(gs[0, k]); axs.append(a)

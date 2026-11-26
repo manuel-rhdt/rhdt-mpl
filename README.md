@@ -93,7 +93,7 @@ The palettes are also available as `matplotlib.color_sequences["rhdt:ok6"]` and 
 
 <!-- named-colors:begin -->
 <details>
-<summary>All 63 named colors (click to expand)</summary>
+<summary>All 70 named colors (click to expand)</summary>
 
 The full name of every color is `rhdt:<palette>:<name>`; the colors of the default palette (`colibri`) also have the short form `rhdt:<name>`. Hex values are sRGB; for colors outside sRGB the hex is the nearest sRGB color.
 
@@ -131,21 +131,28 @@ The full name of every color is `rhdt:<palette>:<name>`; the colors of the defau
 | <img src="docs/swatches/414900.svg" width="40" height="16" alt="#414900"> | `rhdt:colibri-dark:serpentine` | `#414900` | Heliodoxa imperatrix ♂ crown, 2 specimens; darker partner of `peridot`; exact color outside sRGB: `oklch(0.3841 0.0923 116.88)` |
 | <img src="docs/swatches/e444b6.svg" width="40" height="16" alt="#e444b6"> | `rhdt:sunangel:gorget` | `#e444b6` |  |
 | <img src="docs/swatches/30721e.svg" width="40" height="16" alt="#30721e"> | `rhdt:sunangel:crown` | `#30721e` |  |
+| <img src="docs/swatches/3e5509.svg" width="40" height="16" alt="#3e5509"> | `rhdt:sunangel:mantle` | `#3e5509` |  |
+| <img src="docs/swatches/433d12.svg" width="40" height="16" alt="#433d12"> | `rhdt:sunangel:rump` | `#433d12` |  |
 | <img src="docs/swatches/ff8a1b.svg" width="40" height="16" alt="#ff8a1b"> | `rhdt:ruby-topaz:gorget` | `#ff8a1b` | exact color outside sRGB: `oklch(0.7483 0.1858 57.05)` |
 | <img src="docs/swatches/ba0040.svg" width="40" height="16" alt="#ba0040"> | `rhdt:ruby-topaz:crown` | `#ba0040` | exact color outside sRGB: `oklch(0.4949 0.2091 12.29)` |
+| <img src="docs/swatches/2e1d09.svg" width="40" height="16" alt="#2e1d09"> | `rhdt:ruby-topaz:mantle` | `#2e1d09` |  |
+| <img src="docs/swatches/462f1d.svg" width="40" height="16" alt="#462f1d"> | `rhdt:ruby-topaz:rump` | `#462f1d` |  |
 | <img src="docs/swatches/6842e7.svg" width="40" height="16" alt="#6842e7"> | `rhdt:starfrontlet:gorget` | `#6842e7` |  |
 | <img src="docs/swatches/00d645.svg" width="40" height="16" alt="#00d645"> | `rhdt:starfrontlet:crown` | `#00d645` | exact color outside sRGB: `oklch(0.7475 0.2549 149.96)` |
+| <img src="docs/swatches/4f5436.svg" width="40" height="16" alt="#4f5436"> | `rhdt:starfrontlet:mantle` | `#4f5436` |  |
 | <img src="docs/swatches/c76313.svg" width="40" height="16" alt="#c76313"> | `rhdt:starfrontlet:rump` | `#c76313` |  |
 | <img src="docs/swatches/0043be.svg" width="40" height="16" alt="#0043be"> | `rhdt:sapphire:gorget` | `#0043be` | exact color outside sRGB: `oklch(0.4333 0.2055 258.45)` |
+| <img src="docs/swatches/0043d6.svg" width="40" height="16" alt="#0043d6"> | `rhdt:sapphire:crown` | `#0043d6` | exact color outside sRGB: `oklch(0.4614 0.2307 262.71)` |
 | <img src="docs/swatches/446817.svg" width="40" height="16" alt="#446817"> | `rhdt:sapphire:mantle` | `#446817` |  |
 | <img src="docs/swatches/96451e.svg" width="40" height="16" alt="#96451e"> | `rhdt:sapphire:rump` | `#96451e` |  |
-| <img src="docs/swatches/b66f2b.svg" width="40" height="16" alt="#b66f2b"> | `rhdt:sapphire:tail` | `#b66f2b` |  |
+| <img src="docs/swatches/d0cec9.svg" width="40" height="16" alt="#d0cec9"> | `rhdt:violet-crowned:gorget` | `#d0cec9` |  |
 | <img src="docs/swatches/6c41b8.svg" width="40" height="16" alt="#6c41b8"> | `rhdt:violet-crowned:crown` | `#6c41b8` |  |
-| <img src="docs/swatches/746e2c.svg" width="40" height="16" alt="#746e2c"> | `rhdt:violet-crowned:back` | `#746e2c` |  |
-| <img src="docs/swatches/e27e78.svg" width="40" height="16" alt="#e27e78"> | `rhdt:violet-crowned:bill` | `#e27e78` |  |
+| <img src="docs/swatches/746e2c.svg" width="40" height="16" alt="#746e2c"> | `rhdt:violet-crowned:mantle` | `#746e2c` |  |
+| <img src="docs/swatches/787132.svg" width="40" height="16" alt="#787132"> | `rhdt:violet-crowned:rump` | `#787132` |  |
 | <img src="docs/swatches/272b90.svg" width="40" height="16" alt="#272b90"> | `rhdt:broad-billed:gorget` | `#272b90` |  |
 | <img src="docs/swatches/4e9560.svg" width="40" height="16" alt="#4e9560"> | `rhdt:broad-billed:crown` | `#4e9560` |  |
-| <img src="docs/swatches/ed6f41.svg" width="40" height="16" alt="#ed6f41"> | `rhdt:broad-billed:bill` | `#ed6f41` |  |
+| <img src="docs/swatches/31722e.svg" width="40" height="16" alt="#31722e"> | `rhdt:broad-billed:mantle` | `#31722e` |  |
+| <img src="docs/swatches/375e39.svg" width="40" height="16" alt="#375e39"> | `rhdt:broad-billed:rump` | `#375e39` |  |
 | <img src="docs/swatches/2a5b88.svg" width="40" height="16" alt="#2a5b88"> | `rhdt:ok8:navy` | `#2a5b88` |  |
 | <img src="docs/swatches/d6ab1b.svg" width="40" height="16" alt="#d6ab1b"> | `rhdt:ok8:gold` | `#d6ab1b` |  |
 | <img src="docs/swatches/8e3b1c.svg" width="40" height="16" alt="#8e3b1c"> | `rhdt:ok8:rust` | `#8e3b1c` |  |
@@ -199,19 +206,24 @@ hummingbirds:
   from one species and patch: `rhdt_mpl.SOURCES["colibri"]` lists species, sex, patch and the number of specimens, for example
   `ruby` is the crown of the ruby-topaz (4 specimens) and `amethyst` the gorget of the glowing puffleg (15).
   Use them by name, `rhdt:colibri:ruby` and `rhdt:colibri-dark:garnet`, or as cycles: `rhdt_mpl.set_cycle("colibri")`.
-- **One palette per species**, only its vivid patches (two to four colors), named after plumage parts, the most striking first:
-  `sunangel`, `ruby-topaz`, `starfrontlet`, `sapphire`, `violet-crowned` and `broad-billed`. The dull body colors (belly, wing,
-  bill and so on, mostly near-identical dark browns and olives) are left out because they cannot be told apart in a plot. For the
-  first four, the **gorget, crown, mantle and rump are measured reflectance spectra** of males
+- **One palette per species**, the same four plumage parts for each bird, the most striking first: `gorget`, `crown`, `mantle`
+  (the back) and `rump`, for `sunangel`, `ruby-topaz`, `starfrontlet`, `sapphire`, `violet-crowned` and `broad-billed`. For the
+  first four these are **measured reflectance spectra** of males
   from the Colombian hummingbird database of Beltran, Shultz & Parra (*Evolution*,
   [Dryad](https://doi.org/10.5061/dryad.02v6wwq8w)), taken at the angle of maximum reflectance and converted to sRGB (CIE 1931
-  observer, D65; colors outside the sRGB gamut keep their exact value, see below). The sapphire `tail` is not in the database and
-  is sampled from the image, as are all colors of the violet-crowned and broad-billed hummingbirds, which the database does not
-  contain. `examples/build_species_palettes.py` builds the palettes and prints how far each measured patch is from the image.
+  observer, D65; colors outside the sRGB gamut keep their exact value, see below). The violet-crowned and broad-billed
+  hummingbirds are not in the database, so their colors are sampled from the images (the violet-crowned has no gorget color; its
+  white throat stands in). `examples/build_species_palettes.py` builds the palettes and prints how far each measured patch is from
+  the image.
+
+  Fixed parts mean the palettes are comparable, not that they are good cycles: the body parts are dull, and some pairs are
+  nearly the same color. The closest pairs, as displayed (OKLab, times 100): `mantle` and `rump` of the violet-crowned (1),
+  of the ruby-topaz (8), the broad-billed (7) and the sunangel (8), the sunangel `crown` and `mantle` (9), and the sapphire
+  `gorget` and `crown` (4). Choose by name and check; the `colibri` palettes are the ones built to be told apart.
 
 ```python
-rhdt_mpl.palette("starfrontlet")                     # gorget, crown, rump
-rhdt_mpl.palette("sapphire", ["gorget", "tail"])     # select and order by name
+rhdt_mpl.palette("starfrontlet")                     # gorget, crown, mantle, rump
+rhdt_mpl.palette("sapphire", ["gorget", "rump"])     # select and order by name
 ax.plot(x, y, color="rhdt:starfrontlet:gorget")      # the accent
 ax.plot(x, theory, color="k", lw=2)                  # the theory line
 ax.plot(x, other, color="rhdt:starfrontlet:rump")    # a quiet one
@@ -220,8 +232,7 @@ ax.plot(x, other, color="rhdt:starfrontlet:rump")    # a quiet one
 A bird is one bright accent on a quiet body, which is the pattern for data too: a bright gorget for the result that
 matters, a black theory line, quieter parts for secondary lines. Iridescent colors depend on the viewing angle, and
 the spectra were measured on museum study skins and live birds, so the measured colors are one view of each patch. The
-images agree with the measurements within ΔE 2 to 13 (OKLab, times 100) for the gorgets and crowns; the largest difference among
-the kept patches is the starfrontlet rump (17). The palettes use the measurements. The `colibri` palettes are the ones meant for cycles; the species palettes are for choosing
+images agree with the measurements within ΔE 2 to 13 (OKLab, times 100) for the gorgets and crowns; the largest differences are the starfrontlet rump (17), the starfrontlet gorget (13) and the sapphire mantle (13). The palettes use the measurements. The `colibri` palettes are the ones meant for cycles; the species palettes are for choosing
 colors by name.
 
 ### Colors outside sRGB

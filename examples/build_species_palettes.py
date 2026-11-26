@@ -36,18 +36,16 @@ SPECIES = {
                   "mantle": (230, 150, 290, 190), "rump": (150, 315, 200, 335), "wing": (60, 110, 150, 160),
                   "tail": (120, 420, 175, 480), "bill": (420, 70, 460, 82)}),
     "violet-crowned": ("violet-crowned.webp", None,
-                       {"crown": (365, 48, 430, 68), "throat": (370, 90, 420, 160), "belly": (330, 230, 380, 280),
-                        "back": (250, 240, 300, 290), "rump": (225, 310, 260, 345), "wing": (60, 60, 150, 110),
+                       {"crown": (365, 48, 430, 68), "gorget": (370, 90, 420, 160), "belly": (330, 230, 380, 280),
+                        "mantle": (250, 240, 300, 290), "rump": (225, 310, 260, 345), "wing": (60, 60, 150, 110),
                         "tail": (235, 420, 270, 470), "bill": (450, 62, 510, 78)}),
     "broad-billed": ("broad-billed.webp", None,
                      {"crown": (330, 60, 400, 85), "gorget": (365, 125, 400, 165), "belly": (275, 245, 330, 290),
-                      "rump": (190, 295, 235, 318), "vent": (205, 335, 245, 380), "wing": (50, 130, 150, 180),
+                      "mantle": (290, 200, 330, 250), "rump": (190, 295, 235, 318), "vent": (205, 335, 245, 380), "wing": (50, 130, 150, 180),
                       "tail": (160, 440, 210, 490), "bill": (410, 80, 465, 98)}),
 }
-# the patches that make it into the palettes: the vivid ones, the dull body colors are not worth a name
-KEEP = {"sunangel": ("gorget", "crown"), "ruby-topaz": ("gorget", "crown"), "starfrontlet": ("gorget", "crown", "rump"),
-        "sapphire": ("gorget", "mantle", "rump", "tail"), "violet-crowned": ("crown", "back", "bill"),
-        "broad-billed": ("gorget", "crown", "bill")}
+# the same four patches for every bird (the violet-crowned has no gorget color, its white throat stands in for it)
+KEEP = {key: ("gorget", "crown", "mantle", "rump") for key in ("sunangel", "ruby-topaz", "starfrontlet", "sapphire", "violet-crowned", "broad-billed")}
 VIVID = ("crown", "gorget")                       # iridescent patches: the more saturated half of the pixels
 DARK_BILL = ("sunangel", "ruby-topaz", "starfrontlet", "sapphire")   # black bills with silvery highlights: darker half of the pixels
 MEASURED = ("gorget", "crown", "belly", "mantle", "rump")

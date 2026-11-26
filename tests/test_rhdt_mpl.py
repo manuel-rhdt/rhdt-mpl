@@ -66,11 +66,19 @@ def mpl_cycle():
     return mpl.rcParams["axes.prop_cycle"].by_key()["color"]
 
 
+def test_species_palettes():
+    import matplotlib.colors as mc
+    for key in ("anna", "ruby-throated", "rufous", "costa", "crimson-topaz", "sparkling-violetear"):
+        assert len(rhdt_mpl.PALETTES[key]) == 6
+    assert list(rhdt_mpl.PALETTES["anna"])[0] == "gorget" and mc.to_hex("rhdt:anna:gorget") == "#d10076"
+    assert rhdt_mpl.palette("rufous", ["gorget", "wing"]) == ["#f15b00", "#4d3827"]
+
+
 def test_colormaps():
     import matplotlib as mpl
     assert mpl.rcParams["image.cmap"] == "ok_orchid"
     from rhdt_mpl import okmaps
-    assert len(okmaps.COLORMAPS) == 11
+    assert len(okmaps.COLORMAPS) == 9
     for n in okmaps.COLORMAPS:
         for m in (n, n + "_r"):
             assert m in mpl.colormaps and mpl.colormaps[m].N == 256
@@ -81,4 +89,5 @@ if __name__ == "__main__":
     test_cycles()
     test_named_colors()
     test_colibri()
+    test_species_palettes()
     test_backend_and_fonts("/tmp/claude-0/-home-user/b31222e4-7591-5457-af74-51ed8c3e5c07/scratchpad")

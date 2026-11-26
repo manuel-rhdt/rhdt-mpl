@@ -27,6 +27,14 @@ PALETTES = {
     # first k are well separated.
     "colibri": {"violetear": "#710bc6", "topaz": "#e8ca17", "ruby": "#c6001f", "emerald": "#00ae64",
                 "fuchsia": "#e825bc", "copper": "#db7d24", "sapphire": "#005dca", "turquoise": "#31c8c9"},
+    # Hummingbird species: one palette per bird, colors named after plumage parts, designed in OKLCH from the general
+    # appearance of the adult male (examples/design_species_palettes.py).  The gorget (or the most striking patch) is first.
+    "anna": {"gorget": "#d10076", "back": "#3b9555", "flank": "#8cb894", "belly": "#e0ded7", "wing": "#334937", "bill": "#1c1f24"},
+    "ruby-throated": {"gorget": "#bc0013", "back": "#0e9254", "flank": "#91ae8b", "belly": "#eeebe4", "wing": "#302a3b", "bill": "#181b1f"},
+    "rufous": {"gorget": "#f15b00", "back": "#b45c03", "flank": "#d9aa74", "belly": "#f2eee7", "wing": "#4d3827", "bill": "#1e1a16"},
+    "costa": {"gorget": "#6e00b9", "back": "#439458", "flank": "#93b99a", "belly": "#ecebe7", "wing": "#504635", "bill": "#181b1f"},
+    "crimson-topaz": {"body": "#bb0021", "throat": "#e8cf23", "head": "#17141e", "tail": "#004f38", "wing": "#502828", "sheen": "#2e9e52"},
+    "sparkling-violetear": {"ear": "#6228c5", "breast": "#1c65c8", "back": "#20a04e", "belly": "#43bd99", "tail": "#202b51", "bill": "#181b1f"},
     "ok8": {"navy": "#2a5b88", "gold": "#d6ab1b", "rust": "#8e3b1c",
             "violet": "#a936fb", "mint": "#4fbc90", "pink": "#f87fd8",
             "teal": "#228a8f", "coral": "#d0603d"},

@@ -1,7 +1,7 @@
 # rhdt-mpl
 
 Personal Matplotlib defaults: the [umbruch](https://github.com/manuel-rhdt/umbruch) backend, bundled Noto fonts,
-named palettes and cycles, eleven colormaps, and helpers for adjusting colors in OKLab.
+named palettes and cycles, nine colormaps, and helpers for adjusting colors in OKLab.
 
 ```python
 import rhdt_mpl                      # import before pyplot
@@ -58,8 +58,9 @@ ax.set_ylabel(r"$\hat\rho_{ij}(t)$")
 
 The default cycle is Tol Vibrant without the grey (orange, blue, cyan, magenta, red, teal). Palettes:
 `tol-bright`, `tol-vibrant`, `tol-muted`, `tol-pale`, `tol-dark`, `okabe-ito`, `colibri` (eight saturated hummingbird
-jewel tones: violetear, topaz, ruby, emerald, fuchsia, copper, sapphire, turquoise), and the two cycles `ok6` and `ok8`.
-In the cycles `ok6`, `ok8` and `colibri` the first k colors are the best separated. See the Colibri section for that palette.
+jewel tones), the species palettes `anna`, `ruby-throated`, `rufous`, `costa`, `crimson-topaz` and `sparkling-violetear`, and
+the two cycles `ok6` and `ok8`.
+In the cycles `ok6`, `ok8` and `colibri` the first k colors are the best separated. The hummingbird palettes have their own section below.
 
 ```python
 rhdt_mpl.palette("okabe-ito")                    # list of hex colors
@@ -92,7 +93,7 @@ The palettes are also available as `matplotlib.color_sequences["rhdt:ok6"]` and 
 
 ## Colormaps
 
-<img src="docs/colormaps.svg" alt="The eleven colormaps with their OKLab lightness" width="100%">
+<img src="docs/colormaps.svg" alt="The nine colormaps with their OKLab lightness" width="100%">
 
 256-entry sRGB tables designed in OKLab, with the OKLab lightness of each shown underneath. All run dark to light; append
 `_r` for light to dark, which is the usual direction for single-hue maps on a white background. `ok_orchid` is the default
@@ -102,33 +103,34 @@ The palettes are also available as `matplotlib.color_sequences["rhdt:ok6"]` and 
 plt.imshow(z)                        # ok_orchid
 plt.imshow(z, cmap="ok_dusk")        # multi-hue: ok_dusk, ok_orchid
 plt.imshow(z, cmap="ok_blue_r")      # single-hue: ok_blue, ok_teal, ok_green, ok_orange, ok_red, ok_purple, ok_pink
-plt.imshow(z, cmap="ok_colibri")     # iridescent: ok_colibri, ok_gorget (see below)
 ```
 
-## Colibri: hummingbird colors
+## Hummingbird palettes
 
-<img src="docs/colibri.svg" alt="The colibri palette with names and hex codes, the cycle on lines, clusters and bars, and the iridescent colormaps ok_colibri and ok_gorget" width="100%">
+<img src="docs/colibri.svg" alt="The colibri palette and one palette per hummingbird species, with plumage-part names and hex codes, and the palettes used with a dark line, a bright accent and quieter secondary lines" width="100%">
 
-A palette of eight saturated jewel tones named after hummingbird plumage, designed in OKLCH and ordered so that the first
-k colors are the best separated:
+Two kinds of palette, both named after hummingbirds:
 
-| name | hex | name | hex |
-|---|---|---|---|
-| violetear | `#710bc6` | fuchsia | `#e825bc` |
-| topaz | `#e8ca17` | copper | `#db7d24` |
-| ruby | `#c6001f` | sapphire | `#005dca` |
-| emerald | `#00ae64` | turquoise | `#31c8c9` |
+- **`colibri`**: eight saturated jewel tones from different species, ordered so that the first k colors are the best
+  separated: violetear `#710bc6`, topaz `#e8ca17`, ruby `#c6001f`, emerald `#00ae64`, fuchsia `#e825bc`, copper `#db7d24`,
+  sapphire `#005dca`, turquoise `#31c8c9`. Use it as a cycle: `rhdt_mpl.set_cycle("colibri")`.
+- **One palette per species**, with colors named after the plumage parts, designed in OKLCH from the general appearance of
+  the adult male (not sampled from photographs): `anna` (*Calypte anna*), `ruby-throated` (*Archilochus colubris*),
+  `rufous` (*Selasphorus rufus*), `costa` (*Calypte costae*), `crimson-topaz` (*Topaza pella*) and `sparkling-violetear`
+  (*Colibri coruscans*). The gorget, or the most striking patch, comes first. A bird is one bright accent on a quiet body,
+  which is the pattern for data too: a bright gorget for the result that matters, the dark wing for a theory line, the
+  back and flank for secondary lines.
 
 ```python
-rhdt_mpl.set_cycle("colibri")                 # as the color cycle
-rhdt_mpl.palette("colibri", ["ruby", "emerald"])
-ax.plot(x, y, color="rhdt:colibri:ruby")      # by name
+rhdt_mpl.palette("anna")                         # gorget, back, flank, belly, wing, bill
+rhdt_mpl.palette("anna", ["gorget", "wing"])     # select and order by name
+ax.plot(x, y, color="rhdt:anna:gorget")          # the accent
+ax.plot(x, theory, color="rhdt:anna:wing", lw=2) # a dark line
+ax.plot(x, other, color="rhdt:anna:flank")       # a quiet one
 ```
 
-Two **iridescent colormaps** sweep through the hues of a gorget with monotone OKLab lightness, equal perceptual steps along
-the path, and chroma kept inside the sRGB gamut (`examples/design_colibri_cmaps.py`): `ok_colibri` runs violetear,
-sapphire, turquoise, emerald, topaz; `ok_gorget` runs violetear, fuchsia, ruby, copper, topaz. Both also exist as `_r`.
-They are more saturated than viridis or plasma, to which they are otherwise similar in construction.
+The belly and bill colors are light and near-black neutrals. They are meant for fills, lines and text, not for a cycle,
+so use the species palettes by name and `colibri` for cycles. The names are in the table `rhdt_mpl.PALETTES`.
 
 ## Color helpers in OKLab
 
@@ -179,5 +181,5 @@ UMBRUCH=/path/to/umbruch python tests/test_rhdt_mpl.py
 python tests/test_oklab.py
 ```
 
-`examples/` also holds `gallery.py` (a four-panel figure) and `compare_cycles.py` (the same data under several cycles), and
-`design_colibri_cmaps.py`, which generates the tables of the iridescent colormaps.
+`examples/` also holds `gallery.py` (a four-panel figure), `compare_cycles.py` (the same data under several cycles) and
+`design_species_palettes.py` (the OKLCH recipe of the species palettes).

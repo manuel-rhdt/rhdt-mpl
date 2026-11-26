@@ -27,14 +27,16 @@ PALETTES = {
     # first k are well separated.
     "colibri": {"violetear": "#710bc6", "topaz": "#e8ca17", "ruby": "#c6001f", "emerald": "#00ae64",
                 "fuchsia": "#e825bc", "copper": "#db7d24", "sapphire": "#005dca", "turquoise": "#31c8c9"},
-    # Hummingbird species: one palette per bird, colors named after plumage parts, designed in OKLCH from the general
-    # appearance of the adult male (Anna's, ruby-throated, rufous and Costa's sampled from photographs) (examples/design_species_palettes.py).  The gorget (or the most striking patch) is first.
-    "anna": {"gorget": "#f64e88", "crown": "#e88a6e", "gold": "#c09a3e", "back": "#5a6338", "flank": "#765842", "belly": "#8b847d", "wing": "#b3aca1", "bill": "#302e29"},
-    "ruby-throated": {"gorget": "#f1562f", "crown": "#a1958a", "back": "#9c8465", "collar": "#fcf3ea", "belly": "#e9cfb6", "wing": "#bc8b70", "tail": "#9b5972", "bill": "#50565c"},
-    "rufous": {"gorget": "#f0363e", "bronze": "#b54d2d", "crown": "#ec804d", "back": "#d27143", "bib": "#eee7e8", "wing": "#baa9b8", "tip": "#37241f", "bill": "#3b3946"},
-    "costa": {"gorget": "#bf0edc", "crown": "#d056d6", "flare": "#770ba8", "back": "#76825a", "chest": "#beb6db", "wing": "#6e5d68", "tail": "#231c1c", "bill": "#13121e"},
-    "crimson-topaz": {"body": "#bb0021", "throat": "#e8cf23", "head": "#17141e", "tail": "#004f38", "wing": "#502828", "sheen": "#2e9e52"},
-    "sparkling-violetear": {"ear": "#6228c5", "breast": "#1c65c8", "back": "#20a04e", "belly": "#43bd99", "tail": "#202b51", "bill": "#181b1f"},
+    # Hummingbird species, males: one palette per bird, colors named after plumage parts, the gorget first.  For the four
+    # Colombian species (tourmaline sunangel, ruby-topaz, golden-bellied starfrontlet, golden-tailed sapphire) the gorget, crown,
+    # belly, mantle and rump are measured reflectance spectra (Beltran, Shultz & Parra, Dryad doi:10.5061/dryad.02v6wwq8w) and
+    # wing, tail and bill are sampled from the reference images; the broad-billed hummingbird is not in that database, so all
+    # of its colors are sampled from its image.  See examples/build_species_palettes.py.
+    "sunangel": {"gorget": "#e444b6", "crown": "#30721e", "belly": "#413f23", "mantle": "#3e5509", "rump": "#433d12", "wing": "#826b5a", "tail": "#43362d", "bill": "#5d5f6c"},
+    "ruby-topaz": {"gorget": "#ff8a1b", "crown": "#ba0040", "belly": "#554236", "mantle": "#2e1d09", "rump": "#462f1d", "wing": "#82685a", "tail": "#3d1b17", "bill": "#4b4954"},
+    "starfrontlet": {"gorget": "#6842e7", "crown": "#00d645", "belly": "#b36916", "mantle": "#4f5436", "rump": "#c76313", "wing": "#806a60", "tail": "#4b3b36", "bill": "#47475b"},
+    "sapphire": {"gorget": "#0043be", "crown": "#0043d6", "belly": "#4d661f", "mantle": "#446817", "rump": "#96451e", "wing": "#876f61", "tail": "#8f4316", "bill": "#393c4c"},
+    "broad-billed": {"gorget": "#094ac5", "crown": "#518953", "belly": "#295422", "rump": "#264831", "vent": "#b3afa4", "wing": "#816d5e", "tail": "#1c2535", "bill": "#ea573e"},
     "ok8": {"navy": "#2a5b88", "gold": "#d6ab1b", "rust": "#8e3b1c",
             "violet": "#a936fb", "mint": "#4fbc90", "pink": "#f87fd8",
             "teal": "#228a8f", "coral": "#d0603d"},

@@ -68,12 +68,15 @@ def mpl_cycle():
 
 def test_species_palettes():
     import matplotlib.colors as mc
-    for key in ("crimson-topaz", "sparkling-violetear"):
-        assert len(rhdt_mpl.PALETTES[key]) == 6
-    assert list(rhdt_mpl.PALETTES["ruby-throated"]) == ["gorget", "crown", "back", "collar", "belly", "wing", "tail", "bill"]
-    assert list(rhdt_mpl.PALETTES["anna"]) == ["gorget", "crown", "gold", "back", "flank", "belly", "wing", "bill"]
-    assert list(rhdt_mpl.PALETTES["anna"])[0] == "gorget" and mc.to_hex("rhdt:anna:gorget") == "#f64e88"
-    assert rhdt_mpl.palette("rufous", ["gorget", "wing"]) == ["#f0363e", "#baa9b8"]
+    for key in ("sunangel", "ruby-topaz", "starfrontlet", "sapphire", "broad-billed"):
+        pal = rhdt_mpl.PALETTES[key]
+        assert len(pal) == 8 and list(pal)[0] == "gorget"
+    assert list(rhdt_mpl.PALETTES["sunangel"]) == ["gorget", "crown", "belly", "mantle", "rump", "wing", "tail", "bill"]
+    assert "vent" in rhdt_mpl.PALETTES["broad-billed"]
+    assert mc.to_hex("rhdt:ruby-topaz:gorget") == "#ff8a1b"
+    assert rhdt_mpl.palette("sapphire", ["gorget", "tail"]) == ["#0043be", "#8f4316"]
+    for gone in ("anna", "ruby-throated", "rufous", "costa", "crimson-topaz", "sparkling-violetear"):
+        assert gone not in rhdt_mpl.PALETTES
 
 
 def test_colormaps():

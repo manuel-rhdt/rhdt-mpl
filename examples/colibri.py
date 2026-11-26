@@ -6,12 +6,14 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from rhdt_mpl import oklab
 from rhdt_mpl.palettes import PALETTES
-sys.path.insert(0, __import__("os").path.dirname(__import__("os").path.abspath(__file__)))
-from design_species_palettes import SPECIES
+
+SPECIES = {"sunangel": "Heliangelus exortis", "ruby-topaz": "Chrysolampis mosquitus",
+           "starfrontlet": "Coeligena bonapartei", "sapphire": "Chrysuronia oenone",
+           "broad-billed": "Cynanthus latirostris"}
 
 out = sys.argv[1] if len(sys.argv) > 1 else "."
 LABEL_W, SW, GAP, RH = 2.1, 0.58, 0.035, 0.62
-rows = [("colibri", "mixed jewel tones", PALETTES["colibri"])] + [(k, latin, PALETTES[k]) for k, (latin, _) in SPECIES.items()]
+rows = [("colibri", "mixed jewel tones", PALETTES["colibri"])] + [(k, latin, PALETTES[k]) for k, latin in SPECIES.items()]
 H_SW = 0.45 + RH * len(rows)
 W = rhdt_mpl.TWO_COLUMN
 
@@ -19,7 +21,7 @@ fig = plt.figure(figsize=(W, H_SW + 2.9), layout="none")
 ax = fig.add_axes([0, 2.9 / (H_SW + 2.9), 1, H_SW / (H_SW + 2.9)])
 ax.set_xlim(0, W); ax.set_ylim(0, H_SW); ax.axis("off")
 ax.text(0.08, H_SW - 0.2, "hummingbird palettes", fontsize=11, fontweight="bold", va="center")
-ax.text(W - 0.08, H_SW - 0.2, 'rhdt_mpl.palette("anna")     color="rhdt:anna:gorget"', fontsize=6, family="Noto Sans Mono",
+ax.text(W - 0.08, H_SW - 0.2, 'rhdt_mpl.palette("ruby-topaz")     color="rhdt:ruby-topaz:gorget"', fontsize=6, family="Noto Sans Mono",
         ha="right", va="center", color="0.25")
 for r, (key, sub, pal) in enumerate(rows):
     y = H_SW - 0.5 - RH * (r + 1) + 0.12
@@ -36,8 +38,8 @@ for r, (key, sub, pal) in enumerate(rows):
 gs = fig.add_gridspec(1, 3, left=0.07, right=0.98, bottom=0.07, top=2.45 / (H_SW + 2.9), wspace=0.28)
 x = np.linspace(0, 10, 60)
 theory = 30 * (1 - np.exp(-x / 4))
-demos = [("anna", "gorget", "back", "flank", "bill"), ("rufous", "gorget", "bronze", "back", "tip"),
-         ("crimson-topaz", "body", "tail", "sheen", "head")]
+demos = [("sunangel", "gorget", "crown", "mantle", "belly"), ("ruby-topaz", "gorget", "crown", "rump", "mantle"),
+         ("broad-billed", "gorget", "crown", "bill", "tail")]
 axs = []
 for k, (key, hi, c1, c2, dark) in enumerate(demos):
     a = fig.add_subplot(gs[0, k]); axs.append(a)

@@ -58,7 +58,7 @@ ax.set_ylabel(r"$\hat\rho_{ij}(t)$")
 
 The default cycle is Tol Vibrant without the grey (orange, blue, cyan, magenta, red, teal). Palettes:
 `tol-bright`, `tol-vibrant`, `tol-muted`, `tol-pale`, `tol-dark`, `okabe-ito`, `colibri` (eight saturated hummingbird
-jewel tones), the species palettes `anna`, `ruby-throated`, `rufous`, `costa`, `crimson-topaz` and `sparkling-violetear`, and
+jewel tones), the species palettes `sunangel`, `ruby-topaz`, `starfrontlet`, `sapphire` and `broad-billed`, and
 the two cycles `ok6` and `ok8`.
 In the cycles `ok6`, `ok8` and `colibri` the first k colors are the best separated. The hummingbird palettes have their own section below.
 
@@ -110,38 +110,40 @@ plt.imshow(z, cmap="ok_blue_r")      # single-hue: ok_blue, ok_teal, ok_green, o
 <img src="docs/colibri.svg" alt="The colibri palette and one palette per hummingbird species, with plumage-part names and hex codes, and the palettes used with a dark line, a bright accent and quieter secondary lines" width="100%">
 
 <table>
-<tr><td align="center"><img src="docs/birds/anna.svg" width="260" alt="anna hummingbird"><br><code>anna</code></td><td align="center"><img src="docs/birds/ruby-throated.svg" width="260" alt="ruby-throated hummingbird"><br><code>ruby-throated</code></td><td align="center"><img src="docs/birds/rufous.svg" width="260" alt="rufous hummingbird"><br><code>rufous</code></td></tr>
-<tr><td align="center"><img src="docs/birds/costa.svg" width="260" alt="costa hummingbird"><br><code>costa</code></td><td align="center"><img src="docs/birds/crimson-topaz.svg" width="260" alt="crimson-topaz hummingbird"><br><code>crimson-topaz</code></td><td align="center"><img src="docs/birds/sparkling-violetear.svg" width="260" alt="sparkling-violetear hummingbird"><br><code>sparkling-violetear</code></td></tr>
+<tr><td align="center"><img src="docs/birds/sunangel.webp" width="260" alt="Tourmaline sunangel"><br><code>sunangel</code><br>Tourmaline sunangel<br><i>Heliangelus exortis</i></td><td align="center"><img src="docs/birds/ruby-topaz.webp" width="260" alt="Ruby-topaz"><br><code>ruby-topaz</code><br>Ruby-topaz<br><i>Chrysolampis mosquitus</i></td><td align="center"><img src="docs/birds/starfrontlet.webp" width="260" alt="Golden-bellied starfrontlet"><br><code>starfrontlet</code><br>Golden-bellied starfrontlet<br><i>Coeligena bonapartei</i></td></tr>
+<tr><td align="center"><img src="docs/birds/sapphire.webp" width="260" alt="Golden-tailed sapphire"><br><code>sapphire</code><br>Golden-tailed sapphire<br><i>Chrysuronia oenone</i></td><td align="center"><img src="docs/birds/broad-billed.webp" width="260" alt="Broad-billed hummingbird"><br><code>broad-billed</code><br>Broad-billed hummingbird<br><i>Cynanthus latirostris</i></td><td></td></tr>
 </table>
 
-Anna's, the ruby-throated, the rufous and Costa's hummingbird are drawn by hand after reference photographs, in the
-same pose (`examples/draw_anna.py`, `examples/draw_ruby_throated.py`, `examples/draw_rufous.py`, `examples/draw_costa.py`),
-and their palettes are sampled from the same photographs; `examples/trace_hummingbird.py`
-traces a photograph into color regions as a reference. The others are drawn from their palettes
-(`examples/draw_hummingbirds.py`).
+The birds are generated reference images (males, hovering), not photographs. Two kinds of palette are named after
+hummingbirds:
 
-Two kinds of palette, both named after hummingbirds:
-
-- **`colibri`**: eight saturated jewel tones from different species, ordered so that the first k colors are the best
-  separated: violetear `#710bc6`, topaz `#e8ca17`, ruby `#c6001f`, emerald `#00ae64`, fuchsia `#e825bc`, copper `#db7d24`,
-  sapphire `#005dca`, turquoise `#31c8c9`. Use it as a cycle: `rhdt_mpl.set_cycle("colibri")`.
-- **One palette per species**, with colors named after the plumage parts, designed in OKLCH from the general appearance of
-  the adult male (Anna's, the ruby-throated, the rufous and Costa's hummingbird are sampled from photographs; the others are from memory): `anna` (*Calypte anna*), `ruby-throated` (*Archilochus colubris*),
-  `rufous` (*Selasphorus rufus*), `costa` (*Calypte costae*), `crimson-topaz` (*Topaza pella*) and `sparkling-violetear`
-  (*Colibri coruscans*). The gorget, or the most striking patch, comes first. A bird is one bright accent on a quiet body,
-  which is the pattern for data too: a bright gorget for the result that matters, a near-black bill or wing for a theory line, the
-  back and flank for secondary lines.
+- **`colibri`**: eight saturated jewel tones, ordered so that the first k colors are the best separated: violetear
+  `#710bc6`, topaz `#e8ca17`, ruby `#c6001f`, emerald `#00ae64`, fuchsia `#e825bc`, copper `#db7d24`, sapphire `#005dca`,
+  turquoise `#31c8c9`. Use it as a cycle: `rhdt_mpl.set_cycle("colibri")`.
+- **One palette per species**, eight colors named after plumage parts, the gorget first: `sunangel`, `ruby-topaz`,
+  `starfrontlet`, `sapphire` and `broad-billed`. For the first four, the **gorget, crown, belly, mantle and rump are
+  measured reflectance spectra** of males from the Colombian hummingbird database of Beltran, Shultz & Parra (*Evolution*,
+  [Dryad](https://doi.org/10.5061/dryad.02v6wwq8w)), taken at the angle of maximum reflectance and converted to sRGB (CIE 1931
+  observer, D65; colors outside the sRGB gamut are brought back by reducing chroma at constant OKLab lightness and hue,
+  which affects the ruby-topaz crown and gorget, the starfrontlet crown and the sapphire crown and gorget).
+  The **wing, tail and bill** are not in the database and are sampled from the images, as are all colors of the
+  broad-billed hummingbird, which the database does not contain (it has a `vent` color, the white undertail).
+  `examples/build_species_palettes.py` builds the palettes and prints how far each measured patch is from the image.
 
 ```python
-rhdt_mpl.palette("anna")                         # gorget, crown, gold, back, flank, belly, wing, bill
-rhdt_mpl.palette("anna", ["gorget", "wing"])     # select and order by name
-ax.plot(x, y, color="rhdt:anna:gorget")          # the accent
-ax.plot(x, theory, color="rhdt:anna:bill", lw=2) # a dark line
-ax.plot(x, other, color="rhdt:anna:flank")       # a quiet one
+rhdt_mpl.palette("ruby-topaz")                       # gorget, crown, belly, mantle, rump, wing, tail, bill
+rhdt_mpl.palette("ruby-topaz", ["gorget", "tail"])   # select and order by name
+ax.plot(x, y, color="rhdt:ruby-topaz:gorget")        # the accent
+ax.plot(x, theory, color="rhdt:ruby-topaz:mantle", lw=2)   # a dark line
+ax.plot(x, other, color="rhdt:ruby-topaz:rump")      # a quiet one
 ```
 
-The belly and bill colors are light and near-black neutrals. They are meant for fills, lines and text, not for a cycle,
-so use the species palettes by name and `colibri` for cycles. The names are in the table `rhdt_mpl.PALETTES`.
+A bird is one bright accent on a quiet body, which is the pattern for data too: a bright gorget for the result that
+matters, a dark part for a theory line, quieter parts for secondary lines. Iridescent colors depend on the viewing angle, and
+the spectra were measured on museum study skins and live birds, so the measured colors are one view of each patch; the
+image colors, when they differ, are the image generator's choice (the largest differences are the starfrontlet crown, which
+the image shows duller, and the ruby-topaz belly and mantle, which the image shows nearly black). The `colibri` palette
+is the one meant for cycles; the species palettes are for choosing colors by name.
 
 ## Color helpers in OKLab
 
@@ -192,5 +194,6 @@ UMBRUCH=/path/to/umbruch python tests/test_rhdt_mpl.py
 python tests/test_oklab.py
 ```
 
-`examples/` also holds `gallery.py` (a four-panel figure), `compare_cycles.py` (the same data under several cycles) and
-`design_species_palettes.py` (the OKLCH recipe of the species palettes).
+`examples/` also holds `gallery.py` (a four-panel figure), `compare_cycles.py` (the same data under several cycles),
+`colombia_spectra.py` (reflectance spectra to sRGB), `colombia_overview.py` and `colombia_picks.py` (figures of the Colombian
+species) and `build_species_palettes.py`; the spectra are not in the repository.

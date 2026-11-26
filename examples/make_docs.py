@@ -19,13 +19,6 @@ jobs = [("showcase_colors.py", ["colors", "colormaps"]),
         ("colibri.py", ["colibri"]),
         ("oklab_helpers.py", ["oklab_helpers"])]
 
-# the hummingbird illustrations are written as SVG directly
-subprocess.run([sys.executable, os.path.join(here, "draw_hummingbirds.py")], check=True)
-subprocess.run([sys.executable, os.path.join(here, "draw_anna.py")], check=True)
-subprocess.run([sys.executable, os.path.join(here, "draw_ruby_throated.py")], check=True)
-subprocess.run([sys.executable, os.path.join(here, "draw_rufous.py")], check=True)
-subprocess.run([sys.executable, os.path.join(here, "draw_costa.py")], check=True)
-
 with tempfile.TemporaryDirectory() as tmp:
     for script, names in jobs:
         subprocess.run([sys.executable, os.path.join(here, script), tmp], check=True)

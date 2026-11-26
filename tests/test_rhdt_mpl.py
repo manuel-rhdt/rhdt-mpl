@@ -24,6 +24,17 @@ def test_backend_and_fonts(tmp_path=None):
     assert "NotoSansMath" in names and "STIX" not in names and "DejaVu" not in names
 
 
+def test_cycles():
+    import matplotlib as mpl
+    assert list(rhdt_mpl.PALETTES["ok6"].values())[:2] == ["#1d5e85", "#c8b222"]
+    assert len(rhdt_mpl.PALETTES["ok8"]) == 8
+    rhdt_mpl.set_cycle("ok-print")
+    k = mpl.rcParams["axes.prop_cycle"].by_key()
+    assert k["color"] == list(rhdt_mpl.PALETTES["ok6"].values())
+    assert k["linestyle"][4] == (0, (5, 1, 1, 1)) and len(k["linestyle"]) == 6
+    rhdt_mpl.use(backend=False)     # restore the default cycle
+
+
 def test_colormaps():
     import matplotlib as mpl
     assert mpl.rcParams["image.cmap"] == "ok_orchid"
@@ -36,4 +47,5 @@ def test_colormaps():
 
 if __name__ == "__main__":
     test_colormaps()
+    test_cycles()
     test_backend_and_fonts("/tmp/claude-0/-home-user/b31222e4-7591-5457-af74-51ed8c3e5c07/scratchpad")

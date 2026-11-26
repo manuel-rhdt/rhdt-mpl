@@ -15,9 +15,9 @@ import matplotlib.style
 from matplotlib import font_manager as fm
 
 from . import okmaps  # registers ok_dusk, ok_orchid (+ _r)
-from .palettes import PALETTES, DEFAULT_PALETTE, DEFAULT_CYCLE, colors
+from .palettes import PALETTES, DEFAULT_PALETTE, DEFAULT_CYCLE, OK_PRINT_LINESTYLES, colors, cycle
 
-__all__ = ["use", "set_palette", "palette", "panel_labels", "PALETTES", "font_dir",
+__all__ = ["use", "set_palette", "set_cycle", "cycle", "palette", "panel_labels", "PALETTES", "font_dir",
            "TWO_COLUMN"]
 
 BACKEND = "module://umbruch_matplotlib"
@@ -46,6 +46,12 @@ def panel_labels(axes, labels="abcdefghijklmnopqrstuvwxyz", x=0.0, y=1.01, size=
     for ax, label in zip(np.ravel(axes), labels):
         ax.text(x, y, label, transform=ax.transAxes, fontsize=size, fontweight="bold",
                 va="bottom", ha="left")
+
+
+def set_cycle(name):
+    """Set the property cycle to palette *name*, or to ``"ok-print"`` (ok6 colors with line
+    styles, for figures that must survive greyscale printing)."""
+    mpl.rcParams["axes.prop_cycle"] = cycle(name)
 
 
 def _register_fonts():

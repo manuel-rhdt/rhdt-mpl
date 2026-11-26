@@ -20,12 +20,30 @@ PALETTES = {
     "okabe-ito": {"black": "#000000", "orange": "#E69F00", "sky blue": "#56B4E9",
                   "bluish green": "#009E73", "yellow": "#F0E442", "blue": "#0072B2",
                   "vermilion": "#D55E00", "reddish purple": "#CC79A7"},
+    # Ordered so that the first k colors are the most separated.
+    "ok6": {"navy": "#1d5e85", "gold": "#c8b222", "brown": "#8b3e09",
+            "pink": "#f487c5", "green": "#469172", "violet": "#a351fb"},
+    "ok8": {"navy": "#2a5b88", "gold": "#d6ab1b", "rust": "#8e3b1c",
+            "violet": "#a936fb", "mint": "#4fbc90", "pink": "#f87fd8",
+            "teal": "#228a8f", "coral": "#d0603d"},
 }
+
+#: Line styles paired one-to-one with the ok6 colors for the "ok-print" cycle.
+OK_PRINT_LINESTYLES = ["-", "--", ":", "-.", (0, (5, 1, 1, 1)), (0, (1, 1))]
 
 #: Palette used for the default property cycle, and the entries of it that are cycled
 #: (the grey is left out; the paper figures use it for baselines).
 DEFAULT_PALETTE = "tol-vibrant"
 DEFAULT_CYCLE = ["orange", "blue", "cyan", "magenta", "red", "teal"]
+
+
+def cycle(name):
+    """A ``cycler`` for *name*: any palette in ``PALETTES`` (colors only), or ``"ok-print"``
+    (the ok6 colors paired with ``OK_PRINT_LINESTYLES``)."""
+    from cycler import cycler
+    if name == "ok-print":
+        return cycler(color=colors("ok6")) + cycler(linestyle=OK_PRINT_LINESTYLES)
+    return cycler(color=colors(name))
 
 
 def colors(name, names=None):

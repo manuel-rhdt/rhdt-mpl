@@ -17,3 +17,7 @@ Fonts: Noto Sans, Noto Sans Mono and Noto Serif (OFL 1.1, see `fonts/LICENSE-Not
 Colormaps (`rhdt_mpl.okmaps`, 256-entry sRGB tables, registered with Matplotlib on import, each also as `_r`):
 multi-hue `ok_orchid` (default `image.cmap`) and `ok_dusk`; single-hue `ok_blue`, `ok_teal`, `ok_green`,
 `ok_orange`, `ok_red`, `ok_purple`, `ok_pink`. All run dark to light; use `_r` for light to dark on a white background.
+
+Palettes `ok6` and `ok8` are ordered so that the first k colors are the most separated; `"ok-print"` is the
+ok6 colors paired one-to-one with the line styles `- -- : -. (0,(5,1,1,1)) (0,(1,1))`. `rhdt_mpl.cycle(name)` returns the
+`cycler`, `set_cycle(name)` installs it.

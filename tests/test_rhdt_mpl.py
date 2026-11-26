@@ -35,6 +35,20 @@ def test_cycles():
     rhdt_mpl.use(backend=False)     # restore the default cycle
 
 
+def test_named_colors():
+    import matplotlib as mpl, matplotlib.colors as mc
+    assert mc.to_hex("tol-vibrant:orange") == "#ee7733" and mc.to_hex("okabe-ito:sky blue") == "#56b4e9"
+    assert mc.to_hex("ok6:navy") == "#1d5e85" and mc.to_hex("ok8:navy") == "#2a5b88"
+    assert mc.to_hex("orange") == "#ffa500"            # CSS4 names are untouched
+    assert not mc.is_color_like("tol-vibrant:nope")
+    assert len(rhdt_mpl.named_colors()) == sum(len(p) for p in rhdt_mpl.PALETTES.values())
+    assert list(mpl.color_sequences["ok6"])[0] == "#1d5e85"
+    with mpl.rc_context({"text.color": "tol-dark:dark red", "axes.edgecolor": "ok6:gold"}):
+        assert mc.to_hex(mpl.rcParams["axes.edgecolor"]) == "#c8b222"
+        fig = plt.figure(); t = fig.text(0.5, 0.5, "x")
+        assert mc.to_hex(t.get_color()) == "#663333"
+
+
 def test_colormaps():
     import matplotlib as mpl
     assert mpl.rcParams["image.cmap"] == "ok_orchid"
@@ -48,4 +62,5 @@ def test_colormaps():
 if __name__ == "__main__":
     test_colormaps()
     test_cycles()
+    test_named_colors()
     test_backend_and_fonts("/tmp/claude-0/-home-user/b31222e4-7591-5457-af74-51ed8c3e5c07/scratchpad")

@@ -63,6 +63,17 @@ rows = [
     ("ok6", 'rhdt_mpl.set_cycle("ok6")', list(PALETTES["ok6"].items())),
     ("ok8", 'rhdt_mpl.set_cycle("ok8")', list(PALETTES["ok8"].items())),
     ("ok-print   (ok6 + line styles)", 'rhdt_mpl.set_cycle("ok-print")', list(PALETTES["ok6"].items())),
+    ("sec", "Individual colors by name   \"palette:name\", accepted wherever Matplotlib takes a color"),
+    ("lines, markers", 'ax.plot(x, y, color="tol-vibrant:orange")',
+     [("orange", PALETTES["tol-vibrant"]["orange"])]),
+    ("fills", 'color="tol-pale:pale blue"',
+     [("pale blue", PALETTES["tol-pale"]["pale blue"])]),
+    ("names with spaces", 'color="okabe-ito:sky blue"',
+     [("sky blue", PALETTES["okabe-ito"]["sky blue"])]),
+    ("same name, other palette", 'color="ok6:navy"   color="ok8:navy"',
+     [("ok6:navy", PALETTES["ok6"]["navy"]), ("ok8:navy", PALETTES["ok8"]["navy"])]),
+    ("with helpers", 'oklab.muted("tol-vibrant:orange")',
+     [("orange", PALETTES["tol-vibrant"]["orange"]), ("muted", oklab.muted("tol-vibrant:orange"))]),
     ("sec", "OKLab helpers   from rhdt_mpl import oklab   all return \"#rrggbb\""),
     ("muted   (chroma x 0.5, lighter)", 'oklab.muted("#EE7733")',
      [("#EE7733", "#EE7733"), ("muted", oklab.muted("#EE7733")),
@@ -77,7 +88,7 @@ rows = [
      [("−25°", oklab.rotate_hue("#009988", -25)), ("c", "#009988"), ("+25°", oklab.rotate_hue("#009988", 25)), ("", None)]
      + [(f"t={t:.2f}".rstrip("0").rstrip("."), oklab.mix("#EE7733", "#0077BB", t)) for t in (0, .25, .5, .75, 1)]),
 ]
-RH = 0.64
+RH = 0.62
 H = 0.55 + sum(0.5 if r[0] == "sec" else RH for r in rows)
 fig = plt.figure(figsize=(W, H), layout=None)
 ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis("off")

@@ -50,3 +50,10 @@ def colors(name, names=None):
     """Hex colors of palette *name*; *names* selects and orders entries."""
     pal = PALETTES[name]
     return [pal[n] for n in (names or pal)]
+
+
+def named_colors():
+    """``{"palette:name": hex}`` for every color of every palette, e.g. ``"tol-vibrant:orange"``,
+    ``"okabe-ito:sky blue"``, ``"ok6:navy"``.  Bare names are not used: ``orange``, ``teal`` or
+    ``navy`` already mean something else in Matplotlib's CSS4 set."""
+    return {f"{pal}:{name}": hexval for pal, d in PALETTES.items() for name, hexval in d.items()}

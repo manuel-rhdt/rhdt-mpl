@@ -16,9 +16,10 @@ from matplotlib import font_manager as fm
 
 from . import okmaps  # registers ok_dusk, ok_orchid (+ _r)
 from . import oklab  # OKLab color helpers
-from .palettes import PALETTES, DEFAULT_PALETTE, DEFAULT_CYCLE, OK_PRINT_LINESTYLES, colors, cycle
+from .palettes import (PALETTES, DEFAULT_PALETTE, DEFAULT_CYCLE, OK_PRINT_LINESTYLES, colors, cycle,
+                       named_colors)
 
-__all__ = ["use", "set_palette", "set_cycle", "cycle", "palette", "panel_labels", "PALETTES", "font_dir",
+__all__ = ["use", "set_palette", "set_cycle", "cycle", "register_colors", "named_colors", "palette", "panel_labels", "PALETTES", "font_dir",
            "TWO_COLUMN", "oklab"]
 
 BACKEND = "module://umbruch_matplotlib"
@@ -55,6 +56,17 @@ def set_cycle(name):
     mpl.rcParams["axes.prop_cycle"] = cycle(name)
 
 
+def register_colors():
+    """Make the palette colors usable by name anywhere Matplotlib takes a color
+    (``color="tol-vibrant:orange"``), and the palettes usable as ``matplotlib.color_sequences``."""
+    import matplotlib.colors as mcolors
+    mapping = mcolors.get_named_colors_mapping()
+    for key, value in named_colors().items():
+        mapping[key] = value
+    for name in PALETTES:
+        mpl.color_sequences.register(name, colors(name))
+
+
 def _register_fonts():
     for fn in sorted(os.listdir(font_dir)):
         if fn.endswith(".ttf"):
@@ -83,6 +95,7 @@ def _install_bridge():
 def use(backend=True, style=True):
     """Apply the defaults.  ``backend=False`` keeps the current backend."""
     _register_fonts()
+    register_colors()
     if style:
         mpl.style.use(_style)
         mpl.rcParams["axes.prop_cycle"] = mpl.cycler(

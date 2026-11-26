@@ -1,0 +1,124 @@
+"""Showcase of rhdt_mpl colors and colormaps. Usage: showcase_colors.py OUTDIR
+Writes colors.pdf and colormaps.pdf."""
+import sys
+import numpy as np
+import rhdt_mpl
+import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
+from rhdt_mpl import oklab, okmaps
+from rhdt_mpl.palettes import PALETTES, OK_PRINT_LINESTYLES
+
+out = sys.argv[1] if len(sys.argv) > 1 else "."
+W = rhdt_mpl.TWO_COLUMN
+LABEL_W, SW, GAP = 2.25, 0.44, 0.03
+MONO = "Noto Sans Mono"
+
+
+def ink(color):
+    return "white" if oklab.lightness(color) < 0.68 else "black"
+
+
+def wrap(name):
+    return name.replace(" ", "\n")
+
+
+def section(ax, y, text):
+    ax.text(0.08, y, text, fontsize=8.5, fontweight="bold", va="center")
+    ax.plot([0.08, W - 0.08], [y - 0.14, y - 0.14], color="0.75", lw=0.6)
+
+
+def row(ax, y, title, code, swatches, lines=False, h=0.43):
+    ax.text(0.1, y + h * 0.72, title, fontsize=7.5, fontweight="bold", va="center")
+    ax.text(0.1, y + h * 0.28, code, fontsize=5.6, family=MONO, va="center", color="0.25")
+    x0 = LABEL_W
+    for i, (label, col) in enumerate(swatches):
+        x = x0 + i * (SW + GAP)
+        if col is None:
+            continue
+        if lines:
+            ax.plot([x, x + SW], [y + h / 2] * 2, color=col, lw=1.8,
+                    ls=OK_PRINT_LINESTYLES[i], solid_capstyle="butt")
+            ax.text(x + SW / 2, y + h / 2 - 0.1, str(i + 1), fontsize=5, ha="center", va="top", color="0.4")
+        else:
+            ax.add_patch(Rectangle((x, y), SW, h, color=col, lw=0))
+            if label:
+                ax.text(x + SW / 2, y + h / 2, wrap(label), fontsize=4.8, ha="center", va="center",
+                        color=ink(col), linespacing=0.95)
+    if title.startswith("tol-vibrant"):
+        ax.plot([x0, x0 + 6 * SW + 5 * GAP], [y - 0.05] * 2, color="0.3", lw=1)
+
+
+# ---------------------------------------------------------------- figure 1: colors
+vib = PALETTES["tol-vibrant"]
+default = ["orange", "blue", "cyan", "magenta", "red", "teal"]
+rows = [
+    ("sec", "Palettes   rhdt_mpl.palette(name, names=None)  returns a list of hex   |   rhdt_mpl.set_palette(name, names=None)"),
+    ("tol-bright", 'rhdt_mpl.palette("tol-bright")', list(PALETTES["tol-bright"].items())),
+    ("tol-vibrant   (default cycle: first six)", 'rhdt_mpl.palette("tol-vibrant")', list(vib.items())),
+    ("tol-muted", 'rhdt_mpl.palette("tol-muted")', list(PALETTES["tol-muted"].items())),
+    ("tol-pale", 'rhdt_mpl.palette("tol-pale")', list(PALETTES["tol-pale"].items())),
+    ("tol-dark", 'rhdt_mpl.palette("tol-dark")', list(PALETTES["tol-dark"].items())),
+    ("okabe-ito", 'rhdt_mpl.palette("okabe-ito")', list(PALETTES["okabe-ito"].items())),
+    ("sec", "Cycles   rhdt_mpl.set_cycle(name)   |   ax.set_prop_cycle(rhdt_mpl.cycle(name))   |   first k are most separated"),
+    ("ok6", 'rhdt_mpl.set_cycle("ok6")', list(PALETTES["ok6"].items())),
+    ("ok8", 'rhdt_mpl.set_cycle("ok8")', list(PALETTES["ok8"].items())),
+    ("ok-print   (ok6 + line styles)", 'rhdt_mpl.set_cycle("ok-print")', list(PALETTES["ok6"].items())),
+    ("sec", "OKLab helpers   from rhdt_mpl import oklab   all return \"#rrggbb\""),
+    ("muted   (chroma x 0.5, lighter)", 'oklab.muted("#EE7733")',
+     [("#EE7733", "#EE7733"), ("muted", oklab.muted("#EE7733")),
+      ("#0077BB", "#0077BB"), ("muted", oklab.muted("#0077BB")),
+      ("#009988", "#009988"), ("muted", oklab.muted("#009988"))]),
+    ("family   (lightness steps)", 'oklab.family("#33BBEE", 4)', [(f"{i+1}", c) for i, c in enumerate(oklab.family("#33BBEE", 4))]
+     + [("", None)] + [(f"{i+1}", c) for i, c in enumerate(oklab.family("#EE7733", 4))]),
+    ("lighten / darken", 'oklab.lighten(c, .12) / .darken(c, .12)',
+     [("dark", oklab.darken("#0077BB", .12)), ("c", "#0077BB"), ("light", oklab.lighten("#0077BB", .12)),
+      ("", None), ("dark", oklab.darken("#EE7733", .12)), ("c", "#EE7733"), ("light", oklab.lighten("#EE7733", .12))]),
+    ("rotate_hue / mix", 'oklab.rotate_hue(c, 25)   oklab.mix(a, b, t)',
+     [("−25°", oklab.rotate_hue("#009988", -25)), ("c", "#009988"), ("+25°", oklab.rotate_hue("#009988", 25)), ("", None)]
+     + [(f"t={t:.2f}".rstrip("0").rstrip("."), oklab.mix("#EE7733", "#0077BB", t)) for t in (0, .25, .5, .75, 1)]),
+]
+RH = 0.64
+H = 0.55 + sum(0.5 if r[0] == "sec" else RH for r in rows)
+fig = plt.figure(figsize=(W, H), layout=None)
+ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis("off")
+ax.text(0.08, H - 0.2, "rhdt_mpl colors", fontsize=11, fontweight="bold", va="center")
+ax.text(W - 0.08, H - 0.2, "import rhdt_mpl     # applies style, Noto fonts, umbruch backend", fontsize=6, family=MONO,
+        ha="right", va="center", color="0.25")
+y = H - 0.62
+for r in rows:
+    if r[0] == "sec":
+        y -= 0.12
+        section(ax, y, r[1]); y -= 0.38
+    else:
+        title, code, sw = r
+        row(ax, y - 0.4, title, code, sw, lines=title.startswith("ok-print"))
+        y -= RH
+fig.savefig(f"{out}/colors.pdf")
+plt.close(fig)
+
+# ---------------------------------------------------------------- figure 2: colormaps
+names = list(okmaps.COLORMAPS)
+H2 = 0.9 + 0.7 * len(names)
+fig = plt.figure(figsize=(W, H2), layout=None)
+ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, W); ax.set_ylim(0, H2); ax.axis("off")
+ax.text(0.08, H2 - 0.2, "rhdt_mpl colormaps", fontsize=11, fontweight="bold", va="center")
+ax.text(W - 0.08, H2 - 0.2, 'plt.imshow(z, cmap="ok_orchid")   # default     append "_r" to reverse',
+        fontsize=6, family=MONO, ha="right", va="center", color="0.25")
+ax.text(LABEL_W, H2 - 0.55, "colour", fontsize=6, color="0.4", va="bottom")
+ax.text(W - 0.08, H2 - 0.55, "OKLab lightness L (0 to 1)", fontsize=6, color="0.4", va="bottom", ha="right")
+grad = np.linspace(0, 1, 256)
+bar_x, bar_w = LABEL_W, W - LABEL_W - 0.1
+for i, n in enumerate(names):
+    y = H2 - 0.7 - 0.7 * (i + 1) + 0.2
+    cm = okmaps.COLORMAPS[n]
+    ax.text(0.1, y + 0.36, n + ("   (default)" if n == "ok_orchid" else ""), fontsize=7.5, fontweight="bold", va="bottom")
+    ax.text(0.1, y + 0.31, f'cmap="{n}"  /  "{n}_r"', fontsize=5.6,
+            family=MONO, va="top", color="0.25")
+    ax.imshow(grad[None], extent=(bar_x, bar_x + bar_w, y + 0.18, y + 0.44), cmap=cm, aspect="auto")
+    Ls = np.array([oklab.lightness(c) for c in cm.colors])
+    greys = np.array([[int(oklab.oklab(L, 0, 0)[k:k + 2], 16) / 255 for k in (1, 3, 5)] for L in Ls])
+    ax.imshow(greys[None], extent=(bar_x, bar_x + bar_w, y - 0.04, y + 0.18), aspect="auto")
+    ax.text(bar_x + 0.04, y - 0.06, f"L = {Ls[0]:.2f}", fontsize=5, va="top", color="0.4")
+    ax.text(bar_x + bar_w - 0.04, y - 0.06, f"{Ls[-1]:.2f}", fontsize=5, va="top", ha="right", color="0.4")
+ax.set_xlim(0, W); ax.set_ylim(0, H2)
+fig.savefig(f"{out}/colormaps.pdf")

@@ -14,5 +14,6 @@ see them), and applies `rhdt.mplstyle`. `rhdt_mpl.use(backend=False)` keeps the 
 
 Fonts: Noto Sans, Noto Sans Mono and Noto Serif (OFL 1.1, see `fonts/LICENSE-Noto-OFL.txt`). Math is set in Noto Sans Math through `umbruch_matplotlib.config.math_font` (needs the backend change that adds it). Palettes: `rhdt_mpl.PALETTES`.
 
-Colormaps: `ok_orchid` (default `image.cmap`) and `ok_dusk`, plus `_r` versions, from `rhdt_mpl.okmaps`
-(256-entry sRGB tables, registered with Matplotlib on import).
+Colormaps (`rhdt_mpl.okmaps`, 256-entry sRGB tables, registered with Matplotlib on import, each also as `_r`):
+multi-hue `ok_orchid` (default `image.cmap`) and `ok_dusk`; single-hue `ok_blue`, `ok_teal`, `ok_green`,
+`ok_orange`, `ok_red`, `ok_purple`, `ok_pink`. All run dark to light; use `_r` for light to dark on a white background.

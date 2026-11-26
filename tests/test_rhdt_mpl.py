@@ -27,8 +27,11 @@ def test_backend_and_fonts(tmp_path=None):
 def test_colormaps():
     import matplotlib as mpl
     assert mpl.rcParams["image.cmap"] == "ok_orchid"
-    for n in ("ok_dusk", "ok_orchid", "ok_dusk_r", "ok_orchid_r"):
-        assert n in mpl.colormaps and mpl.colormaps[n].N == 256
+    from rhdt_mpl import okmaps
+    assert len(okmaps.COLORMAPS) == 9
+    for n in okmaps.COLORMAPS:
+        for m in (n, n + "_r"):
+            assert m in mpl.colormaps and mpl.colormaps[m].N == 256
 
 
 if __name__ == "__main__":

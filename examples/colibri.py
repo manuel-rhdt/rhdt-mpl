@@ -32,11 +32,11 @@ for r, (key, sub, pal) in enumerate(rows):
         ax.text(x + SW / 2, y + 0.32, name, fontsize=5.8, ha="center", va="center", color=ink)
         ax.text(x + SW / 2, y + 0.04, hexv, fontsize=4.8, ha="center", va="center", family="Noto Sans Mono", color="0.4")
 
-# --- the pattern in use: dark wing for the theory, bright gorget as the accent, quieter plumage colors for the rest
+# --- the pattern in use: a dark part for the theory, bright gorget as the accent, quieter plumage colors for the rest
 gs = fig.add_gridspec(1, 3, left=0.07, right=0.98, bottom=0.07, top=2.45 / (H_SW + 2.9), wspace=0.28)
 x = np.linspace(0, 10, 60)
 theory = 30 * (1 - np.exp(-x / 4))
-demos = [("anna", "gorget", "back", "flank", "wing"), ("rufous", "gorget", "back", "flank", "wing"),
+demos = [("anna", "gorget", "back", "flank", "bill"), ("rufous", "gorget", "back", "flank", "wing"),
          ("crimson-topaz", "body", "tail", "sheen", "head")]
 axs = []
 for k, (key, hi, c1, c2, dark) in enumerate(demos):

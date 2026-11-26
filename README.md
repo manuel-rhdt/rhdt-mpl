@@ -122,17 +122,17 @@ Two kinds of palette, both named after hummingbirds:
   separated: violetear `#710bc6`, topaz `#e8ca17`, ruby `#c6001f`, emerald `#00ae64`, fuchsia `#e825bc`, copper `#db7d24`,
   sapphire `#005dca`, turquoise `#31c8c9`. Use it as a cycle: `rhdt_mpl.set_cycle("colibri")`.
 - **One palette per species**, with colors named after the plumage parts, designed in OKLCH from the general appearance of
-  the adult male (not sampled from photographs): `anna` (*Calypte anna*), `ruby-throated` (*Archilochus colubris*),
+  the adult male (Anna's hummingbird is sampled from a photograph; the others are from memory): `anna` (*Calypte anna*), `ruby-throated` (*Archilochus colubris*),
   `rufous` (*Selasphorus rufus*), `costa` (*Calypte costae*), `crimson-topaz` (*Topaza pella*) and `sparkling-violetear`
   (*Colibri coruscans*). The gorget, or the most striking patch, comes first. A bird is one bright accent on a quiet body,
-  which is the pattern for data too: a bright gorget for the result that matters, the dark wing for a theory line, the
+  which is the pattern for data too: a bright gorget for the result that matters, a near-black bill or wing for a theory line, the
   back and flank for secondary lines.
 
 ```python
 rhdt_mpl.palette("anna")                         # gorget, back, flank, belly, wing, bill
 rhdt_mpl.palette("anna", ["gorget", "wing"])     # select and order by name
 ax.plot(x, y, color="rhdt:anna:gorget")          # the accent
-ax.plot(x, theory, color="rhdt:anna:wing", lw=2) # a dark line
+ax.plot(x, theory, color="rhdt:anna:bill", lw=2) # a dark line
 ax.plot(x, other, color="rhdt:anna:flank")       # a quiet one
 ```
 

@@ -1,5 +1,5 @@
 """Hummingbird species palettes, designed in OKLCH (L, C, h) per plumage part, from the general appearance
-of the adult male (not sampled from photographs).  Prints the dict used in rhdt_mpl/palettes.py.
+of the adult male; Anna's hummingbird is sampled from a reference photograph.  Prints the dict used in rhdt_mpl/palettes.py.
 
     python examples/design_species_palettes.py
 """
@@ -7,13 +7,13 @@ from rhdt_mpl import oklab
 
 # name -> (latin name, {part: (L, C, h)}); the gorget (or the most striking patch) comes first
 SPECIES = {
-    "anna": ("Calypte anna", {
-        "gorget": (0.56, 0.24, 357),    # iridescent rose-magenta throat and crown
-        "back":   (0.60, 0.13, 150),    # metallic green
-        "flank":  (0.74, 0.07, 150),    # pale green wash on the sides
-        "belly":  (0.90, 0.01, 95),     # grey-white
-        "wing":   (0.38, 0.04, 150),    # dusky green-grey
-        "bill":   (0.24, 0.01, 260)}),
+    "anna": ("Calypte anna", {          # sampled from a reference photograph (hex, not OKLCH)
+        "gorget": "#f64e88",            # rose-pink, the most saturated quarter of the gorget
+        "back":   "#5a6338",            # olive-green scales
+        "flank":  "#765842",            # brownish buff of the lower flank
+        "belly":  "#8b847d",            # warm grey chest
+        "wing":   "#b3aca1",            # grey-brown (blurred in flight)
+        "bill":   "#302e29"}),
     "ruby-throated": ("Archilochus colubris", {
         "gorget": (0.50, 0.22, 27),     # ruby-red throat
         "back":   (0.58, 0.14, 155),    # emerald green
@@ -53,7 +53,8 @@ SPECIES = {
 
 
 def palettes():
-    return {k: {part: oklab.oklch(*lch) for part, lch in parts.items()} for k, (_, parts) in SPECIES.items()}
+    return {k: {part: (v if isinstance(v, str) else oklab.oklch(*v)) for part, v in parts.items()}
+            for k, (_, parts) in SPECIES.items()}
 
 
 if __name__ == "__main__":

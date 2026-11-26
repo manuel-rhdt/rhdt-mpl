@@ -56,12 +56,30 @@ BRANCH = "M30,258 C110,246 200,242 260,248 C292,251 322,258 352,268"
 FEET = "M200,236 L197,247 M212,238 L210,249 M192,246 Q197,252 203,247 M205,248 Q211,253 216,249"
 LEAVES = [(74, 247, -28), (98, 260, 24), (318, 262, -10)]
 EYE = (156, 95)
+def _speckles(seed=7):
+    """Jittered scale marks (x, y, half-width, opacity) for a speckled chest."""
+    import random
+    rnd = random.Random(seed)
+    out = []
+    for y in range(148, 234, 5):
+        for x in range(126, 232, 6):
+            out.append((x + rnd.uniform(-2.5, 2.5), y + rnd.uniform(-2, 2), rnd.uniform(1.6, 3.2), rnd.uniform(0.35, 0.9)))
+    return out
+
+
+SPECKLES = _speckles()
 SCALES = [(x, y) for y in range(110, 162, 7) for x in range(124 + (y // 7 % 2) * 4, 176, 9)]
 
 def bird(key):
     p = PALETTES[key]
-    g = {"anna": lambda: dict(gorget=p["gorget"], crown=p["gorget"], back=p["back"], belly=p["belly"], flank=p["flank"],
-                      wing=p["wing"], tail=D(p["wing"], .05), bill=p["bill"], fork=False),
+    g = {"anna": lambda: dict(   # details from a reference photograph
+             gorget=p["gorget"], crown=p["gorget"], back=p["back"], belly=p["belly"], flank=p["flank"],
+             wing=D(p["wing"], .3), tail=M(p["bill"], p["flank"], .45), bill=p["bill"], fork=False,
+             head=M(p["back"], p["bill"], .45),                                  # dusky face around the eye
+             gorget_stops=[(0, "#d6a03f"), (0.22, L(p["gorget"], .06)), (0.5, p["gorget"]),
+                           (0.82, D(p["gorget"], .12)), (1, D(p["gorget"], .2))],   # gold glint at the upper edge
+             crown_stops=[(0, "#f1b07c"), (0.45, p["gorget"]), (1, D(p["gorget"], .14))],  # bronze-peach sheen
+             speckle=p["back"], tuft="#f3f0e8", flank_opacity=0.55),
          "ruby-throated": lambda: dict(gorget=p["gorget"], crown=p["back"], back=p["back"], belly=p["belly"], flank=p["flank"],
                                wing=p["wing"], tail=p["wing"], bill=p["bill"], fork=True, chin=p["bill"]),
          "rufous": lambda: dict(gorget=p["gorget"], crown=M(p["back"], "#3b7a3b", 0.35), back=p["back"], belly=p["belly"],
@@ -83,8 +101,9 @@ def bird(key):
         grad("flank", [(0, g["flank"]), (1, D(g["flank"], .06))]),
         grad("wing", [(0, L(g["wing"], .06)), (0.5, g["wing"]), (1, D(g["wing"], .08))], 0, 0, 1, 0.6),
         grad("tail", [(0, g["tail"]), (1, D(g["tail"], .12))], 0, 0, 1, 1),
-        grad("gorget", sheen(g["gorget"]), 0, 0, 0.9, 1),
-        grad("crown", sheen(g["crown"], .1), 0, 0, 1, 0.6),
+        grad("gorget", g.get("gorget_stops") or sheen(g["gorget"]), 0, 0, 0.9, 1),
+        grad("crown", g.get("crown_stops") or sheen(g["crown"], .1), 0, 0, 1, 0.6),
+        f'<clipPath id="belclip"><path d="{BELLY}"/></clipPath>',
         grad("bill", [(0, D(g["bill"], .02)), (1, L(g["bill"], .12))], 1, 0, 0, 0),
         '<radialGradient id="vol" cx="0.3" cy="0.25" r="0.85">'
         '<stop offset="0" stop-color="#ffffff" stop-opacity="0.28"/><stop offset="0.45" stop-color="#ffffff" stop-opacity="0"/>'
@@ -116,9 +135,16 @@ def bird(key):
           f'<path d="{BODY}" fill="url(#back)"/>',
           '<g clip-path="url(#bclip)">',
           f'<path d="{BELLY}" fill="url(#belly)" filter="url(#blur2)"/>',
-          f'<path d="{FLANK}" fill="url(#flank)" opacity="0.85" filter="url(#blur4)"/>',
+          f'<path d="{FLANK}" fill="url(#flank)" opacity="{g.get("flank_opacity", 0.85)}" filter="url(#blur4)"/>',
           '</g>',
           f'<path d="{BODY}" fill="url(#vol)"/>']
+    if "speckle" in g:       # olive scale marks on the grey chest
+        s.append(f'<g clip-path="url(#belclip)" fill="none" stroke="{g["speckle"]}" stroke-width="1.6" '
+                 f'stroke-linecap="round" opacity="0.8">'
+                 + "".join(f'<path d="M{x - w:.1f},{y:.1f} Q{x:.1f},{y + w:.1f} {x + w:.1f},{y:.1f}" opacity="{o:.2f}"/>'
+                           for x, y, w, o in SPECKLES) + "</g>")
+    if "tuft" in g:          # white feather tuft at the legs
+        s.append(f'<ellipse cx="218" cy="232" rx="9" ry="6" fill="{g["tuft"]}" filter="url(#blur2)"/>')
     if "breast" in g:
         s.append(f'<g clip-path="url(#bclip)"><path d="{BREAST}" fill="url(#breast)" filter="url(#blur2)"/></g>')
     s += [f'<path d="{WING}" fill="url(#wing)"/>',

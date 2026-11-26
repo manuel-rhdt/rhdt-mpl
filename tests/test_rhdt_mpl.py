@@ -70,7 +70,7 @@ def test_species_palettes():
     import matplotlib.colors as mc
     for key in ("anna", "ruby-throated", "rufous", "costa", "crimson-topaz", "sparkling-violetear"):
         assert len(rhdt_mpl.PALETTES[key]) == 6
-    assert list(rhdt_mpl.PALETTES["anna"])[0] == "gorget" and mc.to_hex("rhdt:anna:gorget") == "#d10076"
+    assert list(rhdt_mpl.PALETTES["anna"])[0] == "gorget" and mc.to_hex("rhdt:anna:gorget") == "#f64e88"
     assert rhdt_mpl.palette("rufous", ["gorget", "wing"]) == ["#f15b00", "#4d3827"]
 
 

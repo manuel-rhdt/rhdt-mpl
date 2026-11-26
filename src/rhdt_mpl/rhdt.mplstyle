@@ -38,4 +38,4 @@ legend.handlelength: 2.0
 legend.handletextpad: 0.5
 
 # Images
-image.cmap: viridis
+image.cmap: viridis   # overridden by rhdt_mpl.use() with ok_orchid

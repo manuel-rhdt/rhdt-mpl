@@ -37,7 +37,7 @@ ax = axs[1, 1]
 g = np.linspace(-2, 2, 120)
 X, Y = np.meshgrid(g, g)
 Z = np.sin(3 * X) * np.cos(3 * Y) * np.exp(-(X**2 + Y**2) / 2)
-im = ax.pcolormesh(X, Y, Z, cmap="viridis", rasterized=True)
+im = ax.pcolormesh(X, Y, Z, rasterized=True)
 fig.colorbar(im, ax=ax, label=r"$\psi(x,y)$")
 ax.set(xlabel="$x$", ylabel="$y$", title="Heatmap", aspect="equal")
 fig.savefig(f"{out}/gallery.pdf")

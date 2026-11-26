@@ -14,6 +14,7 @@ import matplotlib as mpl
 import matplotlib.style
 from matplotlib import font_manager as fm
 
+from . import okmaps  # registers ok_dusk, ok_orchid (+ _r)
 from .palettes import PALETTES, DEFAULT_PALETTE, DEFAULT_CYCLE, colors
 
 __all__ = ["use", "set_palette", "palette", "panel_labels", "PALETTES", "font_dir",
@@ -21,6 +22,7 @@ __all__ = ["use", "set_palette", "palette", "panel_labels", "PALETTES", "font_di
 
 BACKEND = "module://umbruch_matplotlib"
 TWO_COLUMN = 510 / 72   # figure width in inches used for the ML-PWS paper figures
+DEFAULT_CMAP = "ok_orchid"
 MATH_FONT = "Noto Sans Math"   # needs a backend with config.math_font
 
 _here = resources.files(__package__)
@@ -78,6 +80,7 @@ def use(backend=True, style=True):
         mpl.style.use(_style)
         mpl.rcParams["axes.prop_cycle"] = mpl.cycler(
             color=colors(DEFAULT_PALETTE, DEFAULT_CYCLE))
+        mpl.rcParams["image.cmap"] = DEFAULT_CMAP
     if backend:
         _install_bridge()
         mpl.use(BACKEND)

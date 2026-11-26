@@ -25,4 +25,12 @@ def test_backend_and_fonts(tmp_path=None):
 
 
 if __name__ == "__main__":
+    test_colormaps()
     test_backend_and_fonts("/tmp/claude-0/-home-user/b31222e4-7591-5457-af74-51ed8c3e5c07/scratchpad")
+
+
+def test_colormaps():
+    import matplotlib as mpl
+    assert mpl.rcParams["image.cmap"] == "ok_orchid"
+    for n in ("ok_dusk", "ok_orchid", "ok_dusk_r", "ok_orchid_r"):
+        assert n in mpl.colormaps and mpl.colormaps[n].N == 256

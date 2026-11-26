@@ -109,6 +109,13 @@ plt.imshow(z, cmap="ok_blue_r")      # single-hue: ok_blue, ok_teal, ok_green, o
 
 <img src="docs/colibri.svg" alt="The colibri palette and one palette per hummingbird species, with plumage-part names and hex codes, and the palettes used with a dark line, a bright accent and quieter secondary lines" width="100%">
 
+<table>
+<tr><td align="center"><img src="docs/birds/anna.svg" width="260" alt="anna hummingbird"><br><code>anna</code></td><td align="center"><img src="docs/birds/ruby-throated.svg" width="260" alt="ruby-throated hummingbird"><br><code>ruby-throated</code></td><td align="center"><img src="docs/birds/rufous.svg" width="260" alt="rufous hummingbird"><br><code>rufous</code></td></tr>
+<tr><td align="center"><img src="docs/birds/costa.svg" width="260" alt="costa hummingbird"><br><code>costa</code></td><td align="center"><img src="docs/birds/crimson-topaz.svg" width="260" alt="crimson-topaz hummingbird"><br><code>crimson-topaz</code></td><td align="center"><img src="docs/birds/sparkling-violetear.svg" width="260" alt="sparkling-violetear hummingbird"><br><code>sparkling-violetear</code></td></tr>
+</table>
+
+The birds are drawn in SVG from their own palettes (`examples/draw_hummingbirds.py`).
+
 Two kinds of palette, both named after hummingbirds:
 
 - **`colibri`**: eight saturated jewel tones from different species, ordered so that the first k colors are the best

@@ -15,10 +15,11 @@ import matplotlib.style
 from matplotlib import font_manager as fm
 
 from . import okmaps  # registers ok_dusk, ok_orchid (+ _r)
+from . import oklab  # OKLab color helpers
 from .palettes import PALETTES, DEFAULT_PALETTE, DEFAULT_CYCLE, OK_PRINT_LINESTYLES, colors, cycle
 
 __all__ = ["use", "set_palette", "set_cycle", "cycle", "palette", "panel_labels", "PALETTES", "font_dir",
-           "TWO_COLUMN"]
+           "TWO_COLUMN", "oklab"]
 
 BACKEND = "module://umbruch_matplotlib"
 TWO_COLUMN = 510 / 72   # figure width in inches used for the ML-PWS paper figures

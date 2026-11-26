@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from cycler import cycler
 
 out = sys.argv[1] if len(sys.argv) > 1 else "."
-rows = [("colibri-dark (default)", rhdt_mpl.cycle("colibri-dark")), ("colibri", rhdt_mpl.cycle("colibri")),
+rows = [("colibri (default)", rhdt_mpl.cycle("colibri")), ("colibri-dark", rhdt_mpl.cycle("colibri-dark")),
         ("ok8", rhdt_mpl.cycle("ok8")),
         ("Tol Vibrant", cycler(color=rhdt_mpl.palette("tol-vibrant", ["orange", "blue", "cyan", "magenta", "red", "teal"])))]
 rng = np.random.default_rng(3)

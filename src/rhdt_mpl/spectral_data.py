@@ -7,39 +7,39 @@ SOURCES gives (species, sex, patch, number of specimens) of every color.
 """
 
 COLIBRI = {
-    "leadbeateri gorget": "#00dd59",
-    "strophianus gorget": "#e422c5",
-    "coeruleogularis gorget": "#007cb3",
-    "pyra gorget": "#de421b",
-    "phalerata crown": "#00b1ab",
-    "microrhynchum gorget": "#d4e300",
-    "vestita gorget": "#4a36ee",
-    "mosquitus crown": "#b60042",
+    "emerald": "#00a051",
+    "tourmaline": "#e422c5",
+    "sapphire": "#007cb3",
+    "amber": "#c76313",
+    "ruby": "#b60042",
+    "amethyst": "#4a36ee",
+    "jade": "#008176",
+    "peridot": "#7d8c00",
 }
 
 COLIBRI_DARK = {
-    "kingii crown": "#5cd34b",
-    "colombica belly": "#212e5c",
-    "coelestis crown": "#008176",
-    "longirostris gorget": "#a54570",
-    "oenone crown": "#0044d3",
-    "pyra belly": "#6c1f1d",
-    "benjamini gorget": "#00a051",
-    "aequatorialis crown": "#844d1e",
+    "emerald": "#07841c",
+    "tourmaline": "#a54570",
+    "sapphire": "#0044d3",
+    "amber": "#844d1e",
+    "ruby": "#6c1f1d",
+    "amethyst": "#212a8c",
+    "jade": "#005761",
+    "peridot": "#414900",
 }
 
 WIDE = {
     "colibri": {
-        "leadbeateri gorget": "oklch(0.7833 0.2892 147.89)",
-        "coeruleogularis gorget": "oklch(0.5563 0.1832 238.53)",
-        "phalerata crown": "oklch(0.6858 0.2307 190.42)",
-        "microrhynchum gorget": "oklch(0.8745 0.2212 114.65)",
-        "mosquitus crown": "oklch(0.4949 0.2091 12.29)",
+        "emerald": "oklch(0.6187 0.2364 151.88)",
+        "sapphire": "oklch(0.5563 0.1832 238.53)",
+        "ruby": "oklch(0.4949 0.2091 12.29)",
+        "jade": "oklch(0.5437 0.1601 184.45)",
+        "peridot": "oklch(0.6075 0.1413 117.03)",
     },
     "colibri-dark": {
-        "coelestis crown": "oklch(0.5437 0.1601 184.45)",
-        "oenone crown": "oklch(0.4614 0.2307 262.71)",
-        "benjamini gorget": "oklch(0.6187 0.2364 151.88)",
+        "sapphire": "oklch(0.4614 0.2307 262.71)",
+        "jade": "oklch(0.4169 0.0823 208.45)",
+        "peridot": "oklch(0.3841 0.0923 116.88)",
     },
     "ruby-topaz": {
         "gorget": "oklch(0.7483 0.1858 57.05)",
@@ -54,38 +54,25 @@ WIDE = {
     },
 }
 
-# dark color -> the bright color of colibri it is the darker partner of (colibri-dark is ordered by its own
-# separation, not by its partners)
-PARTNERS = {
-    "benjamini gorget": "leadbeateri gorget",
-    "longirostris gorget": "strophianus gorget",
-    "oenone crown": "coeruleogularis gorget",
-    "aequatorialis crown": "pyra gorget",
-    "coelestis crown": "phalerata crown",
-    "kingii crown": "microrhynchum gorget",
-    "colombica belly": "vestita gorget",
-    "pyra belly": "mosquitus crown",
-}
-
 SOURCES = {
     "colibri": {
-        "leadbeateri gorget": ('Heliodoxa_leadbeateri', 'Males', 'gorget', 2),
-        "strophianus gorget": ('Heliangelus_strophianus', 'Males', 'gorget', 2),
-        "coeruleogularis gorget": ('Lepidopyga_coeruleogularis', 'Males', 'gorget', 2),
-        "pyra gorget": ('Topaza_pyra', 'Females', 'gorget', 2),
-        "phalerata crown": ('Coeligena_phalerata', 'Males', 'crown', 5),
-        "microrhynchum gorget": ('Ramphomicron_microrhynchum', 'Males', 'gorget', 4),
-        "vestita gorget": ('Eriocnemis_vestita', 'Males', 'gorget', 15),
-        "mosquitus crown": ('Chrysolampis_mosquitus', 'Males', 'crown', 4),
+        "emerald": ('Urosticte_benjamini', 'Males', 'gorget', 2),
+        "tourmaline": ('Heliangelus_strophianus', 'Males', 'gorget', 2),
+        "sapphire": ('Lepidopyga_coeruleogularis', 'Males', 'gorget', 2),
+        "amber": ('Coeligena_bonapartei', 'Males', 'rump', 5),
+        "ruby": ('Chrysolampis_mosquitus', 'Males', 'crown', 4),
+        "amethyst": ('Eriocnemis_vestita', 'Males', 'gorget', 15),
+        "jade": ('Aglaiocercus_coelestis', 'Females', 'crown', 9),
+        "peridot": ('Eriocnemis_vestita', 'Males', 'rump', 15),
     },
     "colibri-dark": {
-        "kingii crown": ('Aglaiocercus_kingii', 'Males', 'crown', 10),
-        "colombica belly": ('Thalurania_colombica', 'Males', 'belly', 13),
-        "coelestis crown": ('Aglaiocercus_coelestis', 'Females', 'crown', 9),
-        "longirostris gorget": ('Heliomaster_longirostris', 'Males', 'gorget', 3),
-        "oenone crown": ('Chrysuronia_oenone', 'Males', 'crown', 2),
-        "pyra belly": ('Topaza_pyra', 'Males', 'belly', 2),
-        "benjamini gorget": ('Urosticte_benjamini', 'Males', 'gorget', 2),
-        "aequatorialis crown": ('Androdon_aequatorialis', 'Males', 'crown', 2),
+        "emerald": ('Lafresnaya_lafresnayi', 'Males', 'gorget', 2),
+        "tourmaline": ('Heliomaster_longirostris', 'Males', 'gorget', 3),
+        "sapphire": ('Chrysuronia_oenone', 'Males', 'crown', 2),
+        "amber": ('Androdon_aequatorialis', 'Males', 'crown', 2),
+        "ruby": ('Topaza_pyra', 'Males', 'belly', 2),
+        "amethyst": ('Goldmania_violiceps', 'Males', 'crown', 2),
+        "jade": ('Aglaiocercus_coelestis', 'Males', 'rump', 13),
+        "peridot": ('Heliodoxa_imperatrix', 'Males', 'crown', 2),
     },
 }

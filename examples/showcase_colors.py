@@ -52,8 +52,8 @@ vib = PALETTES["tol-vibrant"]
 default = ["orange", "blue", "cyan", "magenta", "red", "teal"]
 rows = [
     ("sec", "Palettes   rhdt_mpl.palette(name, names=None)  returns a list of hex   |   rhdt_mpl.set_palette(name, names=None)"),
-    ("colibri-dark   (default cycle)", 'rhdt_mpl.palette("colibri-dark")', list(PALETTES["colibri-dark"].items())),
-    ("colibri", 'rhdt_mpl.palette("colibri")', list(PALETTES["colibri"].items())),
+    ("colibri   (default cycle)", 'rhdt_mpl.palette("colibri")', list(PALETTES["colibri"].items())),
+    ("colibri-dark   (darker partners)", 'rhdt_mpl.palette("colibri-dark")', list(PALETTES["colibri-dark"].items())),
     ("tol-bright", 'rhdt_mpl.palette("tol-bright")', list(PALETTES["tol-bright"].items())),
     ("tol-vibrant", 'rhdt_mpl.palette("tol-vibrant")', list(vib.items())),
     ("tol-muted", 'rhdt_mpl.palette("tol-muted")', list(PALETTES["tol-muted"].items())),
@@ -65,29 +65,29 @@ rows = [
     ("ok8", 'rhdt_mpl.set_cycle("ok8")', list(PALETTES["ok8"].items())),
     ("ok-print   (ok6 + line styles)", 'rhdt_mpl.set_cycle("ok-print")', list(PALETTES["ok6"].items())),
     ("sec", "Individual colors by name   \"rhdt:palette:name\", accepted wherever Matplotlib takes a color"),
-    ("default palette, short", 'color="rhdt:benjamini gorget"',
-     [("benjamini gorget", PALETTES["colibri-dark"]["benjamini gorget"])]),
-    ("full form", 'color="rhdt:colibri:mosquitus crown"',
-     [("mosquitus crown", PALETTES["colibri"]["mosquitus crown"])]),
+    ("default palette, short", 'color="rhdt:emerald"',
+     [("emerald", PALETTES["colibri"]["emerald"])]),
+    ("full form", 'color="rhdt:colibri:ruby"',
+     [("ruby", PALETTES["colibri"]["ruby"])]),
     ("other palettes", 'color="rhdt:tol-pale:pale blue"',
      [("pale blue", PALETTES["tol-pale"]["pale blue"])]),
     ("same name, other palette", 'color="rhdt:ok6:navy"   "rhdt:ok8:navy"',
      [("ok6:navy", PALETTES["ok6"]["navy"]), ("ok8:navy", PALETTES["ok8"]["navy"])]),
-    ("with helpers", 'oklab.muted("rhdt:colibri:pyra gorget")',
-     [("pyra gorget", PALETTES["colibri"]["pyra gorget"]), ("muted", oklab.muted("rhdt:colibri:pyra gorget"))]),
+    ("with helpers", 'oklab.muted("rhdt:colibri:amber")',
+     [("amber", PALETTES["colibri"]["amber"]), ("muted", oklab.muted("rhdt:colibri:amber"))]),
     ("sec", "OKLab helpers   from rhdt_mpl import oklab   all return \"#rrggbb\""),
-    ("muted   (chroma x 0.5, lighter)", 'oklab.muted("#de421b")',
-     [("#de421b", "#de421b"), ("muted", oklab.muted("#de421b")),
+    ("muted   (chroma x 0.5, lighter)", 'oklab.muted("#c76313")',
+     [("#c76313", "#c76313"), ("muted", oklab.muted("#c76313")),
       ("#007cb3", "#007cb3"), ("muted", oklab.muted("#007cb3")),
-      ("#00b1ab", "#00b1ab"), ("muted", oklab.muted("#00b1ab"))]),
+      ("#008176", "#008176"), ("muted", oklab.muted("#008176"))]),
     ("family   (lightness steps)", 'oklab.family("#007cb3", 4)', [(f"{i+1}", c) for i, c in enumerate(oklab.family("#007cb3", 4))]
-     + [("", None)] + [(f"{i+1}", c) for i, c in enumerate(oklab.family("#de421b", 4))]),
+     + [("", None)] + [(f"{i+1}", c) for i, c in enumerate(oklab.family("#c76313", 4))]),
     ("lighten / darken", 'oklab.lighten(c, .12) / .darken(c, .12)',
      [("dark", oklab.darken("#007cb3", .12)), ("c", "#007cb3"), ("light", oklab.lighten("#007cb3", .12)),
-      ("", None), ("dark", oklab.darken("#de421b", .12)), ("c", "#de421b"), ("light", oklab.lighten("#de421b", .12))]),
+      ("", None), ("dark", oklab.darken("#c76313", .12)), ("c", "#c76313"), ("light", oklab.lighten("#c76313", .12))]),
     ("rotate_hue / mix", 'oklab.rotate_hue(c, 25)   oklab.mix(a, b, t)',
-     [("−25°", oklab.rotate_hue("#00b1ab", -25)), ("c", "#00b1ab"), ("+25°", oklab.rotate_hue("#00b1ab", 25)), ("", None)]
-     + [(f"t={t:.2f}".rstrip("0").rstrip("."), oklab.mix("#de421b", "#007cb3", t)) for t in (0, .25, .5, .75, 1)]),
+     [("−25°", oklab.rotate_hue("#008176", -25)), ("c", "#008176"), ("+25°", oklab.rotate_hue("#008176", 25)), ("", None)]
+     + [(f"t={t:.2f}".rstrip("0").rstrip("."), oklab.mix("#c76313", "#007cb3", t)) for t in (0, .25, .5, .75, 1)]),
 ]
 RH = 0.62
 H = 0.55 + sum(0.5 if r[0] == "sec" else RH for r in rows)

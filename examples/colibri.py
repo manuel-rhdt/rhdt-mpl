@@ -13,7 +13,7 @@ SPECIES = {"sunangel": "Heliangelus exortis", "ruby-topaz": "Chrysolampis mosqui
 
 out = sys.argv[1] if len(sys.argv) > 1 else "."
 LABEL_W, SW, GAP, RH = 2.1, 0.58, 0.035, 0.62
-rows = [("colibri", "bright, from the data", PALETTES["colibri"]),
+rows = [("colibri", "default; bright, from the data", PALETTES["colibri"]),
         ("colibri-dark", "darker partners", PALETTES["colibri-dark"])] + [(k, latin, PALETTES[k]) for k, latin in SPECIES.items()]
 H_SW = 0.75 + RH * len(rows)
 W = rhdt_mpl.TWO_COLUMN
@@ -22,7 +22,7 @@ fig = plt.figure(figsize=(W, H_SW + 2.9), layout="none")
 ax = fig.add_axes([0, 2.9 / (H_SW + 2.9), 1, H_SW / (H_SW + 2.9)])
 ax.set_xlim(0, W); ax.set_ylim(0, H_SW); ax.axis("off")
 ax.text(0.08, H_SW - 0.2, "hummingbird palettes", fontsize=11, fontweight="bold", va="center")
-ax.text(W - 0.08, H_SW - 0.2, 'rhdt_mpl.palette("ruby-topaz")     color="rhdt:colibri:mosquitus crown"', fontsize=6,
+ax.text(W - 0.08, H_SW - 0.2, 'rhdt_mpl.palette("ruby-topaz")     color="rhdt:colibri:ruby"', fontsize=6,
         family="Noto Sans Mono", ha="right", va="center", color="0.25")
 ax.text(0.1, 0.1, "∘ the exact color lies outside sRGB; the swatch shows its nearest sRGB color", fontsize=5.6, color="0.35",
         va="center")
@@ -34,7 +34,7 @@ for r, (key, sub, pal) in enumerate(rows):
         x = LABEL_W + i * (SW + GAP)
         ax.add_patch(Rectangle((x, y + 0.12), SW, 0.40, color=hexv, lw=0))
         ink = "white" if oklab.lightness(hexv) < 0.68 else "black"
-        ax.text(x + SW / 2, y + 0.32, name.replace(" ", "\n"), fontsize=5.0 if key.startswith("colibri") else 5.8, ha="center",
+        ax.text(x + SW / 2, y + 0.32, name.replace(" ", "\n"), fontsize=5.8, ha="center",
                 va="center", color=ink, linespacing=0.95)
         if rhdt_mpl.wide_css(key, name):                       # the exact color lies outside sRGB
             ax.plot([x + SW - 0.06], [y + 0.46], "o", ms=2.2, mfc="none", mec=ink, mew=0.6)

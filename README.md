@@ -56,15 +56,15 @@ ax.set_ylabel(r"$\hat\rho_{ij}(t)$")
 
 <img src="docs/colors.svg" alt="All palettes, cycles, named colors and OKLab helpers with their syntax" width="100%">
 
-The default cycle is `colibri-dark` (eight colors measured in hummingbirds, see below). Palettes:
-`tol-bright`, `tol-vibrant`, `tol-muted`, `tol-pale`, `tol-dark`, `okabe-ito`, `colibri` (eight saturated hummingbird
-colors measured in hummingbirds) and `colibri-dark` (their darker partners), the species palettes `sunangel`, `ruby-topaz`, `starfrontlet`, `sapphire`, `violet-crowned` and `broad-billed`, and
+The default cycle is `colibri` (eight colors measured in hummingbirds, see below). Palettes:
+`tol-bright`, `tol-vibrant`, `tol-muted`, `tol-pale`, `tol-dark`, `okabe-ito`, `colibri` (eight vivid colors measured in
+hummingbirds, the default) and `colibri-dark` (their darker partners), the species palettes `sunangel`, `ruby-topaz`, `starfrontlet`, `sapphire`, `violet-crowned` and `broad-billed`, and
 the two cycles `ok6` and `ok8`.
 In the cycles `ok6`, `ok8` and `colibri` the first k colors are the best separated. The hummingbird palettes have their own section below.
 
 ```python
 rhdt_mpl.palette("okabe-ito")                    # list of hex colors
-rhdt_mpl.palette("colibri", ["pyra gorget", "mosquitus crown"])   # select and order by name
+rhdt_mpl.palette("colibri", ["ruby", "jade"])   # select and order by name
 rhdt_mpl.set_palette("okabe-ito")                # use as the color cycle
 rhdt_mpl.set_cycle("ok8")                        # any palette, or "ok-print"
 ax.set_prop_cycle(rhdt_mpl.cycle("ok6"))         # per axes
@@ -81,12 +81,12 @@ Every palette color is registered with Matplotlib as `"rhdt:<palette>:<name>"`, 
 `rcParams` and the `oklab` helpers:
 
 ```python
-ax.plot(x, y, color="rhdt:colibri:pyra gorget")
+ax.plot(x, y, color="rhdt:colibri:ruby")
 ax.bar(x, h, color="rhdt:tol-pale:pale blue", edgecolor="rhdt:tol-dark:dark blue")
 ax.plot(x, y, color="rhdt:okabe-ito:sky blue")
 ```
 
-The colors of the default palette (`colibri-dark`) also have the short form `"rhdt:benjamini gorget"`. Other palettes have none,
+The colors of the default palette (`colibri`) also have the short form `"rhdt:ruby"`. Other palettes have none,
 because bare names are ambiguous: `blue` is three different colors across the palettes, and `ok6:navy` differs from
 `ok8:navy`. Matplotlib's own CSS4 names (`"orange"`, `"navy"`) are untouched. `rhdt_mpl.named_colors()` lists all names.
 The palettes are also available as `matplotlib.color_sequences["rhdt:ok6"]` and so on.
@@ -117,15 +117,16 @@ plt.imshow(z, cmap="ok_blue_r")      # single-hue: ok_blue, ok_teal, ok_green, o
 The birds are generated reference images (males, hovering), not photographs. Two kinds of palette are named after
 hummingbirds:
 
-- **`colibri`** and **`colibri-dark`**: colors taken only from the measured spectra of the database below, mixing species
-  and patches freely. `colibri` is eight bright colors, the most vivid one in each hue sector (red, orange, yellow-green,
-  green, teal, blue, violet, magenta), ordered so that the first k colors are the best separated; `colibri-dark` gives each of
-  them a darker partner of similar hue, so a series and its secondary or background counterpart can share a hue
-  (`rhdt_mpl.PARTNERS` maps each dark color to its bright partner). `colibri-dark` is the default cycle and is ordered by
-  its own separation, so its first k colors are the best separated of the dark ones. The entries
-  are named after their source, `<species epithet> <patch>`, for example `rhdt:colibri:mosquitus crown` (the ruby-topaz
-  crown) or `rhdt:colibri-dark:colombica belly`; `rhdt_mpl.SOURCES["colibri"]` lists species, sex, patch and the number of
-  specimens of each. Use them as cycles: `rhdt_mpl.set_cycle("colibri")` and `set_cycle("colibri-dark")`.
+- **`colibri`** (the default cycle) and **`colibri-dark`**: colors taken only from the measured spectra of the database below,
+  mixing species and patches freely. `colibri` has eight bright, vivid colors, one per hue, named after gems: `ruby`,
+  `amber`, `peridot` (the olive-yellow), `emerald`, `jade`, `sapphire`, `amethyst` and `tourmaline`. Every one is at least 3:1
+  against white (the WCAG minimum for graphics), so they stay visible as thin lines on a screen; the dataset has no bright yellow
+  that meets this, so the yellowish color is an olive. They are ordered so that the first k colors are the best separated
+  (the first four are 17 or more apart, in OKLab times 100, the last pair 14.5). `colibri-dark` gives each of them a darker
+  partner of similar hue, with the same name and in the same order, for secondary or background series. Each color comes
+  from one species and patch: `rhdt_mpl.SOURCES["colibri"]` lists species, sex, patch and the number of specimens, for example
+  `ruby` is the crown of the ruby-topaz (4 specimens) and `amethyst` the gorget of the glowing puffleg (15).
+  Use them by name, `rhdt:colibri:ruby` and `rhdt:colibri-dark:ruby`, or as cycles: `rhdt_mpl.set_cycle("colibri")`.
 - **One palette per species**, eight colors named after plumage parts, the most striking patch first: `sunangel`,
   `ruby-topaz`, `starfrontlet`, `sapphire`, `violet-crowned` (its first color is the `crown`, then the white `throat`) and
   `broad-billed`. For the first four, the **gorget, crown, belly, mantle and rump are measured reflectance spectra** of males
@@ -158,7 +159,7 @@ colors by name.
 
 Some measured colors, mostly iridescent greens, blues and reds, lie outside the sRGB gamut (5.5 % of the database).
 Matplotlib only knows sRGB, so the palettes hold their **nearest sRGB color** (chroma reduced at constant OKLab lightness and
-hue) and keep the **exact color** separately: `rhdt_mpl.wide_css("colibri", "mosquitus crown")` returns
+hue) and keep the **exact color** separately: `rhdt_mpl.wide_css("colibri", "ruby")` returns
 `"oklch(0.4949 0.2091 12.29)"`, and `rhdt_mpl.WIDE` has all of them (for the colibri palettes and the measured patches of the
 species palettes). They are marked with a dot in the figure above. Umbruch accepts such colors in CSS (text, boxes) and
 writes them to the PDF in CIELAB or Rec. 2020, but **not yet in SVG**, which is what the backend draws lines, bars and
@@ -171,7 +172,7 @@ markers with; so figures currently show the sRGB stand-ins.
 ```python
 from rhdt_mpl import oklab
 
-oklab.muted("rhdt:colibri:pyra gorget")    # same hue, less chroma, a bit lighter: for secondary lines
+oklab.muted("rhdt:colibri:amber")        # same hue, less chroma, a bit lighter: for secondary lines
 oklab.family("rhdt:colibri:coeruleogularis gorget", 3)    # three lightness steps of one hue, dark to light
 oklab.lighten("#007cb3", 0.1)               # +0.1 OKLab lightness
 oklab.darken("#007cb3", 0.1)

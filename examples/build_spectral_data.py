@@ -2,11 +2,11 @@
 
 The colibri palettes use only colors measured in the Colombian hummingbird reflectance database (Beltran, Shultz & Parra,
 Dryad doi:10.5061/dryad.02v6wwq8w), mixing species and patches freely:
-  colibri       eight bright colors, the most vivid one per hue sector (with a preference for well measured ones),
-                with the blue chosen to be as far as possible from the others; ordered so the first k are best separated
+  colibri       eight bright, vivid colors, one per hue (PICKS below), each at least 3:1 against white (WCAG, for
+                lines and markers on a white background), ordered so that the first k are best separated
   colibri-dark  for each of them a darker partner of similar hue (lightness lower by 0.08 to 0.26), also from the data,
-                chosen jointly so that the eight darker colors are as distinct from each other as possible, and
-                ordered by their own separation (PARTNERS records which bright color each one partners)
+                chosen jointly so that the eight darker colors are as distinct from each other as possible; the
+                entries have the same names as their bright partners, in the same order
 Colors are the median spectrum of the specimens of one species, sex and patch (at least two specimens), converted with
 the CIE 1931 observer under D65.  A color outside the sRGB gamut keeps its exact value as an OKLCH string in WIDE; the
 hex in the palette is then its nearest sRGB color (chroma reduced at constant lightness and hue), made unique.
@@ -25,8 +25,26 @@ import colombia_spectra as cs                  # noqa: E402
 from rhdt_mpl import oklab as ok               # noqa: E402
 
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src", "rhdt_mpl", "spectral_data.py")
-SECTORS = [("red", 345, 30), ("orange", 30, 80), ("yellow-green", 95, 130), ("green", 132, 156), ("teal", 156, 215),
-           ("blue", 222, 272), ("violet", 272, 312), ("magenta", 318, 350)]
+# name -> (species, sex, patch): the bright palette.  The hues are crimson, amber, olive-yellow, green, teal, blue, violet and
+# magenta; chosen from the measured colors that are at least 3:1 against white and have a chroma of 0.13 or more, so that
+# the eight are as distinct as possible (the dataset has no bright yellow that is visible on white).
+PICKS = {
+    "ruby": ("Chrysolampis_mosquitus", "Males", "crown"),
+    "amber": ("Coeligena_bonapartei", "Males", "rump"),
+    "peridot": ("Eriocnemis_vestita", "Males", "rump"),
+    "emerald": ("Urosticte_benjamini", "Males", "gorget"),
+    "jade": ("Aglaiocercus_coelestis", "Females", "crown"),
+    "sapphire": ("Lepidopyga_coeruleogularis", "Males", "gorget"),
+    "amethyst": ("Eriocnemis_vestita", "Males", "gorget"),
+    "tourmaline": ("Heliangelus_strophianus", "Males", "gorget"),
+}
+MIN_CONTRAST = 3.0
+
+
+def contrast_with_white(hexv):
+    c = np.array([int(hexv[i:i + 2], 16) / 255 for i in (1, 3, 5)])
+    lin = np.where(c <= 0.04045, c / 12.92, ((c + 0.055) / 1.055) ** 2.4)
+    return 1.05 / (0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2] + 0.05)
 
 
 def hue_dist(a, b):
@@ -59,19 +77,13 @@ def in_sector(c, lo, hi):
 
 
 def pick_bright(cand):
-    chosen = {}
-    for name, lo, hi in SECTORS:
-        pool = [c for c in cand if in_sector(c, lo, hi) and c["L"] >= 0.48 and c["C"] >= 0.12]
-        if name != "blue":
-            chosen[name] = max(pool, key=lambda c: c["C"] + 0.004 * min(c["n"], 10))
-    others = list(chosen.values())
-    pool = [c for c in cand if in_sector(c, 222, 272) and c["L"] >= 0.5 and c["C"] >= 0.12]
-    chosen["blue"] = max(pool, key=lambda c: min(dist(c, o) for o in others))
-    S = list(chosen.values())
-    order = [max(S, key=lambda c: c["C"])]
-    while len(order) < len(S):
-        order.append(max((c for c in S if c not in order), key=lambda c: min(dist(c, o) for o in order)))
-    return order
+    out = {}
+    for name, (sp, sex, patch) in PICKS.items():
+        c = next(c for c in cand if (c["species"], c["sex"], c["patch"]) == (sp, sex, patch))
+        assert contrast_with_white(c["stand"]) >= MIN_CONTRAST, (name, c["stand"])
+        c["name"] = name
+        out[name] = c
+    return order_by_separation(list(out.values()))
 
 
 def pick_dark(cand, bright):
@@ -115,10 +127,6 @@ def order_by_separation(S):
     return best[1]
 
 
-def name_of(c):
-    return f"{c['species'].split('_')[1]} {c['patch']}"
-
-
 def unique_hex(h, used):
     """The hex itself, or the nearest one that no other color uses (so a stand-in can be told from other colors)."""
     r, g, b = (int(h[i:i + 2], 16) for i in (1, 3, 5))
@@ -158,13 +166,13 @@ def main(data_dir):
     cand = candidates(data_dir)
     bright = pick_bright(cand)
     dark = pick_dark(cand, bright)
-    partners = {name_of(d): name_of(b) for b, d in zip(bright, dark)}      # dark color -> its bright partner
-    dark = order_by_separation(dark)
+    for b, d in zip(bright, dark):
+        d["name"] = b["name"]
     pal, wide, src, used = {}, {}, {}, set()
     for label, S in (("colibri", bright), ("colibri-dark", dark)):
         pal[label], wide[label], src[label] = {}, {}, {}
         for c in S:
-            nm = name_of(c)
+            nm = c["name"]
             hx = unique_hex(c["stand"], used)
             used.add(hx)
             pal[label][nm] = hx
@@ -189,9 +197,6 @@ def main(data_dir):
             lines.append(f'    "{label}": {{')
             lines += [f'        "{k}": "{v}",' for k, v in d.items()]
             lines.append("    },")
-    lines += ["}", "", "# dark color -> the bright color of colibri it is the darker partner of (colibri-dark is ordered by its own",
-              "# separation, not by its partners)", "PARTNERS = {"]
-    lines += [f'    "{k}": "{v}",' for k, v in partners.items()]
     lines += ["}", "", "SOURCES = {"]
     for label in ("colibri", "colibri-dark"):
         lines.append(f'    "{label}": {{')
@@ -203,7 +208,11 @@ def main(data_dir):
     for label in ("colibri", "colibri-dark"):
         print(label)
         for k, v in pal[label].items():
-            print(f"   {v}{'*' if k in wide[label] else ' '} {k:24s} {src[label][k]}")
+            print(f"   {v}{'*' if k in wide[label] else ' '} {k:11s} contrast {contrast_with_white(v):.1f}  {src[label][k]}")
+    order = [c for c in bright]
+    print("colibri first-k min distance:", [round(min(dist(order[a], order[b]) for a in range(k) for b in range(a)), 1)
+                                          for k in range(2, len(order) + 1)])
+    print("colibri-dark min distance:", round(min(dist(a, b) for a, b in itertools.combinations(dark, 2)), 1))
 
 
 if __name__ == "__main__":

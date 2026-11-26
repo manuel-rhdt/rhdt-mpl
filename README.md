@@ -12,5 +12,4 @@ Importing selects `module://umbruch_matplotlib`, registers the Noto fonts with M
 `--font-dir` pointing at the bundled fonts (the backend's own default bridge uses `--no-system-fonts` and would not
 see them), and applies `rhdt.mplstyle`. `rhdt_mpl.use(backend=False)` keeps the current backend.
 
-Fonts: Noto Sans, Noto Sans Mono and Noto Serif (OFL 1.1, see `fonts/LICENSE-Noto-OFL.txt`). Math is set by the backend
-in STIX Two Math; this package does not change that. Palettes: `rhdt_mpl.PALETTES`.
+Fonts: Noto Sans, Noto Sans Mono and Noto Serif (OFL 1.1, see `fonts/LICENSE-Noto-OFL.txt`). Math is set in Noto Sans Math through `umbruch_matplotlib.config.math_font` (needs the backend change that adds it). Palettes: `rhdt_mpl.PALETTES`.

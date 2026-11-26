@@ -19,6 +19,7 @@ from .palettes import PALETTES, DEFAULT_PALETTE, DEFAULT_CYCLE, colors
 __all__ = ["use", "set_palette", "palette", "PALETTES", "font_dir"]
 
 BACKEND = "module://umbruch_matplotlib"
+MATH_FONT = "Noto Sans Math"   # needs a backend with config.math_font
 
 _here = resources.files(__package__)
 font_dir = os.fspath(_here / "fonts")
@@ -45,6 +46,7 @@ def _install_bridge():
     """Start umbruch with the bundled fonts (the backend's default bridge uses
     ``--no-system-fonts`` and would only see umbruch's built-in families)."""
     import umbruch_matplotlib as um
+    um.config.math_font = MATH_FONT
     if um.config.bridge is not None:
         return
     exe = um.find_umbruch()

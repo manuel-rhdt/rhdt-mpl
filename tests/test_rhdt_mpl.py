@@ -21,7 +21,7 @@ def test_backend_and_fonts(tmp_path=None):
     fig.savefig(out)
     names = subprocess.run(["pdffonts", out], capture_output=True, text=True).stdout
     print(names)
-    assert "Noto" in names and "DejaVu" not in names
+    assert "NotoSansMath" in names and "STIX" not in names and "DejaVu" not in names
 
 
 if __name__ == "__main__":

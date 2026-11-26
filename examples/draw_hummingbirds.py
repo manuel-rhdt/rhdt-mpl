@@ -177,7 +177,8 @@ def bird(key):
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    for key in ("anna", "ruby-throated", "rufous", "costa", "crimson-topaz", "sparkling-violetear"):
+    # anna.svg is drawn separately, after a reference photograph, by examples/draw_anna.py
+    for key in ("ruby-throated", "rufous", "costa", "crimson-topaz", "sparkling-violetear"):
         with open(os.path.join(OUT, f"{key}.svg"), "w") as fh:
             fh.write(bird(key))
         print("wrote", key)

@@ -114,7 +114,9 @@ plt.imshow(z, cmap="ok_blue_r")      # single-hue: ok_blue, ok_teal, ok_green, o
 <tr><td align="center"><img src="docs/birds/costa.svg" width="260" alt="costa hummingbird"><br><code>costa</code></td><td align="center"><img src="docs/birds/crimson-topaz.svg" width="260" alt="crimson-topaz hummingbird"><br><code>crimson-topaz</code></td><td align="center"><img src="docs/birds/sparkling-violetear.svg" width="260" alt="sparkling-violetear hummingbird"><br><code>sparkling-violetear</code></td></tr>
 </table>
 
-The birds are drawn in SVG from their own palettes (`examples/draw_hummingbirds.py`).
+Anna's hummingbird is drawn by hand after a reference photograph (`examples/draw_anna.py`; `examples/trace_hummingbird.py`
+traces a photograph into color regions as a reference); the others are drawn from their palettes
+(`examples/draw_hummingbirds.py`).
 
 Two kinds of palette, both named after hummingbirds:
 

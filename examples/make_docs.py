@@ -21,6 +21,7 @@ jobs = [("showcase_colors.py", ["colors", "colormaps"]),
 
 # the hummingbird illustrations are written as SVG directly
 subprocess.run([sys.executable, os.path.join(here, "draw_hummingbirds.py")], check=True)
+subprocess.run([sys.executable, os.path.join(here, "draw_anna.py")], check=True)
 
 with tempfile.TemporaryDirectory() as tmp:
     for script, names in jobs:

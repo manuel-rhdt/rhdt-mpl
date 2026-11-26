@@ -62,9 +62,11 @@ def candidates(data_dir):
             continue
         lin = cs.spectrum_to_linear_rgb(np.median(spec[idx], axis=0))
         L, C, h, wide = cs.exact_oklch(lin)
-        lab = np.array([L, C * np.cos(np.radians(h)), C * np.sin(np.radians(h))])
-        out.append(dict(species=sp, sex=sex, patch=cs.PATCHES[code], n=len(idx), L=L, C=C, h=h, wide=wide, lab=lab,
-                        stand=ok.oklch(L, C, h)))
+        stand = ok.oklch(L, C, h)
+        # distances are measured between the colors as they are DISPLAYED (the sRGB stand-ins), not the exact ones: for a
+        # color outside the gamut the stand-in has less chroma, so displayed colors are closer together than exact ones
+        out.append(dict(species=sp, sex=sex, patch=cs.PATCHES[code], n=len(idx), L=L, C=C, h=h, wide=wide,
+                        lab=np.array(ok.to_oklab(stand)), stand=stand))
     return out
 
 

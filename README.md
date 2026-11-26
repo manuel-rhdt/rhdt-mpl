@@ -121,9 +121,12 @@ hummingbirds:
   mixing species and patches freely. `colibri` has eight bright, vivid colors, one per hue, named after gems: `ruby`,
   `amber`, `peridot` (the olive-yellow), `emerald`, `jade`, `sapphire`, `amethyst` and `tourmaline`. Every one is at least 3:1
   against white (the WCAG minimum for graphics), so they stay visible as thin lines on a screen; the dataset has no bright yellow
-  that meets this, so the yellowish color is an olive. They are ordered so that the first k colors are the best separated
-  (the first four are 17 or more apart, in OKLab times 100, the last pair 14.5). `colibri-dark` gives each of them a darker
-  partner of similar hue, with the same name and in the same order, for secondary or background series. Each color comes
+  that meets this, so the yellowish color is an olive. The first six colors are the distinct ones: as displayed they are at
+  least 16.9 apart (OKLab, times 100), and no pair shares a hue family. The last two, `jade` and `peridot`, add a teal and an
+  olive-yellow and are allowed to resemble earlier colors (`jade` is 10.3 from `sapphire`, `peridot` 9.4 from `emerald`); from
+  this dataset there are only about six clearly distinct bright hues, and a more distinct olive would be a dark, drab one.
+  `colibri-dark` gives each of them a darker partner of similar hue, with the same
+  name and in the same order, for secondary or background series. Each color comes
   from one species and patch: `rhdt_mpl.SOURCES["colibri"]` lists species, sex, patch and the number of specimens, for example
   `ruby` is the crown of the ruby-topaz (4 specimens) and `amethyst` the gorget of the glowing puffleg (15).
   Use them by name, `rhdt:colibri:ruby` and `rhdt:colibri-dark:ruby`, or as cycles: `rhdt_mpl.set_cycle("colibri")`.

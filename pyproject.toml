@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rhdt-mpl"
+version = "0.1.0"
+description = "Personal Matplotlib defaults: umbruch backend, Noto fonts, Tol / Okabe-Ito palettes"
+requires-python = ">=3.9"
+dependencies = ["matplotlib>=3.8", "umbruch-matplotlib", "umbruch>=0.5.0"]
+
+[project.optional-dependencies]
+math = ["latex2mathml>=3.77"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+rhdt_mpl = ["fonts/*.ttf", "fonts/LICENSE-*.txt", "*.mplstyle"]

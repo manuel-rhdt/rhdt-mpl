@@ -1,8 +1,10 @@
-"""Ruby-throated hummingbird (Archilochus colubris), male in flight, drawn by hand in SVG.
+"""Ruby-throated hummingbird (Archilochus colubris), male in flight, drawn by hand in SVG in the same pose as
+draw_anna.py, so that the two read as a pair.
 
-Same technique as draw_anna.py: smooth closed curves through hand-placed control points (placed on a reference
-photograph, which is not needed to run this), gradients and feather texture, all colors from the palette.
-Coordinates are those of a 941 x 1082 frame.
+The anatomy (body, head, wing, feet) is Anna's; the markings and colors follow a reference photograph of a
+ruby-throated hummingbird (not needed to run this): orange-red gorget over a dark chin, white collar, grey-olive
+crown, olive back and flanks, buff belly, mauve-brown wing and a dark forked tail with a purple sheen.
+Coordinates are those of a 491 x 400 frame.
 
     python examples/draw_ruby_throated.py          # writes docs/birds/ruby-throated.svg
 """
@@ -11,6 +13,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import draw_anna as A                          # noqa: E402
 from draw_anna import smooth, lin, scales      # noqa: E402
 from rhdt_mpl import oklab                     # noqa: E402
 from rhdt_mpl.palettes import PALETTES         # noqa: E402
@@ -19,173 +22,120 @@ OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
 P = PALETTES["ruby-throated"]
 L, D, M = oklab.lighten, oklab.darken, oklab.mix
 
-# ------------------------------------------------------------------ shapes (hand-placed control points)
-BILL = "M556,70 C500,61 420,64 338,72 C420,75 500,81 556,94 Z"
-HEAD = [(540, 92), (548, 52), (570, 22), (610, 4), (660, 0), (712, 6), (752, 30), (776, 72), (790, 112),
-        (782, 136), (700, 130), (640, 118), (580, 112), (548, 108)]
-CROWN = [(548, 52), (570, 22), (610, 4), (660, 0), (712, 6), (752, 30), (770, 62), (730, 48), (680, 40),
-         (630, 38), (590, 44), (560, 58)]
-GORGET = [(546, 112), (600, 118), (660, 126), (720, 132), (774, 118), (782, 150), (764, 196), (724, 228),
-          (684, 248), (662, 268), (640, 256), (612, 248), (590, 232), (570, 200), (554, 160)]
-COLLAR = [(570, 200), (600, 240), (640, 260), (662, 272), (690, 250), (730, 226), (770, 190), (790, 168),
-          (802, 230), (780, 272), (700, 292), (620, 302), (590, 292), (575, 250)]
-BODY = [(548, 108), (560, 150), (580, 230), (590, 300), (596, 380), (604, 460), (612, 520), (640, 560),
-        (690, 600), (720, 650), (730, 720), (740, 800), (760, 850), (800, 860), (850, 820), (880, 740),
-        (905, 660), (930, 600), (940, 520), (935, 440), (915, 360), (890, 300), (860, 240), (830, 190),
-        (800, 140), (778, 110), (774, 70)]
-BACK = [(778, 110), (800, 140), (830, 190), (860, 240), (890, 300), (915, 360), (935, 440), (940, 520),
-        (930, 600), (905, 660), (884, 640), (892, 560), (882, 460), (862, 380), (832, 320), (804, 260),
-        (792, 200), (784, 150)]
-BELLY = [(640, 540), (700, 560), (760, 598), (830, 618), (882, 640), (902, 682), (882, 760), (852, 820),
-         (802, 860), (762, 850), (742, 800), (732, 722), (714, 652), (682, 602), (642, 572)]
-FLANK = [(600, 420), (640, 430), (662, 480), (656, 540), (630, 562), (608, 522)]
-WING_L = [(572, 175), (530, 165), (450, 150), (380, 138), (300, 125), (200, 120), (120, 128), (60, 156),
-          (24, 182), (4, 196), (24, 206), (60, 226), (100, 258), (200, 300), (300, 340), (400, 390), (480, 432), (540, 456),
-          (576, 448), (598, 425), (600, 330), (590, 240)]
-WING_L_FEATHERS = [((560, 300), (14, 202)), ((560, 310), (100, 256)), ((562, 318), (200, 298)),
-                   ((566, 326), (300, 338)), ((570, 336), (400, 388)), ((574, 346), (480, 430)),
-                   ((560, 230), (60, 170))]
-WING_R = [(598, 300), (650, 272), (740, 262), (820, 268), (870, 286), (900, 330), (905, 400), (895, 470),
-          (880, 520), (840, 538), (760, 530), (690, 512), (640, 488), (610, 450), (600, 380)]
-WING_R_FEATHERS = [((620, 300), (880, 520)), ((640, 292), (900, 450)), ((660, 284), (902, 380)),
-                   ((620, 320), (840, 536))]
-TAIL_FAN = [((650, 575), (312, 698), 66), ((660, 618), (352, 782), 72), ((676, 660), (440, 856), 74),
-            ((694, 696), (556, 885), 70), ((708, 726), (650, 886), 56)]
-TAIL_FORK = [((862, 690), (852, 962), 58), ((828, 730), (838, 1004), 62), ((770, 750), (760, 1060), 62),
-             ((800, 750), (800, 1080), 62)]
-UNDERTAIL = [(655, 835), (690, 825), (712, 850), (705, 885), (675, 890), (655, 870)]
-FEET = [  # (leg, toes) per foot
-    ("M612,548 C606,570 606,596 612,620", ["M612,620 C614,632 622,640 632,636", "M612,622 C606,634 610,644 620,644"]),
-    ("M752,598 C740,610 732,628 730,646", ["M730,646 C728,660 736,670 748,668", "M732,648 C720,656 716,670 726,676",
-                                           "M736,644 C748,640 758,648 760,660"]),
-]
-EYE = (675.0, 80.0, 19.0)
+# ------------------------------------------------------------------ shapes: Anna's anatomy, ruby-throated markings
+BODY, WING, COVERTS, BILL, EYE, FEET, PRIMARIES = A.BODY, A.WING, A.COVERTS, A.BILL, A.EYE, A.FEET, A.PRIMARIES
+CROWN = [(62, 34), (84, 21), (111, 21), (134, 27), (150, 42), (156, 60), (140, 52), (118, 40), (92, 38), (70, 42)]
+FACE = [(60, 44), (84, 38), (106, 40), (122, 44), (130, 54), (124, 62), (108, 64), (90, 62), (72, 60), (61, 56)]
+CHIN = [(62, 56), (80, 60), (98, 63), (90, 70), (74, 70), (64, 66)]               # dark chin line under the bill
+GORGET = [(66, 64), (92, 64), (118, 66), (140, 64), (154, 60), (162, 78), (166, 98), (162, 114), (146, 120),
+          (124, 116), (102, 112), (84, 106), (72, 94), (66, 80)]
+COLLAR = [(66, 96), (80, 108), (104, 116), (128, 121), (150, 124), (166, 118), (172, 134), (160, 150),
+          (128, 156), (98, 154), (76, 146), (66, 128)]
+BELLY = [(64, 140), (96, 150), (128, 154), (160, 148), (166, 176), (156, 214), (140, 244), (124, 262), (104, 254),
+         (86, 230), (74, 200), (66, 170)]
+FLANK = [(118, 150), (150, 130), (178, 130), (202, 148), (220, 182), (229, 222), (233, 262), (226, 282), (206, 284),
+         (184, 272), (164, 256), (146, 236), (136, 210), (130, 182), (124, 162)]
+LOWER = [(94, 236), (116, 244), (140, 256), (166, 266), (180, 282), (172, 294), (148, 296), (126, 288), (106, 270)]
+# forked tail: outer feathers longer than the central ones
+TAIL = [((214, 300), (262, 394), 24), ((238, 300), (292, 382), 24), ((222, 302), (264, 360), 22),
+        ((230, 302), (276, 360), 22)]
 
 
-def feather(base, tip, width, tip_round=0.55):
-    """Control points of a long feather from *base* to *tip* with a rounded tip."""
+def feather(base, tip, width, tip_round=0.35):
+    """Control points of a feather from *base* to *tip* with a rounded tip."""
     (bx, by), (tx, ty) = base, tip
     ux, uy = tx - bx, ty - by
     n = math.hypot(ux, uy)
     ux, uy = ux / n, uy / n
-    px, py = -uy, ux                                      # normal
-    w = width / 2
-    pts = [(bx + px * w * 0.8, by + py * w * 0.8),
-           (bx + ux * n * 0.5 + px * w, by + uy * n * 0.5 + py * w),
-           (tx - ux * w * tip_round + px * w * 0.85, ty - uy * w * tip_round + py * w * 0.85),
-           (tx, ty),
-           (tx - ux * w * tip_round - px * w * 0.85, ty - uy * w * tip_round - py * w * 0.85),
-           (bx + ux * n * 0.5 - px * w, by + uy * n * 0.5 - py * w),
-           (bx - px * w * 0.8, by - py * w * 0.8)]
-    return [(round(x, 1), round(y, 1)) for x, y in pts], (ux, uy, px, py, n, w)
-
-
-def barbs(base, frame, color, step=9, opacity=0.45):
-    """Barb lines from the rachis toward both vanes of a feather."""
-    bx, by = base
-    ux, uy, px, py, n, w = frame
-    out = []
-    for t in range(int(step * 1.5), int(n - step), step):
-        cx, cy = bx + ux * t, by + uy * t
-        for side in (1, -1):
-            ex = cx + px * side * w * 0.85 + ux * w * 0.6
-            ey = cy + py * side * w * 0.85 + uy * w * 0.6
-            out.append(f"M{cx:.1f},{cy:.1f} L{ex:.1f},{ey:.1f}")
-    return (f'<path d="{" ".join(out)}" stroke="{color}" stroke-width="0.9" fill="none" opacity="{opacity}"/>')
+    px, py, w = -uy, ux, width / 2
+    pts = [(bx + px * w * 0.8, by + py * w * 0.8), (bx + ux * n * 0.5 + px * w, by + uy * n * 0.5 + py * w),
+           (tx - ux * w * tip_round + px * w * 0.8, ty - uy * w * tip_round + py * w * 0.8), (tx, ty),
+           (tx - ux * w * tip_round - px * w * 0.8, ty - uy * w * tip_round - py * w * 0.8),
+           (bx + ux * n * 0.5 - px * w, by + uy * n * 0.5 - py * w), (bx - px * w * 0.8, by - py * w * 0.8)]
+    return [(round(x, 1), round(y, 1)) for x, y in pts]
 
 
 def draw():
     g = P["gorget"]
-    tail_dark = M(P["tail"], P["bill"], 0.65)
+    olive = P["back"]
+    sparkle = M(olive, "#c8c050", .55)
     defs = [
-        lin("gorget", [(0, L(g, .08)), (0.4, g), (0.8, D(g, .1)), (1, D(g, .18))], 560, 110, 770, 260),
-        lin("head", [(0, L(P["crown"], .04)), (1, D(P["crown"], .14))], 550, 0, 780, 130),
-        lin("crown", [(0, M(P["crown"], P["back"], .5)), (1, D(M(P["crown"], P["back"], .4), .08))], 550, 0, 770, 60),
-        lin("collar", [(0, D(P["collar"], .06)), (0.5, P["collar"]), (1, D(P["collar"], .04))], 570, 200, 800, 300),
-        lin("body", [(0, D(P["belly"], .12)), (1, D(P["back"], .06))], 600, 300, 900, 600),
-        lin("back", [(0, D(P["back"], .06)), (0.5, P["back"]), (1, L(M(P["back"], "#b8b04a", .3), .04))], 790, 120, 930, 560),
-        lin("belly", [(0, D(P["belly"], .06)), (0.5, P["belly"]), (1, L(P["belly"], .05))], 650, 560, 880, 820),
-        lin("flank", [(0, D(P["wing"], .14)), (1, D(P["wing"], .2))], 600, 420, 660, 560),
-        lin("wingL", [(0, D(P["wing"], .14)), (0.35, D(P["wing"], .04)), (0.75, P["wing"]), (1, D(P["wing"], .06))],
-            590, 300, 0, 200),
-        lin("wingR", [(0, D(P["wing"], .34)), (0.25, D(P["wing"], .2)), (0.7, D(P["wing"], .14)), (1, D(P["wing"], .08))],
-            600, 270, 880, 540),
-        lin("tail", [(0, D(P["tail"], .16)), (0.55, D(P["tail"], .06)), (1, P["tail"])], 680, 650, 320, 820),
-        lin("fork", [(0, D(M(P["tail"], P["wing"], .5), .18)), (0.5, D(M(P["tail"], P["wing"], .4), .3)), (1, D(tail_dark, .08))],
-            780, 700, 800, 1080),
-        lin("undertail", [(0, M(P["belly"], "#e8d070", .6)), (1, M(P["belly"], "#c8a84a", .5))], 655, 825, 712, 890),
-        lin("bill", [(0, D(P["bill"], .12)), (0.7, P["bill"]), (1, L(P["bill"], .06))], 556, 80, 338, 72),
-        '<radialGradient id="vol" gradientUnits="userSpaceOnUse" cx="680" cy="420" r="420">'
-        '<stop offset="0" stop-color="#ffffff" stop-opacity="0.12"/><stop offset="0.55" stop-color="#ffffff" stop-opacity="0"/>'
-        '<stop offset="1" stop-color="#000000" stop-opacity="0.25"/></radialGradient>',
+        lin("gorget", [(0, L(g, .08)), (0.4, g), (0.8, D(g, .1)), (1, D(g, .2))], 70, 62, 166, 122),
+        lin("crown", [(0, M(P["crown"], olive, .4)), (1, D(M(P["crown"], olive, .5), .06))], 62, 20, 156, 60),
+        lin("face", [(0, D(P["crown"], .3)), (1, D(P["crown"], .22))], 60, 40, 130, 64),
+        lin("collar", [(0, P["collar"]), (1, D(P["collar"], .05))], 66, 100, 172, 156),
+        lin("belly", [(0, L(P["belly"], .03)), (1, D(P["belly"], .06))], 70, 140, 160, 260),
+        lin("flank", [(0, L(olive, .04)), (0.5, olive), (1, D(olive, .12))], 120, 135, 225, 280),
+        lin("lower", [(0, P["belly"]), (1, D(P["belly"], .08))], 96, 236, 178, 296),
+        lin("body", [(0, P["belly"]), (1, D(M(P["belly"], olive, .6), .06))], 70, 60, 240, 300),
+        lin("wing", [(0, D(P["wing"], .2)), (0.3, D(P["wing"], .08)), (0.65, P["wing"]), (1, L(P["wing"], .06))],
+            200, 140, 489, 130),
+        lin("coverts", [(0, D(P["wing"], .26)), (1, D(P["wing"], .14))], 196, 120, 272, 168),
+        lin("tail", [(0, D(M(P["tail"], P["bill"], .3), .1)), (0.6, D(P["tail"], .14)), (1, D(P["tail"], .24))],
+            214, 300, 290, 392),
+        lin("bill", [(0, D(P["bill"], .14)), (0.7, P["bill"]), (1, L(P["bill"], .06))], 70, 30, 2, 1),
+        '<radialGradient id="vol" gradientUnits="userSpaceOnUse" cx="110" cy="130" r="190">'
+        '<stop offset="0" stop-color="#ffffff" stop-opacity="0.14"/><stop offset="0.5" stop-color="#ffffff" stop-opacity="0"/>'
+        '<stop offset="1" stop-color="#000000" stop-opacity="0.26"/></radialGradient>',
         f'<clipPath id="c-body"><path d="{smooth(BODY)}"/></clipPath>',
+        f'<clipPath id="c-flank"><path d="{smooth(FLANK)}"/></clipPath>',
         f'<clipPath id="c-gorget"><path d="{smooth(GORGET)}"/></clipPath>',
-        f'<clipPath id="c-head"><path d="{smooth(HEAD)}"/></clipPath>',
-        f'<clipPath id="c-back"><path d="{smooth(BACK)}"/></clipPath>',
-        '<filter id="blur1" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="1.2"/></filter>',
-        '<filter id="blur3" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="4"/></filter>',
-        '<filter id="motion" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="3 1.5"/></filter>',
+        f'<clipPath id="c-crown"><path d="{smooth(CROWN)}"/></clipPath>',
+        '<filter id="soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2"/></filter>',
+        '<filter id="blur1" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="1"/></filter>',
+        '<filter id="blur2" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>',
     ]
-    s = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 941 1082" width="941" height="1082">',
+    s = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 491 400" width="491" height="400">',
          "<defs>" + "".join(defs) + "</defs>"]
-    # spread tail feathers (behind), each with rachis and barbs
-    for base, tip, w in TAIL_FAN:
-        pts, frame = feather(base, tip, w, tip_round=0.3)
-        s.append(f'<path d="{smooth(pts)}" fill="url(#tail)" stroke="{M(L(P["tail"], .16), P["wing"], .35)}" stroke-width="3"/>')
-        s.append(barbs(base, frame, D(P["tail"], .16)))
-        s.append(f'<path d="M{base[0]},{base[1]} L{tip[0]},{tip[1]}" stroke="{L(P["tail"], .2)}" stroke-width="1.6" opacity="0.7"/>')
-    # far wing, behind the body
-    s.append(f'<path d="{smooth(WING_L)}" fill="url(#wingL)"/>')
-    s += [f'<path d="M{a[0]},{a[1]} Q{(a[0] + b[0]) / 2:.0f},{(a[1] + b[1]) / 2 - 8:.0f} {b[0]},{b[1]}" '
-          f'stroke="{D(P["wing"], .18)}" stroke-width="1.4" fill="none" opacity="0.55"/>' for a, b in WING_L_FEATHERS]
-    s.append(f'<path d="M570,172 C450,150 300,126 120,126" stroke="{D(P["wing"], .22)}" stroke-width="3" fill="none" opacity="0.5"/>')
     # forked tail
-    for base, tip, w in TAIL_FORK:
-        pts, frame = feather(base, tip, w, tip_round=0.3)
-        s.append(f'<path d="{smooth(pts)}" fill="url(#fork)" stroke="{M(P["tail"], P["bill"], .4)}" stroke-width="1"/>')
-        s.append(f'<path d="M{base[0]},{base[1]} L{tip[0]},{tip[1]}" stroke="{L(P["tail"], .05)}" stroke-width="1.2" opacity="0.5"/>')
-    # body
+    for base, tip, w in TAIL:
+        s.append(f'<path d="{smooth(feather(base, tip, w))}" fill="url(#tail)" '
+                 f'stroke="{M(L(P["tail"], .1), P["wing"], .4)}" stroke-width="1.2"/>')
+        s.append(f'<path d="M{base[0]},{base[1]} L{tip[0]},{tip[1]}" stroke="{L(P["tail"], .1)}" '
+                 f'stroke-width="0.9" opacity="0.6"/>')
+    # body and plumage
     s.append(f'<path d="{BILL}" fill="url(#bill)"/>')
     s.append(f'<path d="{smooth(BODY)}" fill="url(#body)"/>')
     s.append('<g clip-path="url(#c-body)">')
-    s.append(f'<path d="{smooth(BELLY)}" fill="url(#belly)" filter="url(#blur3)"/>')
-    s.append(f'<path d="{smooth(FLANK)}" fill="url(#flank)" filter="url(#blur3)" opacity="0.8"/>')
-    s.append(f'<path d="{smooth(BACK)}" fill="url(#back)" filter="url(#blur1)"/>')
-    s.append('<g clip-path="url(#c-back)">' + scales((780, 110, 940, 660), D(P["back"], .14), step=11, size=(3, 5),
-                                                         opacity=(0.3, 0.7), seed=11, width=1.4) + "</g>")
-    s.append(f'<path d="{smooth(COLLAR)}" fill="url(#collar)" filter="url(#blur1)"/>')
+    s.append(f'<path d="{smooth(BELLY)}" fill="url(#belly)" filter="url(#soft)"/>')
+    s.append(f'<path d="{smooth(LOWER)}" fill="url(#lower)" filter="url(#soft)"/>')
+    s.append(f'<path d="{smooth(FLANK)}" fill="url(#flank)" filter="url(#soft)"/>')
+    s.append('<g clip-path="url(#c-flank)">' +
+             scales((118, 128, 234, 286), D(olive, .16), seed=21) +
+             scales((122, 134, 230, 280), sparkle, step=9, size=(1.4, 2.4), opacity=(0.25, 0.6), seed=22, width=0.9)
+             + "</g>")
+    s.append(f'<path d="{smooth(A.TUFT)}" fill="{P["collar"]}" filter="url(#blur2)" opacity="0.9"/>')
     s.append(f'<path d="{smooth(BODY)}" fill="url(#vol)"/>')
-    s.append("</g>")
-    s.append(f'<path d="{smooth(UNDERTAIL)}" fill="url(#undertail)" filter="url(#blur3)" opacity="0.75"/>')
     # head
-    s.append(f'<path d="{smooth(HEAD)}" fill="url(#head)"/>')
-    s.append('<g clip-path="url(#c-head)">')
-    s.append(f'<path d="{smooth(CROWN)}" fill="url(#crown)" filter="url(#blur3)"/>')
-    s.append(scales((545, 0, 780, 120), D(P["crown"], .16), step=9, size=(2, 3.4), opacity=(0.2, 0.55), seed=12, width=1.1))
-    s.append(scales((545, 0, 780, 60), M(P["back"], "#c8c050", .5), step=13, size=(1.6, 2.6), opacity=(0.2, 0.5), seed=13))
-    s.append("</g>")
+    s.append(f'<path d="{smooth(COLLAR)}" fill="url(#collar)" filter="url(#blur1)"/>')
+    s.append(f'<path d="{smooth(CROWN)}" fill="url(#crown)" filter="url(#blur1)"/>')
+    s.append('<g clip-path="url(#c-crown)">' +
+             scales((60, 18, 160, 62), D(P["crown"], .18), step=5, size=(1.2, 2.2), opacity=(0.25, 0.6), seed=23,
+                    width=0.9) +
+             scales((60, 18, 160, 62), sparkle, step=8, size=(1, 1.8), opacity=(0.3, 0.7), seed=24, width=0.9) + "</g>")
+    s.append(f'<path d="{smooth(FACE)}" fill="url(#face)" filter="url(#blur2)"/>')
     s.append(f'<path d="{smooth(GORGET)}" fill="url(#gorget)"/>')
     s.append('<g clip-path="url(#c-gorget)">' +
-             scales((540, 110, 790, 275), L(g, .14), step=11, size=(3.4, 5.6), opacity=(0.35, 0.85), seed=14, width=1.6) +
-             scales((546, 116, 790, 275), D(g, .16), step=11, size=(3, 5), opacity=(0.3, 0.6), seed=15, width=1.3) + "</g>")
+             scales((64, 60, 168, 124), L(g, .14), step=6, size=(1.8, 3.0), opacity=(0.3, 0.8), seed=25) +
+             scales((64, 63, 168, 124), D(g, .16), step=6, size=(1.6, 2.6), opacity=(0.2, 0.5), seed=26, width=0.8)
+             + "</g>")
+    s.append(f'<path d="{smooth(CHIN)}" fill="{D(P["crown"], .36)}" filter="url(#blur1)"/>')
+    s.append("</g>")
     ex, ey, er = EYE
-    s += [f'<circle cx="{ex}" cy="{ey}" r="{er + 3}" fill="{D(P["crown"], .3)}"/>',
+    s += [f'<circle cx="{ex}" cy="{ey}" r="{er + 1.2}" fill="{D(P["crown"], .4)}"/>',
           f'<circle cx="{ex}" cy="{ey}" r="{er}" fill="#0a0909"/>',
-          f'<circle cx="{ex - 6}" cy="{ey - 7}" r="5" fill="#ffffff" opacity="0.9"/>',
-          f'<ellipse cx="{ex + 30}" cy="{ey + 8}" rx="6" ry="4" fill="{P["collar"]}" opacity="0.8"/>']
+          f'<circle cx="{ex - 2.2}" cy="{ey - 2.3}" r="1.9" fill="#ffffff" opacity="0.9"/>',
+          f'<ellipse cx="{ex + 13}" cy="{ey + 3}" rx="2.6" ry="1.7" fill="{P["collar"]}" opacity="0.85"/>']
+    # wing
+    s.append(f'<path d="{smooth(WING)}" fill="url(#wing)" opacity="0.96" filter="url(#blur1)"/>')
+    s.append(f'<path d="{smooth(COVERTS)}" fill="url(#coverts)" filter="url(#blur1)"/>')
+    s += [f'<path d="M{a[0]},{a[1]} Q{(a[0] + b[0]) / 2:.0f},{(a[1] + b[1]) / 2 - 6:.0f} {b[0]},{b[1]}" '
+          f'stroke="{D(P["wing"], .2)}" stroke-width="1.1" fill="none" opacity="0.55"/>' for a, b in PRIMARIES]
+    s.append(f'<path d="M200,128 C260,114 360,104 470,106" stroke="{D(P["wing"], .3)}" stroke-width="2" '
+             f'fill="none" opacity="0.45"/>')
     # feet
-    for leg, toes in FEET:
-        s.append(f'<path d="{leg}" stroke="{D(P["crown"], .14)}" stroke-width="18" fill="none" stroke-linecap="round"/>')
-        s.append(f'<path d="{leg}" stroke="{D(P["crown"], .28)}" stroke-width="18" fill="none" stroke-dasharray="3 5" opacity="0.6"/>')
-        s += [f'<path d="{t}" stroke="{D(P["crown"], .3)}" stroke-width="7" fill="none" stroke-linecap="round"/>' for t in toes]
-        s += [f'<circle cx="{t.split()[-1].split(",")[0]}" cy="{t.split()[-1].split(",")[1]}" r="3.4" fill="#141210"/>' for t in toes]
-    # near wing, in front, blurred by motion
-    s.append(f'<path d="{smooth(WING_R)}" fill="url(#wingR)" opacity="0.92" filter="url(#motion)"/>')
-    s += [f'<path d="M{a[0]},{a[1]} Q{(a[0] + b[0]) / 2:.0f},{(a[1] + b[1]) / 2 - 10:.0f} {b[0]},{b[1]}" '
-          f'stroke="{D(P["wing"], .26)}" stroke-width="2" fill="none" opacity="0.35" filter="url(#motion)"/>'
-          for a, b in WING_R_FEATHERS]
-    s.append(f'<path d="M604,300 C660,272 760,262 868,284" stroke="{D(P["wing"], .42)}" stroke-width="10" fill="none" '
-             f'stroke-linecap="round" opacity="0.6" filter="url(#motion)"/>')
+    s += [f'<path d="{f}" stroke="{D(P["crown"], .4)}" stroke-width="2.4" fill="none" stroke-linecap="round"/>'
+          for f in FEET]
     s.append("</svg>")
     return "\n".join(s)
 

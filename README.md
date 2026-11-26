@@ -114,8 +114,8 @@ plt.imshow(z, cmap="ok_blue_r")      # single-hue: ok_blue, ok_teal, ok_green, o
 <tr><td align="center"><img src="docs/birds/costa.svg" width="260" alt="costa hummingbird"><br><code>costa</code></td><td align="center"><img src="docs/birds/crimson-topaz.svg" width="260" alt="crimson-topaz hummingbird"><br><code>crimson-topaz</code></td><td align="center"><img src="docs/birds/sparkling-violetear.svg" width="260" alt="sparkling-violetear hummingbird"><br><code>sparkling-violetear</code></td></tr>
 </table>
 
-Anna's and the ruby-throated hummingbird are drawn by hand after reference photographs (`examples/draw_anna.py`,
-`examples/draw_ruby_throated.py`), and their palettes are sampled from the same photographs; `examples/trace_hummingbird.py`
+Anna's and the ruby-throated hummingbird are drawn by hand after reference photographs, in the same pose
+(`examples/draw_anna.py`, `examples/draw_ruby_throated.py`), and their palettes are sampled from the same photographs; `examples/trace_hummingbird.py`
 traces a photograph into color regions as a reference. The others are drawn from their palettes
 (`examples/draw_hummingbirds.py`).
 

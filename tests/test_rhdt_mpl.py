@@ -103,6 +103,21 @@ def test_default_cycle_is_colibri():
     assert mpl_cycle() == list(rhdt_mpl.PALETTES["colibri"].values())
 
 
+def test_wide_colors_reach_the_pdf():
+    import re, zlib, umbruch_matplotlib as um
+    assert um.config.wide_colors["#b60042"] == rhdt_mpl.wide_css("colibri", "ruby")
+    fig, ax = plt.subplots(figsize=(2, 1.5))
+    ax.plot([0, 1], [0, 1], color="rhdt:ruby", lw=4)
+    path = os.path.join(tempfile.mkdtemp(), "w.pdf")
+    fig.savefig(path)
+    plt.close(fig)
+    data = open(path, "rb").read()
+    assert b"/Lab" in data
+    streams = [zlib.decompress(m.group(1)) for m in re.finditer(rb"stream\r?\n(.*?)endstream", data, re.S)
+               if m.group(1)[:1] == b"x"]
+    assert any(re.search(rb"/CS\d+ (cs|CS)", s) for s in streams)
+
+
 def test_readme_lists_all_named_colors():
     import os
     readme = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "README.md")).read()

@@ -264,9 +264,14 @@ Some measured colors, mostly iridescent greens, blues and reds, lie outside the 
 Matplotlib only knows sRGB, so the palettes hold their **nearest sRGB color** (chroma reduced at constant OKLab lightness and
 hue) and keep the **exact color** separately: `rhdt_mpl.wide_css("colibri", "ruby")` returns
 `"oklch(0.4949 0.2091 12.29)"`, and `rhdt_mpl.WIDE` has all of them (for the colibri palettes and the measured patches of the
-species palettes). They are marked with a dot in the figure above. Umbruch accepts such colors in CSS (text, boxes) and
-writes them to the PDF in CIELAB or Rec. 2020, but **not yet in SVG**, which is what the backend draws lines, bars and
-markers with; so figures currently show the sRGB stand-ins.
+species palettes). They are marked with a dot in the figure above.
+
+In a PDF the exact colors are used. The backend (`umbruch_matplotlib.config.wide_colors`, filled by `rhdt_mpl.wide_colors()`)
+replaces each sRGB stand-in in the SVG by its `oklch()` string just before umbruch renders it, and umbruch (a version that reads
+wide colors in SVG) writes them as CIELAB colors, for lines, bars, markers and text alike. The replacement is by hex value, so a
+plain `"#b60042"` you pass yourself becomes the wide ruby too; and two entries with the same stand-in but different exact colors
+are left as sRGB. SVG output and any other Matplotlib backend show the sRGB stand-ins. On a screen or print that cannot show a
+wide color, the viewer maps it to its own gamut, so check that the difference matters for your medium before relying on it.
 
 ## Color helpers in OKLab
 

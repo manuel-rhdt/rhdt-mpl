@@ -69,3 +69,15 @@ def wide_css(palette, name):
     """The exact color of palette entry *name* as a CSS ``oklch()`` string when it lies outside the sRGB gamut (the hex
     in the palette is then its nearest sRGB color), else ``None``."""
     return WIDE.get(palette, {}).get(name)
+
+
+def wide_colors():
+    """``{sRGB stand-in hex: CSS color}`` for every palette entry outside sRGB.  A stand-in shared by two entries
+    must stand for the same exact color; otherwise it is left out (it would be ambiguous)."""
+    out, clash = {}, set()
+    for pal, entries in WIDE.items():
+        for name, css in entries.items():
+            hexval = PALETTES[pal][name].lower()
+            if out.setdefault(hexval, css) != css:
+                clash.add(hexval)
+    return {h: c for h, c in out.items() if h not in clash}

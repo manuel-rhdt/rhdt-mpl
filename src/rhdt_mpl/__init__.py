@@ -17,9 +17,9 @@ from matplotlib import font_manager as fm
 from . import okmaps  # registers ok_dusk, ok_orchid (+ _r)
 from . import oklab  # OKLab color helpers
 from .palettes import (PALETTES, DEFAULT_PALETTE, DEFAULT_CYCLE, OK_PRINT_LINESTYLES, colors, cycle,
-                       named_colors, wide_css, WIDE, SOURCES, PARTNERS)
+                       named_colors, wide_css, wide_colors, WIDE, SOURCES, PARTNERS)
 
-__all__ = ["use", "set_palette", "set_cycle", "cycle", "register_colors", "named_colors", "wide_css", "SOURCES", "PARTNERS", "palette", "panel_labels", "PALETTES", "font_dir",
+__all__ = ["use", "set_palette", "set_cycle", "cycle", "register_colors", "named_colors", "wide_css", "wide_colors", "SOURCES", "PARTNERS", "palette", "panel_labels", "PALETTES", "font_dir",
            "TWO_COLUMN", "oklab"]
 
 BACKEND = "module://umbruch_matplotlib"
@@ -78,6 +78,7 @@ def _install_bridge():
     ``--no-system-fonts`` and would only see umbruch's built-in families)."""
     import umbruch_matplotlib as um
     um.config.math_font = MATH_FONT
+    um.config.wide_colors = {**getattr(um.config, "wide_colors", {}), **wide_colors()}
     if um.config.bridge is not None:
         return
     exe = um.find_umbruch()

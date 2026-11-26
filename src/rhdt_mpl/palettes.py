@@ -32,11 +32,11 @@ PALETTES = {
     # belly, mantle and rump are measured reflectance spectra (Beltran, Shultz & Parra, Dryad doi:10.5061/dryad.02v6wwq8w) and
     # wing, tail and bill are sampled from the reference images; the broad-billed hummingbird is not in that database, so all
     # of its colors are sampled from its image.  See examples/build_species_palettes.py.
-    "sunangel": {"gorget": "#e444b6", "crown": "#30721e", "belly": "#413f23", "mantle": "#3e5509", "rump": "#433d12", "wing": "#826b5a", "tail": "#43362d", "bill": "#5d5f6c"},
+    "sunangel": {"gorget": "#e444b6", "crown": "#30721e", "belly": "#413f23", "mantle": "#3e5509", "rump": "#433d12", "wing": "#a9978f", "tail": "#27261e", "bill": "#545868"},
     "ruby-topaz": {"gorget": "#ff8a1b", "crown": "#ba0040", "belly": "#554236", "mantle": "#2e1d09", "rump": "#462f1d", "wing": "#82685a", "tail": "#3d1b17", "bill": "#4b4954"},
     "starfrontlet": {"gorget": "#6842e7", "crown": "#00d645", "belly": "#b36916", "mantle": "#4f5436", "rump": "#c76313", "wing": "#806a60", "tail": "#4b3b36", "bill": "#47475b"},
     "sapphire": {"gorget": "#0043be", "crown": "#0043d6", "belly": "#4d661f", "mantle": "#446817", "rump": "#96451e", "wing": "#876f61", "tail": "#8f4316", "bill": "#393c4c"},
-    "broad-billed": {"gorget": "#094ac5", "crown": "#518953", "belly": "#295422", "rump": "#264831", "vent": "#b3afa4", "wing": "#816d5e", "tail": "#1c2535", "bill": "#ea573e"},
+    "broad-billed": {"gorget": "#183488", "crown": "#588f56", "belly": "#3b5f22", "rump": "#495830", "vent": "#a8a5a0", "wing": "#8c7e79", "tail": "#2c2d31", "bill": "#d56b51"},
     "ok8": {"navy": "#2a5b88", "gold": "#d6ab1b", "rust": "#8e3b1c",
             "violet": "#a936fb", "mint": "#4fbc90", "pink": "#f87fd8",
             "teal": "#228a8f", "coral": "#d0603d"},

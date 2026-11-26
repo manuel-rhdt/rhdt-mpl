@@ -53,7 +53,10 @@ def colors(name, names=None):
 
 
 def named_colors():
-    """``{"palette:name": hex}`` for every color of every palette, e.g. ``"tol-vibrant:orange"``,
-    ``"okabe-ito:sky blue"``, ``"ok6:navy"``.  Bare names are not used: ``orange``, ``teal`` or
-    ``navy`` already mean something else in Matplotlib's CSS4 set."""
-    return {f"{pal}:{name}": hexval for pal, d in PALETTES.items() for name, hexval in d.items()}
+    """``{"rhdt:palette:name": hex}`` for every color of every palette, e.g.
+    ``"rhdt:tol-vibrant:orange"``, ``"rhdt:okabe-ito:sky blue"``, ``"rhdt:ok6:navy"``; plus the short
+    form ``"rhdt:orange"`` for the colors of the default palette (Tol Vibrant).  Short forms exist only
+    there because a bare name is ambiguous across palettes (``blue`` has three different values)."""
+    out = {f"rhdt:{pal}:{name}": hexval for pal, d in PALETTES.items() for name, hexval in d.items()}
+    out.update({f"rhdt:{name}": hexval for name, hexval in PALETTES[DEFAULT_PALETTE].items()})
+    return out

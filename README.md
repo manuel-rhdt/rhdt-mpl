@@ -28,8 +28,9 @@ Color helpers in OKLab/OKLCH, `from rhdt_mpl import oklab`: `to_oklab`, `to_oklc
 at constant lightness and hue. `muted(c)` keeps the hue with less chroma (for secondary lines), `family(c, n)` gives n
 lightness steps of one hue. See `examples/oklab_helpers.py`.
 
-Colors by name: every palette color is registered with Matplotlib as `"palette:name"`, for example
-`color="tol-vibrant:orange"`, `"okabe-ito:sky blue"`, `"ok6:navy"`, `"tol-dark:dark blue"`, wherever a color is accepted
-(also in rcParams and in `oklab` helpers). The prefix is needed because bare names such as `orange` or `navy` already mean
-other things in Matplotlib's CSS4 set. `rhdt_mpl.named_colors()` lists them all (58). The palettes are also registered
-as `matplotlib.color_sequences["ok6"]` etc.
+Colors by name: every palette color is registered with Matplotlib as `"rhdt:<palette>:<name>"`, for example
+`color="rhdt:tol-vibrant:orange"`, `"rhdt:okabe-ito:sky blue"`, `"rhdt:ok6:navy"`, `"rhdt:tol-dark:dark blue"`, wherever a color
+is accepted (also in rcParams and in `oklab` helpers). The colors of the default palette (Tol Vibrant) also have the short
+form `"rhdt:orange"`; other palettes have none because bare names are ambiguous (`blue` is three different colors across the
+palettes). Bare CSS4 names such as `orange` are untouched. `rhdt_mpl.named_colors()` lists all 65 names. The palettes are
+also registered as `matplotlib.color_sequences["rhdt:ok6"]` etc.

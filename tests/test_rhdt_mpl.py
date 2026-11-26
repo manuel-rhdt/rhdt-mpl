@@ -37,13 +37,15 @@ def test_cycles():
 
 def test_named_colors():
     import matplotlib as mpl, matplotlib.colors as mc
-    assert mc.to_hex("tol-vibrant:orange") == "#ee7733" and mc.to_hex("okabe-ito:sky blue") == "#56b4e9"
-    assert mc.to_hex("ok6:navy") == "#1d5e85" and mc.to_hex("ok8:navy") == "#2a5b88"
-    assert mc.to_hex("orange") == "#ffa500"            # CSS4 names are untouched
-    assert not mc.is_color_like("tol-vibrant:nope")
-    assert len(rhdt_mpl.named_colors()) == sum(len(p) for p in rhdt_mpl.PALETTES.values())
-    assert list(mpl.color_sequences["ok6"])[0] == "#1d5e85"
-    with mpl.rc_context({"text.color": "tol-dark:dark red", "axes.edgecolor": "ok6:gold"}):
+    assert mc.to_hex("rhdt:tol-vibrant:orange") == "#ee7733" and mc.to_hex("rhdt:okabe-ito:sky blue") == "#56b4e9"
+    assert mc.to_hex("rhdt:ok6:navy") == "#1d5e85" and mc.to_hex("rhdt:ok8:navy") == "#2a5b88"
+    assert mc.to_hex("rhdt:orange") == mc.to_hex("rhdt:tol-vibrant:orange")      # short form: default palette
+    assert not mc.is_color_like("rhdt:navy") and not mc.is_color_like("rhdt:tol-vibrant:nope")
+    assert mc.to_hex("orange") == "#ffa500" and not mc.is_color_like("tol-vibrant:orange")   # no unprefixed names
+    n = sum(len(p) for p in rhdt_mpl.PALETTES.values()) + len(rhdt_mpl.PALETTES[rhdt_mpl.palettes.DEFAULT_PALETTE])
+    assert len(rhdt_mpl.named_colors()) == n
+    assert list(mpl.color_sequences["rhdt:ok6"])[0] == "#1d5e85"
+    with mpl.rc_context({"text.color": "rhdt:tol-dark:dark red", "axes.edgecolor": "rhdt:ok6:gold"}):
         assert mc.to_hex(mpl.rcParams["axes.edgecolor"]) == "#c8b222"
         fig = plt.figure(); t = fig.text(0.5, 0.5, "x")
         assert mc.to_hex(t.get_color()) == "#663333"

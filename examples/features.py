@@ -42,7 +42,7 @@ ax.set(title="ok_orchid", aspect="equal", xlabel="$x$", ylabel="$y$")
 # d  single-hue colormap, reversed for a white background
 ax = axs[1, 0]
 pts = rng.standard_normal((300, 2))
-sc = ax.scatter(*pts.T, c=np.hypot(*pts.T), cmap="ok_blue_r", s=14, edgecolor="rhdt:tol-dark:dark grey", lw=0.3)
+sc = ax.scatter(*pts.T, c=np.hypot(*pts.T), cmap="ok_blue_r", s=14, edgecolor="rhdt:colibri-dark:iolite", lw=0.3)
 fig.colorbar(sc, ax=ax, label="distance")
 ax.set(title="ok_blue_r", xlabel="x", ylabel="y")
 

@@ -1,24 +1,9 @@
-"""Color palettes, copied from site.manuel-rhdt.de/post/colors (data/colors.yaml)."""
+"""Color palettes: Okabe-Ito (from site.manuel-rhdt.de/post/colors), ok6 and ok8, the colibri palettes measured in
+hummingbirds, and one palette per hummingbird species."""
 
 from .spectral_data import COLIBRI, COLIBRI_DARK, PARTNERS, SOURCES, WIDE      # noqa: E402,F401
 
 PALETTES = {
-    "tol-bright": {"blue": "#4477AA", "cyan": "#66CCEE", "green": "#228833",
-                   "yellow": "#CCBB44", "red": "#EE6677", "purple": "#AA3377",
-                   "grey": "#BBBBBB"},
-    "tol-vibrant": {"orange": "#EE7733", "blue": "#0077BB", "cyan": "#33BBEE",
-                    "magenta": "#EE3377", "red": "#CC3311", "teal": "#009988",
-                    "grey": "#BBBBBB"},
-    "tol-muted": {"indigo": "#332288", "cyan": "#88CCEE", "teal": "#44AA99",
-                  "green": "#117733", "olive": "#999933", "sand": "#DDCC77",
-                  "rose": "#CC6677", "wine": "#882255", "purple": "#AA4499",
-                  "pale grey": "#DDDDDD"},
-    "tol-pale": {"pale blue": "#BBCCEE", "pale cyan": "#CCEEFF",
-                 "pale green": "#CCDDAA", "pale yellow": "#EEEEBB",
-                 "pale red": "#FFCCCC", "pale grey": "#DDDDDD"},
-    "tol-dark": {"dark blue": "#222255", "dark cyan": "#225555",
-                 "dark green": "#225522", "dark yellow": "#666633",
-                 "dark red": "#663333", "dark grey": "#555555"},
     "okabe-ito": {"black": "#000000", "orange": "#E69F00", "sky blue": "#56B4E9",
                   "bluish green": "#009E73", "yellow": "#F0E442", "blue": "#0072B2",
                   "vermilion": "#D55E00", "reddish purple": "#CC79A7"},
@@ -72,7 +57,7 @@ def colors(name, names=None):
 
 def named_colors():
     """``{"rhdt:palette:name": hex}`` for every color of every palette, e.g.
-    ``"rhdt:tol-vibrant:orange"``, ``"rhdt:okabe-ito:sky blue"``, ``"rhdt:ok6:navy"``; plus the short
+    ``"rhdt:colibri:ruby"``, ``"rhdt:okabe-ito:sky blue"``, ``"rhdt:ok6:navy"``; plus the short
     form ``"rhdt:emerald"`` for the colors of the default palette (colibri).  Short forms exist only
     there because a bare name is ambiguous across palettes (``blue`` has three different values)."""
     out = {f"rhdt:{pal}:{name}": hexval for pal, d in PALETTES.items() for name, hexval in d.items()}

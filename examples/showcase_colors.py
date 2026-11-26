@@ -48,17 +48,11 @@ def row(ax, y, title, code, swatches, lines=False, h=0.43):
 
 
 # ---------------------------------------------------------------- figure 1: colors
-vib = PALETTES["tol-vibrant"]
 default = ["orange", "blue", "cyan", "magenta", "red", "teal"]
 rows = [
     ("sec", "Palettes   rhdt_mpl.palette(name, names=None)  returns a list of hex   |   rhdt_mpl.set_palette(name, names=None)"),
     ("colibri   (default cycle)", 'rhdt_mpl.palette("colibri")', list(PALETTES["colibri"].items())),
     ("colibri-dark   (darker partners)", 'rhdt_mpl.palette("colibri-dark")', list(PALETTES["colibri-dark"].items())),
-    ("tol-bright", 'rhdt_mpl.palette("tol-bright")', list(PALETTES["tol-bright"].items())),
-    ("tol-vibrant", 'rhdt_mpl.palette("tol-vibrant")', list(vib.items())),
-    ("tol-muted", 'rhdt_mpl.palette("tol-muted")', list(PALETTES["tol-muted"].items())),
-    ("tol-pale", 'rhdt_mpl.palette("tol-pale")', list(PALETTES["tol-pale"].items())),
-    ("tol-dark", 'rhdt_mpl.palette("tol-dark")', list(PALETTES["tol-dark"].items())),
     ("okabe-ito", 'rhdt_mpl.palette("okabe-ito")', list(PALETTES["okabe-ito"].items())),
     ("sec", "Cycles   rhdt_mpl.set_cycle(name)   |   ax.set_prop_cycle(rhdt_mpl.cycle(name))   |   first k are most separated"),
     ("ok6", 'rhdt_mpl.set_cycle("ok6")', list(PALETTES["ok6"].items())),
@@ -69,8 +63,8 @@ rows = [
      [("emerald", PALETTES["colibri"]["emerald"])]),
     ("full form", 'color="rhdt:colibri:ruby"',
      [("ruby", PALETTES["colibri"]["ruby"])]),
-    ("other palettes", 'color="rhdt:tol-pale:pale blue"',
-     [("pale blue", PALETTES["tol-pale"]["pale blue"])]),
+    ("other palettes", 'color="rhdt:okabe-ito:sky blue"',
+     [("sky blue", PALETTES["okabe-ito"]["sky blue"])]),
     ("same name, other palette", 'color="rhdt:ok6:navy"   "rhdt:ok8:navy"',
      [("ok6:navy", PALETTES["ok6"]["navy"]), ("ok8:navy", PALETTES["ok8"]["navy"])]),
     ("with helpers", 'oklab.muted("rhdt:colibri:amber")',

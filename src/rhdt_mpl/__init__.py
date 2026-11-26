@@ -58,7 +58,7 @@ def set_cycle(name):
 
 def register_colors():
     """Make the palette colors usable by name anywhere Matplotlib takes a color
-    (``color="rhdt:tol-vibrant:orange"``, or ``"rhdt:orange"`` for the default palette), and the palettes usable as ``matplotlib.color_sequences``."""
+    (``color="rhdt:colibri:ruby"``, or ``"rhdt:ruby"`` for the default palette), and the palettes usable as ``matplotlib.color_sequences``."""
     import matplotlib.colors as mcolors
     mapping = mcolors.get_named_colors_mapping()
     for key, value in named_colors().items():

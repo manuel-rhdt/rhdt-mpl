@@ -58,6 +58,10 @@ def block():
 
 
 if __name__ == "__main__":
+    if os.path.isdir(SWATCHES):                      # start clean, so swatches of removed colors disappear
+        for f in os.listdir(SWATCHES):
+            if f.endswith(".svg"):
+                os.remove(os.path.join(SWATCHES, f))
     s = open(README).read()
     if BEGIN in s:
         s = re.sub(re.escape(BEGIN) + r".*?" + re.escape(END), lambda m: block(), s, flags=re.S)

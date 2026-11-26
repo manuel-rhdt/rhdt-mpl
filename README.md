@@ -57,7 +57,7 @@ ax.set_ylabel(r"$\hat\rho_{ij}(t)$")
 <img src="docs/colors.svg" alt="All palettes, cycles, named colors and OKLab helpers with their syntax" width="100%">
 
 The default cycle is `colibri` (eight colors measured in hummingbirds, see below). Palettes:
-`tol-bright`, `tol-vibrant`, `tol-muted`, `tol-pale`, `tol-dark`, `okabe-ito`, `colibri` (eight vivid colors measured in
+`okabe-ito`, `colibri` (eight vivid colors measured in
 hummingbirds, the default) and `colibri-dark` (their darker partners), the species palettes `sunangel`, `ruby-topaz`, `starfrontlet`, `sapphire`, `violet-crowned` and `broad-billed`, and
 the two cycles `ok6` and `ok8`.
 In the cycles `ok6`, `ok8` and `colibri` the first k colors are the best separated. The hummingbird palettes have their own section below.
@@ -72,8 +72,8 @@ rhdt_mpl.use(backend=False)                      # back to the default cycle
 ```
 
 `ok-print` pairs the `ok6` colors one-to-one with the line styles `-`, `--`, `:`, `-.`, `(0,(5,1,1,1))`, `(0,(1,1))`, so
-that lines stay distinguishable in greyscale. `rhdt_mpl.PALETTES` holds the palettes as `{name: hex}` dicts; the colors are
-those of <https://site.manuel-rhdt.de/post/colors/>.
+that lines stay distinguishable in greyscale. `rhdt_mpl.PALETTES` holds the palettes as `{name: hex}` dicts; Okabe–Ito is
+as listed at <https://site.manuel-rhdt.de/post/colors/>.
 
 ## Individual colors by name
 
@@ -82,59 +82,23 @@ Every palette color is registered with Matplotlib as `"rhdt:<palette>:<name>"`, 
 
 ```python
 ax.plot(x, y, color="rhdt:colibri:ruby")
-ax.bar(x, h, color="rhdt:tol-pale:pale blue", edgecolor="rhdt:tol-dark:dark blue")
+ax.bar(x, h, color="rhdt:colibri:sapphire", edgecolor="rhdt:colibri-dark:lapis")
 ax.plot(x, y, color="rhdt:okabe-ito:sky blue")
 ```
 
 The colors of the default palette (`colibri`) also have the short form `"rhdt:ruby"`. Other palettes have none,
-because bare names are ambiguous: `blue` is three different colors across the palettes, and `ok6:navy` differs from
+because bare names are ambiguous: `ok6:navy` differs from
 `ok8:navy`. Matplotlib's own CSS4 names (`"orange"`, `"navy"`) are untouched. `rhdt_mpl.named_colors()` lists all names.
 The palettes are also available as `matplotlib.color_sequences["rhdt:ok6"]` and so on. The table below lists every name.
 
 <!-- named-colors:begin -->
 <details>
-<summary>All 130 named colors (click to expand)</summary>
+<summary>All 94 named colors (click to expand)</summary>
 
 The full name of every color is `rhdt:<palette>:<name>`; the colors of the default palette (`colibri`) also have the short form `rhdt:<name>`. Hex values are sRGB; for colors outside sRGB the hex is the nearest sRGB color.
 
 | | name | hex | notes |
 |---|---|---|---|
-| <img src="docs/swatches/4477aa.svg" width="40" height="16" alt="#4477AA"> | `rhdt:tol-bright:blue` | `#4477aa` |  |
-| <img src="docs/swatches/66ccee.svg" width="40" height="16" alt="#66CCEE"> | `rhdt:tol-bright:cyan` | `#66ccee` |  |
-| <img src="docs/swatches/228833.svg" width="40" height="16" alt="#228833"> | `rhdt:tol-bright:green` | `#228833` |  |
-| <img src="docs/swatches/ccbb44.svg" width="40" height="16" alt="#CCBB44"> | `rhdt:tol-bright:yellow` | `#ccbb44` |  |
-| <img src="docs/swatches/ee6677.svg" width="40" height="16" alt="#EE6677"> | `rhdt:tol-bright:red` | `#ee6677` |  |
-| <img src="docs/swatches/aa3377.svg" width="40" height="16" alt="#AA3377"> | `rhdt:tol-bright:purple` | `#aa3377` |  |
-| <img src="docs/swatches/bbbbbb.svg" width="40" height="16" alt="#BBBBBB"> | `rhdt:tol-bright:grey` | `#bbbbbb` |  |
-| <img src="docs/swatches/ee7733.svg" width="40" height="16" alt="#EE7733"> | `rhdt:tol-vibrant:orange` | `#ee7733` |  |
-| <img src="docs/swatches/0077bb.svg" width="40" height="16" alt="#0077BB"> | `rhdt:tol-vibrant:blue` | `#0077bb` |  |
-| <img src="docs/swatches/33bbee.svg" width="40" height="16" alt="#33BBEE"> | `rhdt:tol-vibrant:cyan` | `#33bbee` |  |
-| <img src="docs/swatches/ee3377.svg" width="40" height="16" alt="#EE3377"> | `rhdt:tol-vibrant:magenta` | `#ee3377` |  |
-| <img src="docs/swatches/cc3311.svg" width="40" height="16" alt="#CC3311"> | `rhdt:tol-vibrant:red` | `#cc3311` |  |
-| <img src="docs/swatches/009988.svg" width="40" height="16" alt="#009988"> | `rhdt:tol-vibrant:teal` | `#009988` |  |
-| <img src="docs/swatches/bbbbbb.svg" width="40" height="16" alt="#BBBBBB"> | `rhdt:tol-vibrant:grey` | `#bbbbbb` |  |
-| <img src="docs/swatches/332288.svg" width="40" height="16" alt="#332288"> | `rhdt:tol-muted:indigo` | `#332288` |  |
-| <img src="docs/swatches/88ccee.svg" width="40" height="16" alt="#88CCEE"> | `rhdt:tol-muted:cyan` | `#88ccee` |  |
-| <img src="docs/swatches/44aa99.svg" width="40" height="16" alt="#44AA99"> | `rhdt:tol-muted:teal` | `#44aa99` |  |
-| <img src="docs/swatches/117733.svg" width="40" height="16" alt="#117733"> | `rhdt:tol-muted:green` | `#117733` |  |
-| <img src="docs/swatches/999933.svg" width="40" height="16" alt="#999933"> | `rhdt:tol-muted:olive` | `#999933` |  |
-| <img src="docs/swatches/ddcc77.svg" width="40" height="16" alt="#DDCC77"> | `rhdt:tol-muted:sand` | `#ddcc77` |  |
-| <img src="docs/swatches/cc6677.svg" width="40" height="16" alt="#CC6677"> | `rhdt:tol-muted:rose` | `#cc6677` |  |
-| <img src="docs/swatches/882255.svg" width="40" height="16" alt="#882255"> | `rhdt:tol-muted:wine` | `#882255` |  |
-| <img src="docs/swatches/aa4499.svg" width="40" height="16" alt="#AA4499"> | `rhdt:tol-muted:purple` | `#aa4499` |  |
-| <img src="docs/swatches/dddddd.svg" width="40" height="16" alt="#DDDDDD"> | `rhdt:tol-muted:pale grey` | `#dddddd` |  |
-| <img src="docs/swatches/bbccee.svg" width="40" height="16" alt="#BBCCEE"> | `rhdt:tol-pale:pale blue` | `#bbccee` |  |
-| <img src="docs/swatches/cceeff.svg" width="40" height="16" alt="#CCEEFF"> | `rhdt:tol-pale:pale cyan` | `#cceeff` |  |
-| <img src="docs/swatches/ccddaa.svg" width="40" height="16" alt="#CCDDAA"> | `rhdt:tol-pale:pale green` | `#ccddaa` |  |
-| <img src="docs/swatches/eeeebb.svg" width="40" height="16" alt="#EEEEBB"> | `rhdt:tol-pale:pale yellow` | `#eeeebb` |  |
-| <img src="docs/swatches/ffcccc.svg" width="40" height="16" alt="#FFCCCC"> | `rhdt:tol-pale:pale red` | `#ffcccc` |  |
-| <img src="docs/swatches/dddddd.svg" width="40" height="16" alt="#DDDDDD"> | `rhdt:tol-pale:pale grey` | `#dddddd` |  |
-| <img src="docs/swatches/222255.svg" width="40" height="16" alt="#222255"> | `rhdt:tol-dark:dark blue` | `#222255` |  |
-| <img src="docs/swatches/225555.svg" width="40" height="16" alt="#225555"> | `rhdt:tol-dark:dark cyan` | `#225555` |  |
-| <img src="docs/swatches/225522.svg" width="40" height="16" alt="#225522"> | `rhdt:tol-dark:dark green` | `#225522` |  |
-| <img src="docs/swatches/666633.svg" width="40" height="16" alt="#666633"> | `rhdt:tol-dark:dark yellow` | `#666633` |  |
-| <img src="docs/swatches/663333.svg" width="40" height="16" alt="#663333"> | `rhdt:tol-dark:dark red` | `#663333` |  |
-| <img src="docs/swatches/555555.svg" width="40" height="16" alt="#555555"> | `rhdt:tol-dark:dark grey` | `#555555` |  |
 | <img src="docs/swatches/000000.svg" width="40" height="16" alt="#000000"> | `rhdt:okabe-ito:black` | `#000000` |  |
 | <img src="docs/swatches/e69f00.svg" width="40" height="16" alt="#E69F00"> | `rhdt:okabe-ito:orange` | `#e69f00` |  |
 | <img src="docs/swatches/56b4e9.svg" width="40" height="16" alt="#56B4E9"> | `rhdt:okabe-ito:sky blue` | `#56b4e9` |  |

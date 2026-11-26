@@ -16,6 +16,7 @@ os.makedirs(docs, exist_ok=True)
 # (script, [pdfs it writes])
 jobs = [("showcase_colors.py", ["colors", "colormaps"]),
         ("features.py", ["features"]),
+        ("colibri.py", ["colibri"]),
         ("oklab_helpers.py", ["oklab_helpers"])]
 
 with tempfile.TemporaryDirectory() as tmp:

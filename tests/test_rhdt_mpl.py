@@ -70,7 +70,7 @@ def test_colormaps():
     import matplotlib as mpl
     assert mpl.rcParams["image.cmap"] == "ok_orchid"
     from rhdt_mpl import okmaps
-    assert len(okmaps.COLORMAPS) == 9
+    assert len(okmaps.COLORMAPS) == 11
     for n in okmaps.COLORMAPS:
         for m in (n, n + "_r"):
             assert m in mpl.colormaps and mpl.colormaps[m].N == 256

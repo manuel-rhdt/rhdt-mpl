@@ -158,7 +158,7 @@ def species_wide(data_dir):
     for key, (fn, sp, box) in bsp.SPECIES.items():
         if not sp:
             continue
-        for part in bsp.MEASURED:
+        for part in (p for p in bsp.MEASURED if p in bsp.KEEP[key]):
             idx = [i for i, m in enumerate(meta) if m["Species"] == sp and m["Sex"] == "Males" and
                    m["Feather_type"] == {v: k for k, v in cs.PATCHES.items()}[part if part != "mantle" else "mantle"]]
             L, C, h, is_wide = cs.exact_oklch(cs.spectrum_to_linear_rgb(np.median(spec[idx], axis=0)))

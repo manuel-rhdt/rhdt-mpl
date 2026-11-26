@@ -84,15 +84,13 @@ def mpl_cycle():
 
 def test_species_palettes():
     import matplotlib.colors as mc
-    for key in ("sunangel", "ruby-topaz", "starfrontlet", "sapphire", "violet-crowned", "broad-billed"):
-        assert len(rhdt_mpl.PALETTES[key]) == 8
-    for key in ("sunangel", "ruby-topaz", "starfrontlet", "sapphire", "broad-billed"):
-        assert list(rhdt_mpl.PALETTES[key])[0] == "gorget"
-    assert list(rhdt_mpl.PALETTES["sunangel"]) == ["gorget", "crown", "belly", "mantle", "rump", "wing", "tail", "bill"]
-    assert list(rhdt_mpl.PALETTES["violet-crowned"])[:2] == ["crown", "throat"]
-    assert "vent" in rhdt_mpl.PALETTES["broad-billed"]
+    keep = {"sunangel": ["gorget", "crown"], "ruby-topaz": ["gorget", "crown"], "starfrontlet": ["gorget", "crown", "rump"],
+            "sapphire": ["gorget", "mantle", "rump", "tail"], "violet-crowned": ["crown", "back", "bill"],
+            "broad-billed": ["gorget", "crown", "bill"]}
+    for key, names in keep.items():
+        assert list(rhdt_mpl.PALETTES[key]) == names
     assert mc.to_hex("rhdt:ruby-topaz:gorget") == "#ff8a1b"          # a measured spectrum
-    assert rhdt_mpl.palette("sapphire", ["gorget", "crown"]) == ["#0043be", "#0043d6"]
+    assert rhdt_mpl.palette("sapphire", ["gorget", "tail"]) == ["#0043be", "#b66f2b"]
     for gone in ("anna", "ruby-throated", "rufous", "costa", "crimson-topaz", "sparkling-violetear"):
         assert gone not in rhdt_mpl.PALETTES
 
@@ -108,6 +106,7 @@ def test_wide_colors_reach_the_pdf():
     assert um.config.wide_colors["#b60042"] == rhdt_mpl.wide_css("colibri", "ruby")
     fig, ax = plt.subplots(figsize=(2, 1.5))
     ax.plot([0, 1], [0, 1], color="rhdt:ruby", lw=4)
+    ax.text(0.5, 0.5, "#b60042")                       # the label keeps its hex text
     path = os.path.join(tempfile.mkdtemp(), "w.pdf")
     fig.savefig(path)
     plt.close(fig)
@@ -116,6 +115,13 @@ def test_wide_colors_reach_the_pdf():
     streams = [zlib.decompress(m.group(1)) for m in re.finditer(rb"stream\r?\n(.*?)endstream", data, re.S)
                if m.group(1)[:1] == b"x"]
     assert any(re.search(rb"/CS\d+ (cs|CS)", s) for s in streams)
+
+
+def test_wide_colors_only_where_painted():
+    import umbruch_matplotlib as um
+    svg = '<path fill="#B60042"/><g style="stroke: #b60042; fill:#123456"/><text>#b60042</text>'
+    out = um._apply_wide_colors(svg, um.config.wide_colors)
+    assert out.count("oklch(") == 2 and "<text>#b60042</text>" in out and "#123456" in out
 
 
 def test_readme_lists_all_named_colors():

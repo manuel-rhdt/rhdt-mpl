@@ -44,15 +44,15 @@ for r, (key, sub, pal) in enumerate(rows):
 gs = fig.add_gridspec(1, 3, left=0.07, right=0.98, bottom=0.07, top=2.45 / (H_SW + 2.9), wspace=0.28)
 x = np.linspace(0, 10, 60)
 theory = 30 * (1 - np.exp(-x / 4))
-demos = [("sunangel", "gorget", "crown", "mantle", "belly"), ("ruby-topaz", "gorget", "crown", "rump", "mantle"),
-         ("violet-crowned", "crown", "bill", "back", "tail")]
+demos = [("starfrontlet", "gorget", "crown", "rump"), ("sapphire", "gorget", "mantle", "rump"),
+         ("violet-crowned", "crown", "bill", "back")]
 axs = []
-for k, (key, hi, c1, c2, dark) in enumerate(demos):
+for k, (key, hi, c1, c2) in enumerate(demos):
     a = fig.add_subplot(gs[0, k]); axs.append(a)
     P = f"rhdt:{key}:"
     a.plot(x, 0.30 * theory, color=P + c1, lw=1.3, label=c1)
     a.plot(x, 0.18 * theory, color=P + c2, lw=1.3, label=c2)
-    a.plot(x, theory, color=P + dark, lw=2, zorder=10, label=dark)
+    a.plot(x, theory, color="k", lw=2, zorder=10, label="theory")
     a.plot(x, theory * (1 - 0.05 * np.sin(x)), color=P + hi, lw=1.6, marker="o", markevery=6, markersize=3.5, label=hi)
     a.set(title=key, xlabel="x", ylabel="y" if k == 0 else "")
     a.legend(fontsize=6, loc="upper left")

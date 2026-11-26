@@ -1,6 +1,6 @@
 """Species palettes from measured spectra and from the reference images in docs/birds/.
 
-Colombian species: crown, gorget, belly, mantle and rump are the measured reflectance spectra (the angle of maximum
+Colombian species: crown, gorget, belly, mantle and rump are the measured (KEEP lists the ones that become palette entries) reflectance spectra (the angle of maximum
 reflectance, males) converted to sRGB by colombia_spectra.py; wing, tail and bill, which the database does not
 measure, are sampled from the image.  The violet-crowned and broad-billed hummingbirds are not in the database, so all
 of their colors are sampled from their images.  Prints the dicts used in rhdt_mpl/palettes.py, and for every measured
@@ -44,6 +44,10 @@ SPECIES = {
                       "rump": (190, 295, 235, 318), "vent": (205, 335, 245, 380), "wing": (50, 130, 150, 180),
                       "tail": (160, 440, 210, 490), "bill": (410, 80, 465, 98)}),
 }
+# the patches that make it into the palettes: the vivid ones, the dull body colors are not worth a name
+KEEP = {"sunangel": ("gorget", "crown"), "ruby-topaz": ("gorget", "crown"), "starfrontlet": ("gorget", "crown", "rump"),
+        "sapphire": ("gorget", "mantle", "rump", "tail"), "violet-crowned": ("crown", "back", "bill"),
+        "broad-billed": ("gorget", "crown", "bill")}
 VIVID = ("crown", "gorget")                       # iridescent patches: the more saturated half of the pixels
 DARK_BILL = ("sunangel", "ruby-topaz", "starfrontlet", "sapphire")   # black bills with silvery highlights: darker half of the pixels
 MEASURED = ("gorget", "crown", "belly", "mantle", "rump")
@@ -84,9 +88,10 @@ def build(data_dir):
             measured = cs.patch_colors(meta, spec, sp, "Males")
             pal = {p: measured[p] for p in MEASURED}
             pal.update({p: s[p] for p in UNMEASURED})
-            diffs = {p: round(dist(s[p], measured[p])) for p in MEASURED if p in s}
+            diffs = {p: round(dist(s[p], measured[p])) for p in MEASURED if p in s and p in KEEP[key]}
+            pal = {p: pal[p] for p in KEEP[key]}
         else:
-            pal = {p: s[p] for p in IMAGE_ONLY[key]}
+            pal = {p: s[p] for p in KEEP[key]}
             diffs = None
         out[key] = (pal, diffs)
     return out

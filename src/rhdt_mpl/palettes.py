@@ -14,18 +14,18 @@ PALETTES = {
     # examples/build_spectral_data.py): eight bright colors, and for each a darker partner of similar hue.
     "colibri": COLIBRI,
     "colibri-dark": COLIBRI_DARK,
-    # Hummingbird species, males: one palette per bird, colors named after plumage parts, the most striking patch first.
+    # Hummingbird species, males: one palette per bird, only its vivid patches, named after plumage parts, the most striking first.
     # For the four Colombian species (tourmaline sunangel, ruby-topaz, golden-bellied starfrontlet, golden-tailed sapphire) the
-    # gorget, crown, belly, mantle and rump are measured reflectance spectra (Beltran, Shultz & Parra, Dryad
-    # doi:10.5061/dryad.02v6wwq8w) and wing, tail and bill are sampled from the reference images; the violet-crowned and the
-    # broad-billed hummingbird are not in that database, so all of their colors are sampled from their images.
+    # gorget, crown, mantle and rump are measured reflectance spectra (Beltran, Shultz & Parra, Dryad
+    # doi:10.5061/dryad.02v6wwq8w) and the tail is sampled from the reference image; the violet-crowned and the broad-billed
+    # hummingbird are not in that database, so all of their colors are sampled from their images.
     # See examples/build_species_palettes.py.
-    "sunangel": {"gorget": "#e444b6", "crown": "#30721e", "belly": "#413f23", "mantle": "#3e5509", "rump": "#433d12", "wing": "#8f7a73", "tail": "#443730", "bill": "#464746"},
-    "ruby-topaz": {"gorget": "#ff8a1b", "crown": "#ba0040", "belly": "#554236", "mantle": "#2e1d09", "rump": "#462f1d", "wing": "#897672", "tail": "#4f2612", "bill": "#222124"},
-    "starfrontlet": {"gorget": "#6842e7", "crown": "#00d645", "belly": "#b36916", "mantle": "#4f5436", "rump": "#c76313", "wing": "#816a5d", "tail": "#231d11", "bill": "#1a1b1b"},
-    "sapphire": {"gorget": "#0043be", "crown": "#0043d6", "belly": "#4d661f", "mantle": "#446817", "rump": "#96451e", "wing": "#8a7465", "tail": "#b66f2b", "bill": "#433234"},
-    "violet-crowned": {"crown": "#6c41b8", "throat": "#d9d7d5", "belly": "#cdcbc6", "back": "#746e2c", "rump": "#787132", "wing": "#a18e86", "tail": "#756247", "bill": "#e27e78"},
-    "broad-billed": {"gorget": "#272b90", "crown": "#4e9560", "belly": "#21501b", "rump": "#375e39", "vent": "#b8b7b3", "wing": "#7b6a61", "tail": "#181c25", "bill": "#ed6f41"},
+    "sunangel": {"gorget": "#e444b6", "crown": "#30721e"},
+    "ruby-topaz": {"gorget": "#ff8a1b", "crown": "#ba0040"},
+    "starfrontlet": {"gorget": "#6842e7", "crown": "#00d645", "rump": "#c76313"},
+    "sapphire": {"gorget": "#0043be", "mantle": "#446817", "rump": "#96451e", "tail": "#b66f2b"},
+    "violet-crowned": {"crown": "#6c41b8", "back": "#746e2c", "bill": "#e27e78"},
+    "broad-billed": {"gorget": "#272b90", "crown": "#4e9560", "bill": "#ed6f41"},
     "ok8": {"navy": "#2a5b88", "gold": "#d6ab1b", "rust": "#8e3b1c",
             "violet": "#a936fb", "mint": "#4fbc90", "pink": "#f87fd8",
             "teal": "#228a8f", "coral": "#d0603d"},

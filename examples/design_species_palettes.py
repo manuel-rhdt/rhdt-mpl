@@ -1,5 +1,5 @@
 """Hummingbird species palettes, designed in OKLCH (L, C, h) per plumage part, from the general appearance
-of the adult male; Anna's and the ruby-throated hummingbird are sampled from reference photographs.  Prints the dict used in rhdt_mpl/palettes.py.
+of the adult male; Anna's, the ruby-throated and the rufous hummingbird are sampled from reference photographs.  Prints the dict used in rhdt_mpl/palettes.py.
 
     python examples/design_species_palettes.py
 """
@@ -25,13 +25,15 @@ SPECIES = {
         "wing":   "#bc8b70",            # mauve-brown wing
         "tail":   "#9b5972",            # iridescent purple tail feathers
         "bill":   "#50565c"}),
-    "rufous": ("Selasphorus rufus", {
-        "gorget": (0.66, 0.20, 42),     # flame-orange throat
-        "back":   (0.57, 0.14, 55),     # copper
-        "flank":  (0.77, 0.09, 70),     # buff
-        "belly":  (0.95, 0.01, 80),     # white
-        "wing":   (0.36, 0.04, 60),     # dusky brown
-        "bill":   (0.22, 0.01, 60)}),
+    "rufous": ("Selasphorus rufus", {     # from a reference photograph, matching draw_rufous.py
+        "gorget": "#f0363e",            # scarlet gorget
+        "bronze": "#b54d2d",            # bronze-olive gorget near the chin
+        "crown":  "#ec804d",            # bright rufous head
+        "back":   "#d27143",            # rufous body
+        "bib":    "#eee7e8",            # white bib
+        "wing":   "#baa9b8",            # pale lilac-grey wing
+        "tip":    "#37241f",            # dark tail tips
+        "bill":   "#3b3946"}),
     "costa": ("Calypte costae", {
         "gorget": (0.44, 0.25, 302),    # violet-purple throat and crown
         "back":   (0.60, 0.12, 150),    # green

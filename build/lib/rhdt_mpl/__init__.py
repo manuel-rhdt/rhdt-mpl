@@ -1,0 +1,109 @@
+"""Matplotlib defaults: umbruch backend, Noto fonts, personal color palettes.
+
+    import rhdt_mpl          # before importing matplotlib.pyplot, ideally
+    import matplotlib.pyplot as plt
+
+Importing the package selects the umbruch backend, registers the bundled Noto fonts,
+hands them to umbruch, and applies the ``rhdt`` style.  ``rhdt_mpl.use(...)`` redoes
+this explicitly; ``rhdt_mpl.set_palette(name)`` changes the color cycle.
+"""
+import os
+from importlib import resources
+
+import matplotlib as mpl
+import matplotlib.style
+from matplotlib import font_manager as fm
+
+from . import okmaps  # registers ok_dusk, ok_orchid (+ _r)
+from . import oklab  # OKLab color helpers
+from .palettes import (PALETTES, DEFAULT_PALETTE, DEFAULT_CYCLE, OK_PRINT_LINESTYLES, colors, cycle,
+                       named_colors)
+
+__all__ = ["use", "set_palette", "set_cycle", "cycle", "register_colors", "named_colors", "palette", "panel_labels", "PALETTES", "font_dir",
+           "TWO_COLUMN", "oklab"]
+
+BACKEND = "module://umbruch_matplotlib"
+TWO_COLUMN = 510 / 72   # figure width in inches used for the ML-PWS paper figures
+DEFAULT_CMAP = "ok_orchid"
+MATH_FONT = "Noto Sans Math"   # needs a backend with config.math_font
+
+_here = resources.files(__package__)
+font_dir = os.fspath(_here / "fonts")
+_style = os.fspath(_here / "rhdt.mplstyle")
+
+
+def palette(name, names=None):
+    """List of hex colors of palette *name* (see ``PALETTES``)."""
+    return colors(name, names)
+
+
+def set_palette(name, names=None):
+    """Use palette *name* (optionally only/ordered *names*) as the property cycle."""
+    mpl.rcParams["axes.prop_cycle"] = mpl.cycler(color=colors(name, names))
+
+
+def panel_labels(axes, labels="abcdefghijklmnopqrstuvwxyz", x=0.0, y=1.01, size=10):
+    """Bold lowercase panel letters at the top left of each axes, as in the ML-PWS figures."""
+    import numpy as np
+    for ax, label in zip(np.ravel(axes), labels):
+        ax.text(x, y, label, transform=ax.transAxes, fontsize=size, fontweight="bold",
+                va="bottom", ha="left")
+
+
+def set_cycle(name):
+    """Set the property cycle to palette *name*, or to ``"ok-print"`` (ok6 colors with line
+    styles, for figures that must survive greyscale printing)."""
+    mpl.rcParams["axes.prop_cycle"] = cycle(name)
+
+
+def register_colors():
+    """Make the palette colors usable by name anywhere Matplotlib takes a color
+    (``color="rhdt:tol-vibrant:orange"``, or ``"rhdt:orange"`` for the default palette), and the palettes usable as ``matplotlib.color_sequences``."""
+    import matplotlib.colors as mcolors
+    mapping = mcolors.get_named_colors_mapping()
+    for key, value in named_colors().items():
+        mapping[key] = value
+    for name in PALETTES:
+        mpl.color_sequences.register(f"rhdt:{name}", colors(name))
+
+
+def _register_fonts():
+    for fn in sorted(os.listdir(font_dir)):
+        if fn.endswith(".ttf"):
+            fm.fontManager.addfont(os.path.join(font_dir, fn))
+
+
+def _install_bridge():
+    """Start umbruch with the bundled fonts (the backend's default bridge uses
+    ``--no-system-fonts`` and would only see umbruch's built-in families)."""
+    import umbruch_matplotlib as um
+    um.config.math_font = MATH_FONT
+    if um.config.bridge is not None:
+        return
+    exe = um.find_umbruch()
+    if exe is None:
+        return          # the backend reports this itself when it is used
+    args = ("--no-system-fonts", "--font-dir", font_dir)
+    try:
+        server = um.UmbruchServer(exe, args=args)
+        server._start()
+        um.config.bridge = server
+    except Exception:
+        um.config.bridge = um.UmbruchCli(exe, args=args)
+
+
+def use(backend=True, style=True):
+    """Apply the defaults.  ``backend=False`` keeps the current backend."""
+    _register_fonts()
+    register_colors()
+    if style:
+        mpl.style.use(_style)
+        mpl.rcParams["axes.prop_cycle"] = mpl.cycler(
+            color=colors(DEFAULT_PALETTE, DEFAULT_CYCLE))
+        mpl.rcParams["image.cmap"] = DEFAULT_CMAP
+    if backend:
+        _install_bridge()
+        mpl.use(BACKEND)
+
+
+use()

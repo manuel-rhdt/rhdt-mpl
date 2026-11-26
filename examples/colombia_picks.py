@@ -1,5 +1,5 @@
-"""The six chosen Colombian species as colors from reflectance spectra. Usage: colombia_six.py DATA_DIR OUTDIR
-(writes colombia_six.pdf)"""
+"""The chosen Colombian species as colors from reflectance spectra. Usage: colombia_picks.py DATA_DIR OUTDIR
+(writes colombia_picks.pdf)"""
 import os
 import sys
 
@@ -13,15 +13,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import colombia_spectra as cs                  # noqa: E402
 
 SPECIES = [("Heliangelus_exortis", "tourmaline sunangel"), ("Chrysolampis_mosquitus", "ruby-topaz"),
-           ("Coeligena_bonapartei", "golden-bellied starfrontlet"), ("Chrysuronia_oenone", "golden-tailed sapphire"),
-           ("Aglaiocercus_kingii", "long-tailed sylph"), ("Colibri_coruscans", "sparkling violetear")]
+           ("Coeligena_bonapartei", "golden-bellied starfrontlet"), ("Chrysuronia_oenone", "golden-tailed sapphire")]
 data, out = sys.argv[1], sys.argv[2]
 meta, spec = cs.load(os.path.join(data, "refcolC.txt"))
 W, SW, RH = rhdt_mpl.TWO_COLUMN, 0.78, 0.78
 H = 0.55 + RH * len(SPECIES)
 fig = plt.figure(figsize=(W, H), layout="none")
 ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis("off")
-ax.text(0.1, H - 0.2, "six Colombian hummingbirds, males, from reflectance spectra", fontsize=9, fontweight="bold", va="center")
+ax.text(0.1, H - 0.2, "four Colombian hummingbirds, males, from reflectance spectra", fontsize=9, fontweight="bold", va="center")
 for i, name in enumerate(cs.PATCHES.values()):
     ax.text(2.6 + i * (SW + 0.04) + SW / 2, H - 0.45, name, fontsize=6.5, ha="center", color="0.4")
 for r, (sp, common) in enumerate(SPECIES):
@@ -37,4 +36,4 @@ for r, (sp, common) in enumerate(SPECIES):
         ax.text(x + SW / 2, y + 0.37, hexv + ("" if ing else " ∘"), fontsize=5.8, ha="center", va="center",
                 family="Noto Sans Mono", color=ink)
         ax.text(x + SW / 2, y + 0.06, f"n={len(idx)}", fontsize=5, ha="center", va="center", color="0.45")
-fig.savefig(os.path.join(out, "colombia_six.pdf"))
+fig.savefig(os.path.join(out, "colombia_picks.pdf"))

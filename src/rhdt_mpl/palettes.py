@@ -23,6 +23,10 @@ PALETTES = {
     # Ordered so that the first k colors are the most separated.
     "ok6": {"navy": "#1d5e85", "gold": "#c8b222", "brown": "#8b3e09",
             "pink": "#f487c5", "green": "#469172", "violet": "#a351fb"},
+    # Hummingbird jewel tones (gorgets, crowns and backs), designed in OKLCH; ordered so that the
+    # first k are well separated.
+    "colibri": {"violetear": "#710bc6", "topaz": "#e8ca17", "ruby": "#c6001f", "emerald": "#00ae64",
+                "fuchsia": "#e825bc", "copper": "#db7d24", "sapphire": "#005dca", "turquoise": "#31c8c9"},
     "ok8": {"navy": "#2a5b88", "gold": "#d6ab1b", "rust": "#8e3b1c",
             "violet": "#a936fb", "mint": "#4fbc90", "pink": "#f87fd8",
             "teal": "#228a8f", "coral": "#d0603d"},

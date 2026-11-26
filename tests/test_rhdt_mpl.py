@@ -51,6 +51,21 @@ def test_named_colors():
         assert mc.to_hex(t.get_color()) == "#663333"
 
 
+def test_colibri():
+    import matplotlib.colors as mc
+    assert list(rhdt_mpl.PALETTES["colibri"]) == ["violetear", "topaz", "ruby", "emerald", "fuchsia", "copper",
+                                                  "sapphire", "turquoise"]
+    assert mc.to_hex("rhdt:colibri:ruby") == "#c6001f"
+    rhdt_mpl.set_cycle("colibri")
+    assert len(mpl_cycle()) == 8
+    rhdt_mpl.use(backend=False)
+
+
+def mpl_cycle():
+    import matplotlib as mpl
+    return mpl.rcParams["axes.prop_cycle"].by_key()["color"]
+
+
 def test_colormaps():
     import matplotlib as mpl
     assert mpl.rcParams["image.cmap"] == "ok_orchid"
@@ -65,4 +80,5 @@ if __name__ == "__main__":
     test_colormaps()
     test_cycles()
     test_named_colors()
+    test_colibri()
     test_backend_and_fonts("/tmp/claude-0/-home-user/b31222e4-7591-5457-af74-51ed8c3e5c07/scratchpad")

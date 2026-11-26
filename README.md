@@ -57,8 +57,9 @@ ax.set_ylabel(r"$\hat\rho_{ij}(t)$")
 <img src="docs/colors.svg" alt="All palettes, cycles, named colors and OKLab helpers with their syntax" width="100%">
 
 The default cycle is Tol Vibrant without the grey (orange, blue, cyan, magenta, red, teal). Palettes:
-`tol-bright`, `tol-vibrant`, `tol-muted`, `tol-pale`, `tol-dark`, `okabe-ito`, and the two cycles `ok6` and `ok8`, whose
-first k colors are the most separated.
+`tol-bright`, `tol-vibrant`, `tol-muted`, `tol-pale`, `tol-dark`, `okabe-ito`, `colibri` (eight saturated hummingbird
+jewel tones: violetear, topaz, ruby, emerald, fuchsia, copper, sapphire, turquoise), and the two cycles `ok6` and `ok8`.
+In the cycles `ok6`, `ok8` and `colibri` the first k colors are the best separated.
 
 ```python
 rhdt_mpl.palette("okabe-ito")                    # list of hex colors

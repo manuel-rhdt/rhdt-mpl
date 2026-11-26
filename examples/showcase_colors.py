@@ -59,6 +59,7 @@ rows = [
     ("tol-pale", 'rhdt_mpl.palette("tol-pale")', list(PALETTES["tol-pale"].items())),
     ("tol-dark", 'rhdt_mpl.palette("tol-dark")', list(PALETTES["tol-dark"].items())),
     ("okabe-ito", 'rhdt_mpl.palette("okabe-ito")', list(PALETTES["okabe-ito"].items())),
+    ("colibri   (hummingbird jewel tones)", 'rhdt_mpl.palette("colibri")', list(PALETTES["colibri"].items())),
     ("sec", "Cycles   rhdt_mpl.set_cycle(name)   |   ax.set_prop_cycle(rhdt_mpl.cycle(name))   |   first k are most separated"),
     ("ok6", 'rhdt_mpl.set_cycle("ok6")', list(PALETTES["ok6"].items())),
     ("ok8", 'rhdt_mpl.set_cycle("ok8")', list(PALETTES["ok8"].items())),

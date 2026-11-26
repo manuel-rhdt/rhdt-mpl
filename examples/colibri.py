@@ -9,7 +9,7 @@ from rhdt_mpl.palettes import PALETTES
 
 SPECIES = {"sunangel": "Heliangelus exortis", "ruby-topaz": "Chrysolampis mosquitus",
            "starfrontlet": "Coeligena bonapartei", "sapphire": "Chrysuronia oenone",
-           "broad-billed": "Cynanthus latirostris"}
+           "violet-crowned": "Ramosomyia violiceps", "broad-billed": "Cynanthus latirostris"}
 
 out = sys.argv[1] if len(sys.argv) > 1 else "."
 LABEL_W, SW, GAP, RH = 2.1, 0.58, 0.035, 0.62
@@ -39,7 +39,7 @@ gs = fig.add_gridspec(1, 3, left=0.07, right=0.98, bottom=0.07, top=2.45 / (H_SW
 x = np.linspace(0, 10, 60)
 theory = 30 * (1 - np.exp(-x / 4))
 demos = [("sunangel", "gorget", "crown", "mantle", "belly"), ("ruby-topaz", "gorget", "crown", "rump", "mantle"),
-         ("broad-billed", "gorget", "crown", "bill", "tail")]
+         ("violet-crowned", "crown", "bill", "back", "tail")]
 axs = []
 for k, (key, hi, c1, c2, dark) in enumerate(demos):
     a = fig.add_subplot(gs[0, k]); axs.append(a)

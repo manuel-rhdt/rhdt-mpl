@@ -27,16 +27,18 @@ PALETTES = {
     # first k are well separated.
     "colibri": {"violetear": "#710bc6", "topaz": "#e8ca17", "ruby": "#c6001f", "emerald": "#00ae64",
                 "fuchsia": "#e825bc", "copper": "#db7d24", "sapphire": "#005dca", "turquoise": "#31c8c9"},
-    # Hummingbird species, males: one palette per bird, colors named after plumage parts, the gorget first.  For the four
-    # Colombian species (tourmaline sunangel, ruby-topaz, golden-bellied starfrontlet, golden-tailed sapphire) the gorget, crown,
-    # belly, mantle and rump are measured reflectance spectra (Beltran, Shultz & Parra, Dryad doi:10.5061/dryad.02v6wwq8w) and
-    # wing, tail and bill are sampled from the reference images; the broad-billed hummingbird is not in that database, so all
-    # of its colors are sampled from its image.  See examples/build_species_palettes.py.
-    "sunangel": {"gorget": "#e444b6", "crown": "#30721e", "belly": "#413f23", "mantle": "#3e5509", "rump": "#433d12", "wing": "#a9978f", "tail": "#27261e", "bill": "#545868"},
-    "ruby-topaz": {"gorget": "#ff8a1b", "crown": "#ba0040", "belly": "#554236", "mantle": "#2e1d09", "rump": "#462f1d", "wing": "#82685a", "tail": "#3d1b17", "bill": "#4b4954"},
-    "starfrontlet": {"gorget": "#6842e7", "crown": "#00d645", "belly": "#b36916", "mantle": "#4f5436", "rump": "#c76313", "wing": "#806a60", "tail": "#4b3b36", "bill": "#47475b"},
-    "sapphire": {"gorget": "#0043be", "crown": "#0043d6", "belly": "#4d661f", "mantle": "#446817", "rump": "#96451e", "wing": "#876f61", "tail": "#8f4316", "bill": "#393c4c"},
-    "broad-billed": {"gorget": "#183488", "crown": "#588f56", "belly": "#3b5f22", "rump": "#495830", "vent": "#a8a5a0", "wing": "#8c7e79", "tail": "#2c2d31", "bill": "#d56b51"},
+    # Hummingbird species, males: one palette per bird, colors named after plumage parts, the most striking patch first.
+    # For the four Colombian species (tourmaline sunangel, ruby-topaz, golden-bellied starfrontlet, golden-tailed sapphire) the
+    # gorget, crown, belly, mantle and rump are measured reflectance spectra (Beltran, Shultz & Parra, Dryad
+    # doi:10.5061/dryad.02v6wwq8w) and wing, tail and bill are sampled from the reference images; the violet-crowned and the
+    # broad-billed hummingbird are not in that database, so all of their colors are sampled from their images.
+    # See examples/build_species_palettes.py.
+    "sunangel": {"gorget": "#e444b6", "crown": "#30721e", "belly": "#413f23", "mantle": "#3e5509", "rump": "#433d12", "wing": "#8f7a73", "tail": "#443730", "bill": "#464746"},
+    "ruby-topaz": {"gorget": "#ff8a1b", "crown": "#ba0040", "belly": "#554236", "mantle": "#2e1d09", "rump": "#462f1d", "wing": "#897672", "tail": "#4f2612", "bill": "#222124"},
+    "starfrontlet": {"gorget": "#6842e7", "crown": "#00d645", "belly": "#b36916", "mantle": "#4f5436", "rump": "#c76313", "wing": "#816a5d", "tail": "#231d11", "bill": "#1a1b1b"},
+    "sapphire": {"gorget": "#0043be", "crown": "#0043d6", "belly": "#4d661f", "mantle": "#446817", "rump": "#96451e", "wing": "#8a7465", "tail": "#b66f2b", "bill": "#433234"},
+    "violet-crowned": {"crown": "#6c41b8", "throat": "#d9d7d5", "belly": "#cdcbc6", "back": "#746e2c", "rump": "#787132", "wing": "#a18e86", "tail": "#756247", "bill": "#e27e78"},
+    "broad-billed": {"gorget": "#272b90", "crown": "#4e9560", "belly": "#21501b", "rump": "#375e39", "vent": "#b8b7b3", "wing": "#7b6a61", "tail": "#181c25", "bill": "#ed6f41"},
     "ok8": {"navy": "#2a5b88", "gold": "#d6ab1b", "rust": "#8e3b1c",
             "violet": "#a936fb", "mint": "#4fbc90", "pink": "#f87fd8",
             "teal": "#228a8f", "coral": "#d0603d"},

@@ -68,13 +68,15 @@ def mpl_cycle():
 
 def test_species_palettes():
     import matplotlib.colors as mc
+    for key in ("sunangel", "ruby-topaz", "starfrontlet", "sapphire", "violet-crowned", "broad-billed"):
+        assert len(rhdt_mpl.PALETTES[key]) == 8
     for key in ("sunangel", "ruby-topaz", "starfrontlet", "sapphire", "broad-billed"):
-        pal = rhdt_mpl.PALETTES[key]
-        assert len(pal) == 8 and list(pal)[0] == "gorget"
+        assert list(rhdt_mpl.PALETTES[key])[0] == "gorget"
     assert list(rhdt_mpl.PALETTES["sunangel"]) == ["gorget", "crown", "belly", "mantle", "rump", "wing", "tail", "bill"]
+    assert list(rhdt_mpl.PALETTES["violet-crowned"])[:2] == ["crown", "throat"]
     assert "vent" in rhdt_mpl.PALETTES["broad-billed"]
-    assert mc.to_hex("rhdt:ruby-topaz:gorget") == "#ff8a1b"
-    assert rhdt_mpl.palette("sapphire", ["gorget", "tail"]) == ["#0043be", "#8f4316"]
+    assert mc.to_hex("rhdt:ruby-topaz:gorget") == "#ff8a1b"          # a measured spectrum
+    assert rhdt_mpl.palette("sapphire", ["gorget", "crown"]) == ["#0043be", "#0043d6"]
     for gone in ("anna", "ruby-throated", "rufous", "costa", "crimson-topaz", "sparkling-violetear"):
         assert gone not in rhdt_mpl.PALETTES
 

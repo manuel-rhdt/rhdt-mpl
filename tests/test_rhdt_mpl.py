@@ -68,8 +68,9 @@ def mpl_cycle():
 
 def test_species_palettes():
     import matplotlib.colors as mc
-    for key in ("ruby-throated", "rufous", "costa", "crimson-topaz", "sparkling-violetear"):
+    for key in ("rufous", "costa", "crimson-topaz", "sparkling-violetear"):
         assert len(rhdt_mpl.PALETTES[key]) == 6
+    assert list(rhdt_mpl.PALETTES["ruby-throated"]) == ["gorget", "crown", "back", "collar", "belly", "wing", "tail", "bill"]
     assert list(rhdt_mpl.PALETTES["anna"]) == ["gorget", "crown", "gold", "back", "flank", "belly", "wing", "bill"]
     assert list(rhdt_mpl.PALETTES["anna"])[0] == "gorget" and mc.to_hex("rhdt:anna:gorget") == "#f64e88"
     assert rhdt_mpl.palette("rufous", ["gorget", "wing"]) == ["#f15b00", "#4d3827"]

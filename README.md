@@ -114,8 +114,9 @@ plt.imshow(z, cmap="ok_blue_r")      # single-hue: ok_blue, ok_teal, ok_green, o
 <tr><td align="center"><img src="docs/birds/costa.svg" width="260" alt="costa hummingbird"><br><code>costa</code></td><td align="center"><img src="docs/birds/crimson-topaz.svg" width="260" alt="crimson-topaz hummingbird"><br><code>crimson-topaz</code></td><td align="center"><img src="docs/birds/sparkling-violetear.svg" width="260" alt="sparkling-violetear hummingbird"><br><code>sparkling-violetear</code></td></tr>
 </table>
 
-Anna's hummingbird is drawn by hand after a reference photograph (`examples/draw_anna.py`; `examples/trace_hummingbird.py`
-traces a photograph into color regions as a reference); the others are drawn from their palettes
+Anna's and the ruby-throated hummingbird are drawn by hand after reference photographs (`examples/draw_anna.py`,
+`examples/draw_ruby_throated.py`), and their palettes are sampled from the same photographs; `examples/trace_hummingbird.py`
+traces a photograph into color regions as a reference. The others are drawn from their palettes
 (`examples/draw_hummingbirds.py`).
 
 Two kinds of palette, both named after hummingbirds:
@@ -124,7 +125,7 @@ Two kinds of palette, both named after hummingbirds:
   separated: violetear `#710bc6`, topaz `#e8ca17`, ruby `#c6001f`, emerald `#00ae64`, fuchsia `#e825bc`, copper `#db7d24`,
   sapphire `#005dca`, turquoise `#31c8c9`. Use it as a cycle: `rhdt_mpl.set_cycle("colibri")`.
 - **One palette per species**, with colors named after the plumage parts, designed in OKLCH from the general appearance of
-  the adult male (Anna's hummingbird is sampled from a photograph; the others are from memory): `anna` (*Calypte anna*), `ruby-throated` (*Archilochus colubris*),
+  the adult male (Anna's and the ruby-throated hummingbird are sampled from photographs; the others are from memory): `anna` (*Calypte anna*), `ruby-throated` (*Archilochus colubris*),
   `rufous` (*Selasphorus rufus*), `costa` (*Calypte costae*), `crimson-topaz` (*Topaza pella*) and `sparkling-violetear`
   (*Colibri coruscans*). The gorget, or the most striking patch, comes first. A bird is one bright accent on a quiet body,
   which is the pattern for data too: a bright gorget for the result that matters, a near-black bill or wing for a theory line, the

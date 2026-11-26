@@ -1,5 +1,5 @@
 """Hummingbird species palettes, designed in OKLCH (L, C, h) per plumage part, from the general appearance
-of the adult male; Anna's hummingbird is sampled from a reference photograph.  Prints the dict used in rhdt_mpl/palettes.py.
+of the adult male; Anna's and the ruby-throated hummingbird are sampled from reference photographs.  Prints the dict used in rhdt_mpl/palettes.py.
 
     python examples/design_species_palettes.py
 """
@@ -16,13 +16,15 @@ SPECIES = {
         "belly":  "#8b847d",            # warm grey chest
         "wing":   "#b3aca1",            # grey-brown wing
         "bill":   "#302e29"}),
-    "ruby-throated": ("Archilochus colubris", {
-        "gorget": (0.50, 0.22, 27),     # ruby-red throat
-        "back":   (0.58, 0.14, 155),    # emerald green
-        "flank":  (0.72, 0.06, 140),
-        "belly":  (0.94, 0.01, 90),     # white
-        "wing":   (0.30, 0.03, 300),    # dusky violet-black
-        "bill":   (0.22, 0.01, 260)}),
+    "ruby-throated": ("Archilochus colubris", {   # from a reference photograph, matching draw_ruby_throated.py
+        "gorget": "#f1562f",            # orange-red throat (ruby in other light)
+        "crown":  "#a1958a",            # grey-olive head
+        "back":   "#9c8465",            # olive back with a golden sheen
+        "collar": "#fcf3ea",            # white collar
+        "belly":  "#e9cfb6",            # buff belly
+        "wing":   "#bc8b70",            # mauve-brown wing
+        "tail":   "#9b5972",            # iridescent purple tail feathers
+        "bill":   "#50565c"}),
     "rufous": ("Selasphorus rufus", {
         "gorget": (0.66, 0.20, 42),     # flame-orange throat
         "back":   (0.57, 0.14, 55),     # copper

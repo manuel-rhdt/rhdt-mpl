@@ -72,9 +72,7 @@ SCALES = [(x, y) for y in range(110, 162, 7) for x in range(124 + (y // 7 % 2) *
 
 def bird(key):
     p = PALETTES[key]
-    g = {"ruby-throated": lambda: dict(gorget=p["gorget"], crown=p["back"], back=p["back"], belly=p["belly"], flank=p["flank"],
-                               wing=p["wing"], tail=p["wing"], bill=p["bill"], fork=True, chin=p["bill"]),
-         "rufous": lambda: dict(gorget=p["gorget"], crown=M(p["back"], "#3b7a3b", 0.35), back=p["back"], belly=p["belly"],
+    g = {"rufous": lambda: dict(gorget=p["gorget"], crown=M(p["back"], "#3b7a3b", 0.35), back=p["back"], belly=p["belly"],
                         flank=p["flank"], wing=p["wing"], tail=p["back"], bill=p["bill"], fork=False, head=p["back"]),
          "costa": lambda: dict(gorget=p["gorget"], crown=p["gorget"], back=p["back"], belly=p["belly"], flank=p["flank"],
                        wing=p["wing"], tail=D(p["back"], .12), bill=p["bill"], fork=False, flare=True),
@@ -169,8 +167,9 @@ def bird(key):
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    # anna.svg is drawn separately, after a reference photograph, by examples/draw_anna.py
-    for key in ("ruby-throated", "rufous", "costa", "crimson-topaz", "sparkling-violetear"):
+    # anna.svg and ruby-throated.svg are drawn separately, after reference photographs (draw_anna.py,
+    # draw_ruby_throated.py)
+    for key in ("rufous", "costa", "crimson-topaz", "sparkling-violetear"):
         with open(os.path.join(OUT, f"{key}.svg"), "w") as fh:
             fh.write(bird(key))
         print("wrote", key)

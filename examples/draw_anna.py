@@ -84,17 +84,17 @@ def draw():
     g = P["gorget"]
     defs = [
         lin("gorget", [(0, L(g, .1)), (0.35, g), (0.75, D(g, .1)), (1, D(g, .2))], 80, 60, 165, 125),
-        lin("fringe", [(0, "#d7a845"), (0.5, "#a88a38"), (1, M("#6f7a3a", g, .2))], 64, 58, 86, 118),
-        lin("crown", [(0, "#e9a066"), (0.45, "#e88a6e"), (1, "#d9667e")], 64, 22, 147, 40),
-        lin("behind", [(0, "#c2607a"), (0.6, D(g, .04)), (1, D(g, .16))], 124, 36, 154, 64),
-        lin("face", [(0, "#5a4a30"), (0.5, "#45392a"), (1, "#3a3226")], 60, 36, 150, 66),
-        lin("chest", [(0, "#a39b92"), (0.5, P["belly"]), (1, D(P["belly"], .08))], 70, 118, 150, 236),
+        lin("fringe", [(0, L(P["gold"], .08)), (0.5, P["gold"]), (1, M(D(P["gold"], .12), P["back"], .5))], 64, 58, 86, 118),
+        lin("crown", [(0, M(P["crown"], P["gold"], .3)), (0.45, P["crown"]), (1, M(P["crown"], g, .45))], 64, 22, 147, 40),
+        lin("behind", [(0, M(P["crown"], g, .5)), (0.6, D(g, .04)), (1, D(g, .16))], 124, 36, 154, 64),
+        lin("face", [(0, M(P["bill"], P["gold"], .35)), (0.5, M(P["bill"], P["flank"], .45)), (1, M(P["bill"], P["flank"], .3))], 60, 36, 150, 66),
+        lin("chest", [(0, L(P["belly"], .07)), (0.5, P["belly"]), (1, D(P["belly"], .08))], 70, 118, 150, 236),
         lin("green", [(0, L(P["back"], .1)), (0.45, P["back"]), (1, D(P["back"], .1))], 120, 135, 225, 280),
         lin("buff", [(0, L(P["flank"], .06)), (1, D(P["flank"], .06))], 96, 222, 176, 292),
-        lin("body", [(0, "#8f897f"), (1, "#5f5a48")], 70, 60, 240, 300),
-        lin("wing", [(0, "#8e867a"), (0.25, "#aaa396"), (0.6, P["wing"]), (1, "#d6d0c4")], 200, 140, 489, 130),
-        lin("coverts", [(0, "#7c7568"), (1, "#9c9487")], 196, 120, 272, 168),
-        lin("tail", [(0, "#5c4c3c"), (0.5, "#4e3f31"), (1, "#2f261e")], 205, 300, 284, 395),
+        lin("body", [(0, P["belly"]), (1, M(P["belly"], P["back"], .6))], 70, 60, 240, 300),
+        lin("wing", [(0, D(P["wing"], .14)), (0.25, D(P["wing"], .04)), (0.6, P["wing"]), (1, L(P["wing"], .08))], 200, 140, 489, 130),
+        lin("coverts", [(0, D(P["wing"], .2)), (1, D(P["wing"], .1))], 196, 120, 272, 168),
+        lin("tail", [(0, M(P["bill"], P["flank"], .55)), (0.5, M(P["bill"], P["flank"], .4)), (1, P["bill"])], 205, 300, 284, 395),
         lin("bill", [(0, "#2a2824"), (0.7, P["bill"]), (1, "#4a4640")], 70, 30, 2, 1),
         '<radialGradient id="vol" gradientUnits="userSpaceOnUse" cx="110" cy="130" r="190">'
         '<stop offset="0" stop-color="#ffffff" stop-opacity="0.16"/><stop offset="0.5" stop-color="#ffffff" stop-opacity="0"/>'
@@ -125,7 +125,7 @@ def draw():
              + "</g>")
     s.append('<g clip-path="url(#c-chest)">' + scales((64, 124, 170, 240), "#5e5a48", step=6, size=(1.2, 2.4),
                                                          opacity=(0.25, 0.6), seed=5, width=1.1) + "</g>")
-    s.append(f'<path d="{smooth(TUFT)}" fill="#ebe7dc" filter="url(#blur2)" opacity="0.95"/>')
+    s.append(f'<path d="{smooth(TUFT)}" fill="{L(P['belly'], .32)}" filter="url(#blur2)" opacity="0.95"/>')
     s.append(f'<path d="{smooth(BODY)}" fill="url(#vol)"/>')
     s.append("</g>")
     # head

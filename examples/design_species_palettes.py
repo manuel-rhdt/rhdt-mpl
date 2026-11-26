@@ -7,12 +7,14 @@ from rhdt_mpl import oklab
 
 # name -> (latin name, {part: (L, C, h)}); the gorget (or the most striking patch) comes first
 SPECIES = {
-    "anna": ("Calypte anna", {          # sampled from a reference photograph (hex, not OKLCH)
+    "anna": ("Calypte anna", {          # from a reference photograph, matching examples/draw_anna.py
         "gorget": "#f64e88",            # rose-pink, the most saturated quarter of the gorget
+        "crown":  "#e88a6e",            # peach-rose crown
+        "gold":   "#c09a3e",            # gold fringe at the front of the gorget
         "back":   "#5a6338",            # olive-green scales
         "flank":  "#765842",            # brownish buff of the lower flank
         "belly":  "#8b847d",            # warm grey chest
-        "wing":   "#b3aca1",            # grey-brown (blurred in flight)
+        "wing":   "#b3aca1",            # grey-brown wing
         "bill":   "#302e29"}),
     "ruby-throated": ("Archilochus colubris", {
         "gorget": (0.50, 0.22, 27),     # ruby-red throat

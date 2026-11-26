@@ -29,7 +29,7 @@ PALETTES = {
                 "fuchsia": "#e825bc", "copper": "#db7d24", "sapphire": "#005dca", "turquoise": "#31c8c9"},
     # Hummingbird species: one palette per bird, colors named after plumage parts, designed in OKLCH from the general
     # appearance of the adult male (Anna's sampled from a photograph) (examples/design_species_palettes.py).  The gorget (or the most striking patch) is first.
-    "anna": {"gorget": "#f64e88", "back": "#5a6338", "flank": "#765842", "belly": "#8b847d", "wing": "#b3aca1", "bill": "#302e29"},
+    "anna": {"gorget": "#f64e88", "crown": "#e88a6e", "gold": "#c09a3e", "back": "#5a6338", "flank": "#765842", "belly": "#8b847d", "wing": "#b3aca1", "bill": "#302e29"},
     "ruby-throated": {"gorget": "#bc0013", "back": "#0e9254", "flank": "#91ae8b", "belly": "#eeebe4", "wing": "#302a3b", "bill": "#181b1f"},
     "rufous": {"gorget": "#f15b00", "back": "#b45c03", "flank": "#d9aa74", "belly": "#f2eee7", "wing": "#4d3827", "bill": "#1e1a16"},
     "costa": {"gorget": "#6e00b9", "back": "#439458", "flank": "#93b99a", "belly": "#ecebe7", "wing": "#504635", "bill": "#181b1f"},

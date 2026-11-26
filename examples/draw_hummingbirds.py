@@ -72,15 +72,7 @@ SCALES = [(x, y) for y in range(110, 162, 7) for x in range(124 + (y // 7 % 2) *
 
 def bird(key):
     p = PALETTES[key]
-    g = {"anna": lambda: dict(   # details from a reference photograph
-             gorget=p["gorget"], crown=p["gorget"], back=p["back"], belly=p["belly"], flank=p["flank"],
-             wing=D(p["wing"], .3), tail=M(p["bill"], p["flank"], .45), bill=p["bill"], fork=False,
-             head=M(p["back"], p["bill"], .45),                                  # dusky face around the eye
-             gorget_stops=[(0, "#d6a03f"), (0.22, L(p["gorget"], .06)), (0.5, p["gorget"]),
-                           (0.82, D(p["gorget"], .12)), (1, D(p["gorget"], .2))],   # gold glint at the upper edge
-             crown_stops=[(0, "#f1b07c"), (0.45, p["gorget"]), (1, D(p["gorget"], .14))],  # bronze-peach sheen
-             speckle=p["back"], tuft="#f3f0e8", flank_opacity=0.55),
-         "ruby-throated": lambda: dict(gorget=p["gorget"], crown=p["back"], back=p["back"], belly=p["belly"], flank=p["flank"],
+    g = {"ruby-throated": lambda: dict(gorget=p["gorget"], crown=p["back"], back=p["back"], belly=p["belly"], flank=p["flank"],
                                wing=p["wing"], tail=p["wing"], bill=p["bill"], fork=True, chin=p["bill"]),
          "rufous": lambda: dict(gorget=p["gorget"], crown=M(p["back"], "#3b7a3b", 0.35), back=p["back"], belly=p["belly"],
                         flank=p["flank"], wing=p["wing"], tail=p["back"], bill=p["bill"], fork=False, head=p["back"]),

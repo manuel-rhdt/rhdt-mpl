@@ -131,7 +131,7 @@ Two kinds of palette, both named after hummingbirds:
   back and flank for secondary lines.
 
 ```python
-rhdt_mpl.palette("anna")                         # gorget, back, flank, belly, wing, bill
+rhdt_mpl.palette("anna")                         # gorget, crown, gold, back, flank, belly, wing, bill
 rhdt_mpl.palette("anna", ["gorget", "wing"])     # select and order by name
 ax.plot(x, y, color="rhdt:anna:gorget")          # the accent
 ax.plot(x, theory, color="rhdt:anna:bill", lw=2) # a dark line

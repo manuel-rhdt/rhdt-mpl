@@ -103,9 +103,6 @@ def draw():
         f'<clipPath id="c-green"><path d="{smooth(GREEN)}"/></clipPath>',
         f'<clipPath id="c-gorget"><path d="{smooth(GORGET)}"/></clipPath>',
         f'<clipPath id="c-chest"><path d="{smooth(CHEST)}"/></clipPath>',
-        '<filter id="soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2"/></filter>',
-        '<filter id="blur1" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="1"/></filter>',
-        '<filter id="blur2" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>',
     ]
     s = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 491 400" width="491" height="400">',
          "<defs>" + "".join(defs) + "</defs>"]
@@ -117,23 +114,23 @@ def draw():
     s.append(f'<path d="{BILL}" fill="url(#bill)"/>')
     s.append(f'<path d="{smooth(BODY)}" fill="url(#body)"/>')
     s.append('<g clip-path="url(#c-body)">')
-    s.append(f'<path d="{smooth(CHEST)}" fill="url(#chest)" filter="url(#soft)"/>')
-    s.append(f'<path d="{smooth(BUFF)}" fill="url(#buff)" filter="url(#soft)"/>')
-    s.append(f'<path d="{smooth(GREEN)}" fill="url(#green)" filter="url(#soft)"/>')
+    s.append(f'<path d="{smooth(CHEST)}" fill="url(#chest)"/>')
+    s.append(f'<path d="{smooth(BUFF)}" fill="url(#buff)"/>')
+    s.append(f'<path d="{smooth(GREEN)}" fill="url(#green)"/>')
     s.append(f'<g clip-path="url(#c-green)">' + scales((108, 128, 234, 286), D(P["back"], .16), seed=3) +
              scales((112, 134, 230, 280), L(P["back"], .12), step=9, size=(1.4, 2.4), opacity=(0.2, 0.5), seed=4, width=0.9)
              + "</g>")
     s.append('<g clip-path="url(#c-chest)">' + scales((64, 124, 170, 240), "#5e5a48", step=6, size=(1.2, 2.4),
                                                          opacity=(0.25, 0.6), seed=5, width=1.1) + "</g>")
-    s.append(f'<path d="{smooth(TUFT)}" fill="{L(P['belly'], .32)}" filter="url(#blur2)" opacity="0.95"/>')
+    s.append(f'<path d="{smooth(TUFT)}" fill="{L(P['belly'], .32)}" opacity="0.95"/>')
     s.append(f'<path d="{smooth(BODY)}" fill="url(#vol)"/>')
     s.append("</g>")
     # head
     s.append('<g clip-path="url(#c-body)">')
-    s.append(f'<path d="{smooth(FACE)}" fill="url(#face)" filter="url(#blur2)"/>')
-    s.append(f'<path d="{smooth(BEHIND_EYE)}" fill="url(#behind)" filter="url(#blur2)"/>')
-    s.append(f'<path d="{smooth(CROWN)}" fill="url(#crown)" filter="url(#blur1)"/>')
-    s.append(f'<path d="{smooth(FRINGE)}" fill="url(#fringe)" filter="url(#blur1)"/>')
+    s.append(f'<path d="{smooth(FACE)}" fill="url(#face)"/>')
+    s.append(f'<path d="{smooth(BEHIND_EYE)}" fill="url(#behind)"/>')
+    s.append(f'<path d="{smooth(CROWN)}" fill="url(#crown)"/>')
+    s.append(f'<path d="{smooth(FRINGE)}" fill="url(#fringe)"/>')
     s.append(f'<path d="{smooth(GORGET)}" fill="url(#gorget)"/>')
     s.append('<g clip-path="url(#c-gorget)">' + scales((68, 60, 168, 126), L(g, .16), step=6, size=(1.8, 3.0),
                                                           opacity=(0.3, 0.8), seed=6) +
@@ -146,8 +143,8 @@ def draw():
           f'<circle cx="{ex - 2.2}" cy="{ey - 2.3}" r="1.9" fill="#ffffff" opacity="0.9"/>',
           f'<ellipse cx="{ex + 13}" cy="{ey + 2}" rx="2.6" ry="1.7" fill="#e8e4da" opacity="0.85"/>']
     # wing in front of the body
-    s.append(f'<path d="{smooth(WING)}" fill="url(#wing)" opacity="0.95" filter="url(#blur1)"/>')
-    s.append(f'<path d="{smooth(COVERTS)}" fill="url(#coverts)" filter="url(#blur1)"/>')
+    s.append(f'<path d="{smooth(WING)}" fill="url(#wing)" opacity="0.95"/>')
+    s.append(f'<path d="{smooth(COVERTS)}" fill="url(#coverts)"/>')
     s += [f'<path d="M{a[0]},{a[1]} Q{(a[0] + b[0]) / 2:.0f},{(a[1] + b[1]) / 2 - 6:.0f} {b[0]},{b[1]}" '
           f'stroke="#8f887c" stroke-width="1.1" fill="none" opacity="0.55"/>' for a, b in PRIMARIES]
     s.append('<path d="M200,128 C260,114 360,104 470,106" stroke="#6f685d" stroke-width="2" fill="none" opacity="0.45"/>')

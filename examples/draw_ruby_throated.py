@@ -81,9 +81,6 @@ def draw():
         f'<clipPath id="c-flank"><path d="{smooth(FLANK)}"/></clipPath>',
         f'<clipPath id="c-gorget"><path d="{smooth(GORGET)}"/></clipPath>',
         f'<clipPath id="c-crown"><path d="{smooth(CROWN)}"/></clipPath>',
-        '<filter id="soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2"/></filter>',
-        '<filter id="blur1" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="1"/></filter>',
-        '<filter id="blur2" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>',
     ]
     s = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 491 400" width="491" height="400">',
          "<defs>" + "".join(defs) + "</defs>"]
@@ -97,29 +94,29 @@ def draw():
     s.append(f'<path d="{BILL}" fill="url(#bill)"/>')
     s.append(f'<path d="{smooth(BODY)}" fill="url(#body)"/>')
     s.append('<g clip-path="url(#c-body)">')
-    s.append(f'<path d="{smooth(BELLY)}" fill="url(#belly)" filter="url(#soft)"/>')
-    s.append(f'<path d="{smooth(LOWER)}" fill="url(#lower)" filter="url(#soft)"/>')
-    s.append(f'<path d="{smooth(FLANK)}" fill="url(#flank)" filter="url(#soft)"/>')
+    s.append(f'<path d="{smooth(BELLY)}" fill="url(#belly)"/>')
+    s.append(f'<path d="{smooth(LOWER)}" fill="url(#lower)"/>')
+    s.append(f'<path d="{smooth(FLANK)}" fill="url(#flank)"/>')
     s.append('<g clip-path="url(#c-flank)">' +
              scales((118, 128, 234, 286), D(olive, .16), seed=21) +
              scales((122, 134, 230, 280), sparkle, step=9, size=(1.4, 2.4), opacity=(0.25, 0.6), seed=22, width=0.9)
              + "</g>")
-    s.append(f'<path d="{smooth(A.TUFT)}" fill="{P["collar"]}" filter="url(#blur2)" opacity="0.9"/>')
+    s.append(f'<path d="{smooth(A.TUFT)}" fill="{P["collar"]}" opacity="0.9"/>')
     s.append(f'<path d="{smooth(BODY)}" fill="url(#vol)"/>')
     # head
-    s.append(f'<path d="{smooth(COLLAR)}" fill="url(#collar)" filter="url(#blur1)"/>')
-    s.append(f'<path d="{smooth(CROWN)}" fill="url(#crown)" filter="url(#blur1)"/>')
+    s.append(f'<path d="{smooth(COLLAR)}" fill="url(#collar)"/>')
+    s.append(f'<path d="{smooth(CROWN)}" fill="url(#crown)"/>')
     s.append('<g clip-path="url(#c-crown)">' +
              scales((60, 18, 160, 62), D(P["crown"], .18), step=5, size=(1.2, 2.2), opacity=(0.25, 0.6), seed=23,
                     width=0.9) +
              scales((60, 18, 160, 62), sparkle, step=8, size=(1, 1.8), opacity=(0.3, 0.7), seed=24, width=0.9) + "</g>")
-    s.append(f'<path d="{smooth(FACE)}" fill="url(#face)" filter="url(#blur2)"/>')
+    s.append(f'<path d="{smooth(FACE)}" fill="url(#face)"/>')
     s.append(f'<path d="{smooth(GORGET)}" fill="url(#gorget)"/>')
     s.append('<g clip-path="url(#c-gorget)">' +
              scales((64, 60, 168, 124), L(g, .14), step=6, size=(1.8, 3.0), opacity=(0.3, 0.8), seed=25) +
              scales((64, 63, 168, 124), D(g, .16), step=6, size=(1.6, 2.6), opacity=(0.2, 0.5), seed=26, width=0.8)
              + "</g>")
-    s.append(f'<path d="{smooth(CHIN)}" fill="{D(P["crown"], .36)}" filter="url(#blur1)"/>')
+    s.append(f'<path d="{smooth(CHIN)}" fill="{D(P["crown"], .36)}"/>')
     s.append("</g>")
     ex, ey, er = EYE
     s += [f'<circle cx="{ex}" cy="{ey}" r="{er + 1.2}" fill="{D(P["crown"], .4)}"/>',
@@ -127,8 +124,8 @@ def draw():
           f'<circle cx="{ex - 2.2}" cy="{ey - 2.3}" r="1.9" fill="#ffffff" opacity="0.9"/>',
           f'<ellipse cx="{ex + 13}" cy="{ey + 3}" rx="2.6" ry="1.7" fill="{P["collar"]}" opacity="0.85"/>']
     # wing
-    s.append(f'<path d="{smooth(WING)}" fill="url(#wing)" opacity="0.96" filter="url(#blur1)"/>')
-    s.append(f'<path d="{smooth(COVERTS)}" fill="url(#coverts)" filter="url(#blur1)"/>')
+    s.append(f'<path d="{smooth(WING)}" fill="url(#wing)" opacity="0.96"/>')
+    s.append(f'<path d="{smooth(COVERTS)}" fill="url(#coverts)"/>')
     s += [f'<path d="M{a[0]},{a[1]} Q{(a[0] + b[0]) / 2:.0f},{(a[1] + b[1]) / 2 - 6:.0f} {b[0]},{b[1]}" '
           f'stroke="{D(P["wing"], .2)}" stroke-width="1.1" fill="none" opacity="0.55"/>' for a, b in PRIMARIES]
     s.append(f'<path d="M200,128 C260,114 360,104 470,106" stroke="{D(P["wing"], .3)}" stroke-width="2" '

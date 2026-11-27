@@ -182,7 +182,7 @@ def test_colormaps():
     assert mpl.rcParams["image.cmap"] == "ok_orchid"
     from rhdt_mpl import okmaps
     cs = rhdt_mpl.colorspace
-    assert len(okmaps.COLORMAPS) == 11
+    assert len(okmaps.COLORMAPS) == 13
     for n, cm in okmaps.COLORMAPS.items():
         for m in (n, n + "_r"):
             assert m in mpl.colormaps and mpl.colormaps[m].N == 256
@@ -226,6 +226,23 @@ def _check_diverging(name, hues):
         assert step.max() / step.min() < 1.15      # the gamut boundary of P3 bends the path a little
     r = mpl.colormaps[name + "_r"]
     assert np.allclose(r.colors, t[::-1])
+
+
+def test_spiral_maps():
+    import numpy as np
+    cs = rhdt_mpl.colorspace
+    for name in ("ok_ember", "ok_lagoon"):
+        t = np.array(rhdt_mpl.okmaps.COLORMAPS[name].colors)
+        lab = cs.rgb_to_oklab(t, "display-p3")
+        L, chroma = lab[:, 0], np.hypot(lab[:, 1], lab[:, 2])
+        x = np.linspace(0, 1, len(L))
+        assert abs(L[0] - 0.25) < 0.02 and abs(L[-1] - 0.96) < 0.02
+        assert np.abs(L - np.polyval(np.polyfit(x, L, 1), x)).max() < 0.05        # lightness close to a straight line
+        step = np.linalg.norm(np.diff(lab, axis=0), axis=1)
+        assert step.max() / step.min() < 1.05                                      # equal steps of OKLab distance
+        assert chroma.mean() > 0.11 and chroma.max() > 0.17                        # high chroma (viridis peaks at 0.19)
+        lin = cs.linear_to_srgb_linear(cs.decode(t), "display-p3")
+        assert ((lin < -1e-3) | (lin > 1 + 1e-3)).any(axis=1).sum() > 100          # much of it outside sRGB
 
 
 def test_orchid_pink_is_not_squeezed():

@@ -1,7 +1,7 @@
 # rhdt-mpl
 
 Personal Matplotlib defaults: the [umbruch](https://github.com/manuel-rhdt/umbruch) backend in the Display P3 color space,
-bundled Noto fonts, named palettes and cycles, eleven colormaps, and helpers for adjusting colors in OKLab.
+bundled Noto fonts, named palettes and cycles, thirteen colormaps, and helpers for adjusting colors in OKLab.
 
 ```python
 import rhdt_mpl                      # import before pyplot
@@ -169,11 +169,20 @@ The full name of every color is `rhdt:<palette>:<name>`; the colors of the defau
 
 ## Colormaps
 
-<img src="docs/colormaps.svg" alt="The eleven colormaps with their OKLab lightness" width="100%">
+<img src="docs/colormaps.svg" alt="The thirteen colormaps with their OKLab lightness" width="100%">
 
 256-entry tables in Display P3, designed in OKLab, with the OKLab lightness of each shown underneath (the figures are Display P3 too, see below). All but the diverging map run dark to light; append
 `_r` for light to dark, which is the usual direction for single-hue maps on a white background. `ok_orchid` is the default
 `image.cmap`.
+
+`ok_ember` and `ok_lagoon` are high-chroma spirals made in OKLab, in the spirit of cubehelix but perceptual: the lightness
+rises linearly from 0.25 to 0.96 while the hue turns from an indigo at 265° (`ok_ember`: half a turn through magenta and red to
+orange and cream; `ok_lagoon`: 0.6 of a turn the other way through teal and green to a mustard yellow and cream, slowing
+toward the end). The chroma is 0.9 of the largest Display P3 allows at that lightness and hue, where that largest
+chroma is first smoothed along the path (it jumps at the corners of the gamut), and the path is resampled at equal OKLab steps. Mean
+chroma is 0.18 and 0.12, peak 0.26 and 0.18 (viridis peaks at 0.19), and 141 and 221 of 256 entries lie outside sRGB, so on an sRGB
+screen they lose much of their saturation. Hue is not ordinal in a spiral; as with cubehelix, only the lightness orders the
+values, so they are not for reading exact values off a color bar.
 
 `ok_ruby_sapphire` and `ok_green_magenta` are diverging maps for data with a meaningful center (use `vmin=-m, vmax=m`, or
 `TwoSlopeNorm`). The arms of `ok_ruby_sapphire` are the colibri `ruby` (hue 12° in OKLCH, at index 0) and `sapphire` (239°, at the
@@ -188,6 +197,7 @@ deuteranopes). A fifth (`ok_green_magenta`) to a third (`ok_ruby_sapphire`) of t
 ```python
 plt.imshow(z)                        # ok_orchid
 plt.imshow(z, cmap="ok_dusk")        # multi-hue: ok_dusk, ok_orchid
+plt.imshow(z, cmap="ok_ember")       # high-chroma spirals: ok_ember, ok_lagoon
 plt.imshow(z, cmap="ok_blue_r")      # single-hue: ok_blue, ok_teal, ok_green, ok_orange, ok_red, ok_purple, ok_pink
 plt.imshow(z, cmap="ok_ruby_sapphire", vmin=-m, vmax=m)  # diverging, centered on 0: ok_ruby_sapphire, ok_green_magenta
 ```

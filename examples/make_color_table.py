@@ -1,19 +1,16 @@
-"""Write the table of all named colors into the README (between the named-colors markers) and the swatch images it uses
-(docs/swatches/<hex>.svg).  Everything comes from the package, so the table cannot drift from it.
+"""Write the table of all named colors to docs/colors.md and the swatch images it uses (docs/swatches/<hex>.svg).  Everything comes from the package, so the table cannot drift from it.
 
     python examples/make_color_table.py
 """
 import os
-import re
 
 import rhdt_mpl
 from rhdt_mpl import oklab
 from rhdt_mpl.palettes import PALETTES, NATIVE_SPACE, DEFAULT_PALETTE
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-README = os.path.join(ROOT, "README.md")
+TABLE = os.path.join(ROOT, "docs", "colors.md")
 SWATCHES = os.path.join(ROOT, "docs", "swatches")
-BEGIN, END = "<!-- named-colors:begin -->", "<!-- named-colors:end -->"
 PATCH_NOTE = {"gorget": "gorget", "crown": "crown", "belly": "belly", "mantle": "mantle", "rump": "rump"}
 
 
@@ -29,7 +26,7 @@ def swatch(hexv, space):
     with open(os.path.join(SWATCHES, name), "w") as fh:
         fh.write(f'<svg xmlns="http://www.w3.org/2000/svg" width="40" height="16" viewBox="0 0 40 16">'
                  f'<rect x="0.5" y="0.5" width="39" height="15" rx="2.5" fill="{fill}" stroke="#8888" stroke-width="1"/></svg>\n')
-    return f'<img src="docs/swatches/{name}" width="40" height="16" alt="{hexv}">'
+    return f'<img src="swatches/{name}" width="40" height="16" alt="{hexv}">'
 
 
 def notes(palette, name):
@@ -57,12 +54,11 @@ def table():
     return "\n".join(rows)
 
 
-def block():
+def page():
     n = len(rhdt_mpl.named_colors())
-    return (f"{BEGIN}\n<details>\n<summary>All {n} named colors (click to expand)</summary>\n\n"
-            f"The full name of every color is `rhdt:<palette>:<name>`; the colors of the default palette (`{DEFAULT_PALETTE}`) also "
-            f"have the short form `rhdt:<name>`. The hex values are the numbers of the palette in its own color space, Display P3 for the hummingbird palettes and sRGB for `okabe-ito`, `ok6` and `ok8` (the notes say which); the colors a figure uses are converted to its color space. For the few colors outside Display P3 the hex is the nearest Display P3 color.\n\n"
-            f"{table()}\n\n</details>\n{END}")
+    return (f"# Named colors\n\nAll {n} names. The full name of every color is `rhdt:<palette>:<name>`; the colors of the default palette "
+            f"(`{DEFAULT_PALETTE}`) also have the short form `rhdt:<name>`. Hex values are in the palette's own color space "
+            f"(the notes say which); figures convert them to theirs.\n\n{table()}\n")
 
 
 if __name__ == "__main__":
@@ -70,11 +66,5 @@ if __name__ == "__main__":
         for f in os.listdir(SWATCHES):
             if f.endswith(".svg"):
                 os.remove(os.path.join(SWATCHES, f))
-    s = open(README).read()
-    if BEGIN in s:
-        s = re.sub(re.escape(BEGIN) + r".*?" + re.escape(END), lambda m: block(), s, flags=re.S)
-    else:
-        anchor = "## Colormaps"
-        s = s.replace(anchor, block() + "\n\n" + anchor, 1)
-    open(README, "w").write(s)
+    open(TABLE, "w").write(page())
     print("wrote the table of", len(rhdt_mpl.named_colors()), "named colors;", len(os.listdir(SWATCHES)), "swatches")

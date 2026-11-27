@@ -5,6 +5,12 @@ its lightness and hue (0.9 for the single-hue maps, less for the quieter ones). 
 and hue of every entry and the same *fraction* of the largest chroma of the Display P3 gamut, so they are as saturated
 relative to their gamut as the originals and use the room P3 has: the chroma grows by 1.0 to 1.4 times.
 
+``ok_orchid`` is the exception (TWEAKS).  At the same fraction it stayed almost inside sRGB (35 of 256 entries outside), and
+its pink end took up less of the map than the purple (about 37 % against 50 % of the range at a chroma of at least 0.10).
+So its chroma fraction is multiplied by 1.3 (at most 0.95), and the hue along the map is re-timed with
+``w(t) = t + 0.4 t (1 - t)``, which reaches magenta-pink at 40 % of the map instead of 50 %.  The lightness of every entry,
+and so its dark -> light order, is unchanged.
+
     git show 312d922:src/rhdt_mpl/okmaps.py > okmaps_srgb.py      # the last version with sRGB tables
     python examples/build_okmaps_p3.py okmaps_srgb.py             # rewrites src/rhdt_mpl/okmaps.py
 """
@@ -78,13 +84,22 @@ def max_chroma(L, h, space):
     return lo
 
 
-def to_p3(table):
-    """Display P3 table with the lightness, hue and fraction of the largest chroma of an sRGB table."""
+#: per map: *gain* multiplies the fraction of the largest chroma (at most *cap*), *warp* re-times the hue and the fraction
+#: along the map by w(t) = t + warp * t * (1 - t); the lightness is not touched
+TWEAKS = {"ok_orchid": dict(gain=1.3, cap=0.95, warp=0.4)}
+
+
+def to_p3(table, gain=1.0, cap=1.0, warp=0.0):
+    """Display P3 table with the lightness, hue and fraction of the largest chroma of an sRGB table (see TWEAKS)."""
     lab = cs.rgb_to_oklab(np.asarray(table), "srgb")
     L, a, b = lab.T
-    C, h = np.hypot(a, b), np.arctan2(b, a)
-    c_srgb, c_p3 = max_chroma(L, np.degrees(h), "srgb"), max_chroma(L, np.degrees(h), "display-p3")
+    C, h = np.hypot(a, b), np.unwrap(np.arctan2(b, a))
+    c_srgb = max_chroma(L, np.degrees(h), "srgb")
     frac = np.where(c_srgb > 1e-6, C / np.maximum(c_srgb, 1e-6), 0.0)
+    t = np.linspace(0, 1, len(L))
+    w = t + warp * t * (1 - t)
+    h, frac = np.interp(w, t, h), np.minimum(np.interp(w, t, frac) * gain, cap)
+    c_p3 = max_chroma(L, np.degrees(h), "display-p3")
     C2 = frac * c_p3
     rgb = cs.oklab_to_rgb(np.column_stack([L, C2 * np.cos(h), C2 * np.sin(h)]), "display-p3")
     return np.clip(rgb, 0, 1)
@@ -94,7 +109,7 @@ def main(src):
     mod = _load("okmaps_srgb", src)
     lines = [HEADER]
     for name in NAMES:
-        t = to_p3(mod.COLORMAPS[name].colors)
+        t = to_p3(mod.COLORMAPS[name].colors, **TWEAKS.get(name, {}))
         assert np.all(np.diff(cs.rgb_to_oklab(t, "display-p3")[:, 0]) > 0), name       # still dark -> light
         lines.append(f"_{name.upper()} = [")
         lines += [f"    ({r:.5f}, {g:.5f}, {b:.5f})," for r, g, b in t]

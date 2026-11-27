@@ -248,7 +248,12 @@ Display P3 numbers that look the same.
 - **Native Display P3:** the colormaps and the hummingbird palettes (`colibri`, `colibri-dark` and the species palettes).
   The colormaps keep the lightness and hue of the sRGB tables they replace and the same *fraction* of the largest chroma the
   gamut allows (0.9 for the single-hue maps), so they are as saturated relative to the gamut as before and use the extra
-  room: 1.0 to 1.4 times the chroma of the sRGB version (`examples/build_okmaps_p3.py`). The measured hummingbird colors are
+  room: 1.0 to 1.4 times the chroma of the sRGB version. Only the maps designed near the sRGB boundary leave sRGB visibly
+  (`ok_blue`, `ok_orange`, `ok_red`, `ok_pink`); `ok_dusk`, `ok_teal`, `ok_green` and `ok_purple` were designed at lower
+  fractions or in hues where P3 adds little, and stay inside sRGB (`examples/build_okmaps_p3.py`). The default `ok_orchid` is
+  tuned further: it would stay almost inside sRGB at the same fraction, so its fraction is 1.3 times that of the sRGB version
+  (at most 0.95), and its hue is re-timed so that the pink reaches magenta at 40 % of the map instead of half way, which keeps
+  the pink end from looking narrower than the purple. Its lightness, and so its dark to light order, is unchanged. The measured hummingbird colors are
   converted from spectra straight to Display P3; most of those that lay outside sRGB now fit (`ruby`, `peridot`, `lapis`, ...).
 - **Defined in sRGB:** `okabe-ito`, `ok6` and `ok8` (Okabe–Ito is a published standard, the others were designed as sRGB).
   `PALETTES` holds their sRGB hex, and `palette()`, `named_colors()` and the cycles return the equivalent Display P3 numbers,

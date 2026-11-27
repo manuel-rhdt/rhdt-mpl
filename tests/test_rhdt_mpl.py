@@ -189,8 +189,23 @@ def test_colormaps():
         L = cs.rgb_to_oklab(t, "display-p3")[:, 0]
         assert np.all(np.diff(L) > 0)                                     # dark -> light
     # native to P3: they use colors outside sRGB (some of their entries have a negative sRGB channel)
-    assert any((cs.linear_to_srgb_linear(cs.decode(np.array(cm.colors)), "display-p3") < -1e-3).any()
-               for cm in okmaps.COLORMAPS.values())
+    outside = {}
+    for n, cm in okmaps.COLORMAPS.items():
+        lin = cs.linear_to_srgb_linear(cs.decode(np.array(cm.colors)), "display-p3")
+        outside[n] = int(((lin < -1e-3) | (lin > 1 + 1e-3)).any(axis=1).sum())          # entries outside sRGB
+    print(outside)
+    assert sum(outside.values()) > 0
+    assert outside["ok_orchid"] > 100                                         # the default map really uses the room of P3
+
+
+def test_orchid_pink_is_not_squeezed():
+    """Hue 335 deg (magenta-pink) is reached at 40 % of ok_orchid, not at half."""
+    import numpy as np
+    cs = rhdt_mpl.colorspace
+    lab = cs.rgb_to_oklab(np.array(rhdt_mpl.okmaps.COLORMAPS["ok_orchid"].colors), "display-p3")
+    hue = np.degrees(np.arctan2(lab[:, 2], lab[:, 1])) % 360
+    first = int(np.argmax((hue > 335) | (hue < 90)))
+    assert 0.37 < first / 255 < 0.43, first / 255
 
 
 if __name__ == "__main__":

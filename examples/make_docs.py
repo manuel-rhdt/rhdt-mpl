@@ -22,7 +22,8 @@ jobs = [("showcase_colors.py", ["colors", "colormaps"]),
         ("features.py", ["features"]),
         ("colibri.py", ["colibri"]),
         ("oklab_helpers.py", ["oklab_helpers"]),
-        ("colormap_examples.py", ["cmap_wigner", "cmap_fields", "cmap_curves"])]
+        ("colormap_examples.py", ["cmap_wigner", "cmap_fields", "cmap_curves"]),
+        ("math_examples.py", ["math"])]
 
 with tempfile.TemporaryDirectory() as tmp:
     for script, names in jobs:

@@ -11,7 +11,7 @@ rng = np.random.default_rng(2)
 fig, axs = plt.subplots(2, 3, figsize=(rhdt_mpl.TWO_COLUMN, 5.0))
 x = np.linspace(0, 10, 300)
 
-# a  default style and cycle, Noto Sans, rich text and math through umbruch
+# a  default style and cycle, Fira Sans, rich text and math through umbruch
 ax = axs[0, 0]
 for k in range(5):
     ax.plot(x, np.exp(-x / 6) * np.cos(x + 0.6 * k), label=rf"$\varphi={0.6 * k:.1f}$")

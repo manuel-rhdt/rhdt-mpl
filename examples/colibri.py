@@ -23,7 +23,7 @@ ax = fig.add_axes([0, 2.9 / (H_SW + 2.9), 1, H_SW / (H_SW + 2.9)])
 ax.set_xlim(0, W); ax.set_ylim(0, H_SW); ax.axis("off")
 ax.text(0.08, H_SW - 0.2, "hummingbird palettes", fontsize=11, fontweight="bold", va="center")
 ax.text(W - 0.08, H_SW - 0.2, 'rhdt_mpl.palette("ruby-topaz")     color="rhdt:colibri:ruby"', fontsize=6,
-        family="Noto Sans Mono", ha="right", va="center", color="0.25")
+        family="Fira Mono", ha="right", va="center", color="0.25")
 ax.text(0.1, 0.1, "∘ the exact color lies outside Display P3; the swatch shows its nearest Display P3 color", fontsize=5.6, color="0.35",
         va="center")
 for r, (key, sub, pal) in enumerate(rows):
@@ -38,7 +38,7 @@ for r, (key, sub, pal) in enumerate(rows):
                 va="center", color=ink, linespacing=0.95)
         if rhdt_mpl.wide_css(key, name):                       # the exact color lies outside Display P3
             ax.plot([x + SW - 0.06], [y + 0.46], "o", ms=2.2, mfc="none", mec=ink, mew=0.6)
-        ax.text(x + SW / 2, y + 0.04, hexv, fontsize=4.8, ha="center", va="center", family="Noto Sans Mono", color="0.4")
+        ax.text(x + SW / 2, y + 0.04, hexv, fontsize=4.8, ha="center", va="center", family="Fira Mono", color="0.4")
 
 # --- the pattern in use: a dark part for the theory, bright gorget as the accent, quieter plumage colors for the rest
 gs = fig.add_gridspec(1, 3, left=0.07, right=0.98, bottom=0.07, top=2.45 / (H_SW + 2.9), wspace=0.28)

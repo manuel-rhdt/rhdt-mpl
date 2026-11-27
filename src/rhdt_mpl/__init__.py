@@ -1,10 +1,10 @@
-"""Matplotlib defaults: umbruch backend, Noto fonts, personal color palettes.
+"""Matplotlib defaults: umbruch backend, Fira fonts, personal color palettes.
 
     import rhdt_mpl          # before importing matplotlib.pyplot, ideally
     import matplotlib.pyplot as plt
 
 Importing the package selects the umbruch backend in the Display P3 color space, registers the bundled
-Noto fonts (the backend hands them to umbruch), and applies the ``rhdt`` style.  ``rhdt_mpl.use(...)`` redoes
+Fira fonts (the backend hands them to umbruch), and applies the ``rhdt`` style.  ``rhdt_mpl.use(...)`` redoes
 this explicitly; ``rhdt_mpl.set_palette(name)`` changes the color cycle.
 """
 import os
@@ -29,7 +29,7 @@ BACKEND = "module://umbruch_matplotlib"
 TWO_COLUMN = 510 / 72   # figure width in inches used for the ML-PWS paper figures
 DEFAULT_CMAP = "ok_orchid"
 DEFAULT_COLOR_SPACE = "display-p3"
-MATH_FONT = "Noto Sans Math"   # needs a backend with config.math_font
+MATH_FONT = "Fira Math"   # needs a backend with config.math_font
 
 _here = resources.files(__package__)
 font_dir = os.fspath(_here / "fonts")
@@ -73,7 +73,7 @@ def register_colors():
 
 def _register_fonts():
     for fn in sorted(os.listdir(font_dir)):
-        if fn.endswith(".ttf"):
+        if fn.endswith((".ttf", ".otf")):
             fm.fontManager.addfont(os.path.join(font_dir, fn))
 
 

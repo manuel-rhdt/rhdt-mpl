@@ -1,6 +1,6 @@
 # rhdt-mpl
 
-Personal Matplotlib defaults: PDF output through [umbruch](https://github.com/manuel-rhdt/umbruch) in Display P3, Noto fonts,
+Personal Matplotlib defaults: PDF output through [umbruch](https://github.com/manuel-rhdt/umbruch) in Display P3, Fira fonts,
 twelve colormaps, hummingbird palettes and OKLab color helpers.
 
 <img src="docs/features.svg" alt="Overview of the features" width="100%">
@@ -70,6 +70,16 @@ plt.imshow(z, cmap="ok_ruby_sapphire", vmin=-m, vmax=m)    # diverging; also ok_
 
 <img src="docs/cmap_curves.svg" alt="Curves colored by damping, and a density in ok_blue_r" width="100%">
 
+## Math
+
+<img src="docs/math.svg" alt="Blackbody spectra and damped Rabi oscillations, with the Lindblad equation, a two-level Hamiltonian and Planck's law set below" width="100%">
+
+```python
+ax.set_ylabel(r"$B_\nu(T)\ (10^{-9}\,\mathrm{W\,m^{-2}\,Hz^{-1}\,sr^{-1}})$")
+ax.annotate(r"$\nu_{\max}=\dfrac{2.82\,k_B T}{h}$", xy=peak, xytext=(1.25, 32))
+fig.text(0.1, 0.1, r"$\dot\rho=-\dfrac{i}{\hbar}[H,\rho]+\sum_k\gamma_k\left(L_k\rho L_k^\dagger-\dfrac{1}{2}\{L_k^\dagger L_k,\rho\}\right)$")
+```
+
 ## OKLab helpers
 
 <img src="docs/oklab_helpers.svg" alt="The OKLab helpers applied to the colibri colors" width="100%">
@@ -101,5 +111,5 @@ python examples/make_docs.py             # regenerate docs/ (needs pdftocairo an
 python -m pytest tests
 ```
 
-Hummingbird colors: Beltran, Shultz & Parra, [Dryad](https://doi.org/10.5061/dryad.02v6wwq8w). Noto fonts: SIL Open Font
-License 1.1, see `src/rhdt_mpl/fonts/LICENSE-Noto-OFL.txt`.
+Hummingbird colors: Beltran, Shultz & Parra, [Dryad](https://doi.org/10.5061/dryad.02v6wwq8w). Fonts (Fira Sans, Fira Mono, Fira Math, Noto Serif): SIL Open Font
+License 1.1, see `src/rhdt_mpl/fonts/`.

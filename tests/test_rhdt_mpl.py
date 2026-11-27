@@ -8,7 +8,7 @@ from umbruch_matplotlib import rich
 
 def test_backend_and_fonts(tmp_path=None):
     assert matplotlib.get_backend().lower() == "module://umbruch_matplotlib"
-    assert matplotlib.rcParams["font.sans-serif"][0] == "Noto Sans"
+    assert matplotlib.rcParams["font.sans-serif"][0] == "Fira Sans"
     out = os.path.join(tmp_path or tempfile.mkdtemp(), "fig.pdf")
     x = np.linspace(0, 2 * np.pi, 100)
     fig, ax = plt.subplots()
@@ -16,12 +16,12 @@ def test_backend_and_fonts(tmp_path=None):
         ax.plot(x, np.sin(x + k / 2), label=f"k={k}")
     ax.set_xlabel(rich("time <i>t</i> (ms)"))
     ax.set_ylabel(r"$\sin(x)$")
-    ax.set_title("Noto Sans check")
+    ax.set_title("Fira Sans check")
     ax.legend()
     fig.savefig(out)
     names = subprocess.run(["pdffonts", out], capture_output=True, text=True).stdout
     print(names)
-    assert "NotoSansMath" in names and "STIX" not in names and "DejaVu" not in names
+    assert "FiraMath" in names and "FiraSans" in names and "STIX" not in names and "DejaVu" not in names
 
 
 def test_display_p3_is_the_default():

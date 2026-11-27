@@ -11,7 +11,7 @@ from rhdt_mpl.palettes import PALETTES, OK_PRINT_LINESTYLES
 out = sys.argv[1] if len(sys.argv) > 1 else "."
 W = rhdt_mpl.TWO_COLUMN
 LABEL_W, SW, GAP = 2.25, 0.44, 0.03
-MONO = "Noto Sans Mono"
+MONO = "Fira Mono"
 
 
 def ink(color):
@@ -88,7 +88,7 @@ H = 0.55 + sum(0.5 if r[0] == "sec" else RH for r in rows)
 fig = plt.figure(figsize=(W, H), layout=None)
 ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis("off")
 ax.text(0.08, H - 0.2, "rhdt_mpl colors", fontsize=11, fontweight="bold", va="center")
-ax.text(W - 0.08, H - 0.2, "import rhdt_mpl     # applies style, Noto fonts, umbruch backend", fontsize=6, family=MONO,
+ax.text(W - 0.08, H - 0.2, "import rhdt_mpl     # applies style, Fira fonts, umbruch backend", fontsize=6, family=MONO,
         ha="right", va="center", color="0.25")
 y = H - 0.62
 for r in rows:

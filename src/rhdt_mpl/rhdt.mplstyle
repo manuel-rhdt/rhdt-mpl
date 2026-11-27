@@ -26,9 +26,7 @@ grid.color: B0B0B0
 grid.linewidth: 0.8
 axes.prop_cycle: cycler('color', ['00A543', 'D139BF', '007AC1', 'BA682C', 'AA1742', '4737E5', '008479', '808C28'])   # colibri (Display P3 numbers)
 
-# Y tick labels: center the text box, not the baseline. Matplotlib >= 3.11 sizes the box from the font's ascent and
-# descent; for Fira Sans that centers digits on the tick, while center_baseline puts them about 1 pt too low.
-ytick.alignment: center
+ytick.alignment: center      # centers Fira Sans digits on the ticks (center_baseline puts them ~1 pt low)
 
 # Lines and markers (no marker edge)
 lines.linewidth: 1.5

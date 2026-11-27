@@ -1,7 +1,7 @@
 # rhdt-mpl
 
-Personal Matplotlib defaults: the [umbruch](https://github.com/manuel-rhdt/umbruch) backend, bundled Noto fonts,
-named palettes and cycles, nine colormaps, and helpers for adjusting colors in OKLab.
+Personal Matplotlib defaults: the [umbruch](https://github.com/manuel-rhdt/umbruch) backend in the Display P3 color space,
+bundled Noto fonts, named palettes and cycles, nine colormaps, and helpers for adjusting colors in OKLab.
 
 ```python
 import rhdt_mpl                      # import before pyplot
@@ -10,14 +10,16 @@ import matplotlib.pyplot as plt
 
 Importing the package does five things:
 
-1. selects the backend `module://umbruch_matplotlib` (PDF output with text and math laid out by umbruch),
-2. registers the bundled Noto Sans, Noto Sans Mono, Noto Serif and Noto Sans Math with Matplotlib and starts umbruch with
-   `--font-dir` pointing at them (the backend's default bridge uses `--no-system-fonts` and would not see them),
+1. selects the backend `module://umbruch_matplotlib` (PDF output with text and math laid out by umbruch) and tells it that
+   every color number is **Display P3** (`umbruch_matplotlib.config.color_space = "display-p3"`, see below),
+2. registers the bundled Noto Sans, Noto Sans Mono, Noto Serif and Noto Sans Math with Matplotlib (the backend sends the
+   font files Matplotlib picks to umbruch),
 3. applies the style `rhdt.mplstyle` and the default color cycle,
 4. registers the colormaps (`ok_orchid`, ... and their `_r` versions),
 5. registers every palette color under the name `rhdt:<palette>:<name>` and every palette as a color sequence.
 
-`rhdt_mpl.use(backend=False)` re-applies the style without changing the backend.
+`rhdt_mpl.use(backend=False)` re-applies the style without changing the backend, and `rhdt_mpl.use(color_space="srgb")`
+opts out of Display P3 (palettes, named colors, cycle and colormaps are then registered as sRGB).
 
 All figures below are produced by this package. They are drawn by the umbruch backend to PDF and converted to SVG with the
 text as outlines (`python examples/make_docs.py`).
@@ -95,72 +97,72 @@ The palettes are also available as `matplotlib.color_sequences["rhdt:ok6"]` and 
 <details>
 <summary>All 70 named colors (click to expand)</summary>
 
-The full name of every color is `rhdt:<palette>:<name>`; the colors of the default palette (`colibri`) also have the short form `rhdt:<name>`. Hex values are sRGB; for colors outside sRGB the hex is the nearest sRGB color.
+The full name of every color is `rhdt:<palette>:<name>`; the colors of the default palette (`colibri`) also have the short form `rhdt:<name>`. The hex values are the numbers of the palette in its own color space, Display P3 for the hummingbird palettes and sRGB for `okabe-ito`, `ok6` and `ok8` (the notes say which); the colors a figure uses are converted to its color space. For the few colors outside Display P3 the hex is the nearest Display P3 color.
 
 | | name | hex | notes |
 |---|---|---|---|
-| <img src="docs/swatches/000000.svg" width="40" height="16" alt="#000000"> | `rhdt:okabe-ito:black` | `#000000` |  |
-| <img src="docs/swatches/e69f00.svg" width="40" height="16" alt="#E69F00"> | `rhdt:okabe-ito:orange` | `#e69f00` |  |
-| <img src="docs/swatches/56b4e9.svg" width="40" height="16" alt="#56B4E9"> | `rhdt:okabe-ito:sky blue` | `#56b4e9` |  |
-| <img src="docs/swatches/009e73.svg" width="40" height="16" alt="#009E73"> | `rhdt:okabe-ito:bluish green` | `#009e73` |  |
-| <img src="docs/swatches/f0e442.svg" width="40" height="16" alt="#F0E442"> | `rhdt:okabe-ito:yellow` | `#f0e442` |  |
-| <img src="docs/swatches/0072b2.svg" width="40" height="16" alt="#0072B2"> | `rhdt:okabe-ito:blue` | `#0072b2` |  |
-| <img src="docs/swatches/d55e00.svg" width="40" height="16" alt="#D55E00"> | `rhdt:okabe-ito:vermilion` | `#d55e00` |  |
-| <img src="docs/swatches/cc79a7.svg" width="40" height="16" alt="#CC79A7"> | `rhdt:okabe-ito:reddish purple` | `#cc79a7` |  |
-| <img src="docs/swatches/1d5e85.svg" width="40" height="16" alt="#1d5e85"> | `rhdt:ok6:navy` | `#1d5e85` |  |
-| <img src="docs/swatches/c8b222.svg" width="40" height="16" alt="#c8b222"> | `rhdt:ok6:gold` | `#c8b222` |  |
-| <img src="docs/swatches/8b3e09.svg" width="40" height="16" alt="#8b3e09"> | `rhdt:ok6:brown` | `#8b3e09` |  |
-| <img src="docs/swatches/f487c5.svg" width="40" height="16" alt="#f487c5"> | `rhdt:ok6:pink` | `#f487c5` |  |
-| <img src="docs/swatches/469172.svg" width="40" height="16" alt="#469172"> | `rhdt:ok6:green` | `#469172` |  |
-| <img src="docs/swatches/a351fb.svg" width="40" height="16" alt="#a351fb"> | `rhdt:ok6:violet` | `#a351fb` |  |
-| <img src="docs/swatches/00a051.svg" width="40" height="16" alt="#00a051"> | `rhdt:colibri:emerald` | `#00a051` | also `rhdt:emerald`; Urosticte benjamini ♂ gorget, 2 specimens; exact color outside sRGB: `oklch(0.6187 0.2364 151.88)` |
-| <img src="docs/swatches/e422c5.svg" width="40" height="16" alt="#e422c5"> | `rhdt:colibri:tourmaline` | `#e422c5` | also `rhdt:tourmaline`; Heliangelus strophianus ♂ gorget, 2 specimens |
-| <img src="docs/swatches/4a36ee.svg" width="40" height="16" alt="#4a36ee"> | `rhdt:colibri:amethyst` | `#4a36ee` | also `rhdt:amethyst`; Eriocnemis vestita ♂ gorget, 15 specimens |
-| <img src="docs/swatches/c76313.svg" width="40" height="16" alt="#c76313"> | `rhdt:colibri:amber` | `#c76313` | also `rhdt:amber`; Coeligena bonapartei ♂ rump, 5 specimens |
-| <img src="docs/swatches/007cb3.svg" width="40" height="16" alt="#007cb3"> | `rhdt:colibri:sapphire` | `#007cb3` | also `rhdt:sapphire`; Lepidopyga coeruleogularis ♂ gorget, 2 specimens; exact color outside sRGB: `oklch(0.5563 0.1832 238.53)` |
-| <img src="docs/swatches/b60042.svg" width="40" height="16" alt="#b60042"> | `rhdt:colibri:ruby` | `#b60042` | also `rhdt:ruby`; Chrysolampis mosquitus ♂ crown, 4 specimens; exact color outside sRGB: `oklch(0.4949 0.2091 12.29)` |
-| <img src="docs/swatches/008176.svg" width="40" height="16" alt="#008176"> | `rhdt:colibri:jade` | `#008176` | also `rhdt:jade`; Aglaiocercus coelestis ♀ crown, 9 specimens; exact color outside sRGB: `oklch(0.5437 0.1601 184.45)` |
-| <img src="docs/swatches/7d8c00.svg" width="40" height="16" alt="#7d8c00"> | `rhdt:colibri:peridot` | `#7d8c00` | also `rhdt:peridot`; Eriocnemis vestita ♂ rump, 15 specimens; exact color outside sRGB: `oklch(0.6075 0.1413 117.03)` |
-| <img src="docs/swatches/07841c.svg" width="40" height="16" alt="#07841c"> | `rhdt:colibri-dark:malachite` | `#07841c` | Lafresnaya lafresnayi ♂ gorget, 2 specimens; darker partner of `emerald` |
-| <img src="docs/swatches/a54570.svg" width="40" height="16" alt="#a54570"> | `rhdt:colibri-dark:rhodolite` | `#a54570` | Heliomaster longirostris ♂ gorget, 3 specimens; darker partner of `tourmaline` |
-| <img src="docs/swatches/212a8c.svg" width="40" height="16" alt="#212a8c"> | `rhdt:colibri-dark:iolite` | `#212a8c` | Goldmania violiceps ♂ crown, 2 specimens; darker partner of `amethyst` |
-| <img src="docs/swatches/844d1e.svg" width="40" height="16" alt="#844d1e"> | `rhdt:colibri-dark:bronzite` | `#844d1e` | Androdon aequatorialis ♂ crown, 2 specimens; darker partner of `amber` |
-| <img src="docs/swatches/0044d3.svg" width="40" height="16" alt="#0044d3"> | `rhdt:colibri-dark:lapis` | `#0044d3` | Chrysuronia oenone ♂ crown, 2 specimens; darker partner of `sapphire`; exact color outside sRGB: `oklch(0.4614 0.2307 262.71)` |
-| <img src="docs/swatches/6c1f1d.svg" width="40" height="16" alt="#6c1f1d"> | `rhdt:colibri-dark:garnet` | `#6c1f1d` | Topaza pyra ♂ belly, 2 specimens; darker partner of `ruby` |
-| <img src="docs/swatches/005761.svg" width="40" height="16" alt="#005761"> | `rhdt:colibri-dark:apatite` | `#005761` | Aglaiocercus coelestis ♂ rump, 13 specimens; darker partner of `jade`; exact color outside sRGB: `oklch(0.4169 0.0823 208.45)` |
-| <img src="docs/swatches/414900.svg" width="40" height="16" alt="#414900"> | `rhdt:colibri-dark:serpentine` | `#414900` | Heliodoxa imperatrix ♂ crown, 2 specimens; darker partner of `peridot`; exact color outside sRGB: `oklch(0.3841 0.0923 116.88)` |
-| <img src="docs/swatches/e444b6.svg" width="40" height="16" alt="#e444b6"> | `rhdt:sunangel:gorget` | `#e444b6` |  |
-| <img src="docs/swatches/30721e.svg" width="40" height="16" alt="#30721e"> | `rhdt:sunangel:crown` | `#30721e` |  |
-| <img src="docs/swatches/3e5509.svg" width="40" height="16" alt="#3e5509"> | `rhdt:sunangel:mantle` | `#3e5509` |  |
-| <img src="docs/swatches/433d12.svg" width="40" height="16" alt="#433d12"> | `rhdt:sunangel:rump` | `#433d12` |  |
-| <img src="docs/swatches/ff8a1b.svg" width="40" height="16" alt="#ff8a1b"> | `rhdt:ruby-topaz:gorget` | `#ff8a1b` | exact color outside sRGB: `oklch(0.7483 0.1858 57.05)` |
-| <img src="docs/swatches/ba0040.svg" width="40" height="16" alt="#ba0040"> | `rhdt:ruby-topaz:crown` | `#ba0040` | exact color outside sRGB: `oklch(0.4949 0.2091 12.29)` |
-| <img src="docs/swatches/2e1d09.svg" width="40" height="16" alt="#2e1d09"> | `rhdt:ruby-topaz:mantle` | `#2e1d09` |  |
-| <img src="docs/swatches/462f1d.svg" width="40" height="16" alt="#462f1d"> | `rhdt:ruby-topaz:rump` | `#462f1d` |  |
-| <img src="docs/swatches/6842e7.svg" width="40" height="16" alt="#6842e7"> | `rhdt:starfrontlet:gorget` | `#6842e7` |  |
-| <img src="docs/swatches/00d645.svg" width="40" height="16" alt="#00d645"> | `rhdt:starfrontlet:crown` | `#00d645` | exact color outside sRGB: `oklch(0.7475 0.2549 149.96)` |
-| <img src="docs/swatches/4f5436.svg" width="40" height="16" alt="#4f5436"> | `rhdt:starfrontlet:mantle` | `#4f5436` |  |
-| <img src="docs/swatches/c76313.svg" width="40" height="16" alt="#c76313"> | `rhdt:starfrontlet:rump` | `#c76313` |  |
-| <img src="docs/swatches/0043be.svg" width="40" height="16" alt="#0043be"> | `rhdt:sapphire:gorget` | `#0043be` | exact color outside sRGB: `oklch(0.4333 0.2055 258.45)` |
-| <img src="docs/swatches/0043d6.svg" width="40" height="16" alt="#0043d6"> | `rhdt:sapphire:crown` | `#0043d6` | exact color outside sRGB: `oklch(0.4614 0.2307 262.71)` |
-| <img src="docs/swatches/446817.svg" width="40" height="16" alt="#446817"> | `rhdt:sapphire:mantle` | `#446817` |  |
-| <img src="docs/swatches/96451e.svg" width="40" height="16" alt="#96451e"> | `rhdt:sapphire:rump` | `#96451e` |  |
-| <img src="docs/swatches/d0cec9.svg" width="40" height="16" alt="#d0cec9"> | `rhdt:violet-crowned:gorget` | `#d0cec9` |  |
-| <img src="docs/swatches/6c41b8.svg" width="40" height="16" alt="#6c41b8"> | `rhdt:violet-crowned:crown` | `#6c41b8` |  |
-| <img src="docs/swatches/746e2c.svg" width="40" height="16" alt="#746e2c"> | `rhdt:violet-crowned:mantle` | `#746e2c` |  |
-| <img src="docs/swatches/787132.svg" width="40" height="16" alt="#787132"> | `rhdt:violet-crowned:rump` | `#787132` |  |
-| <img src="docs/swatches/272b90.svg" width="40" height="16" alt="#272b90"> | `rhdt:broad-billed:gorget` | `#272b90` |  |
-| <img src="docs/swatches/4e9560.svg" width="40" height="16" alt="#4e9560"> | `rhdt:broad-billed:crown` | `#4e9560` |  |
-| <img src="docs/swatches/31722e.svg" width="40" height="16" alt="#31722e"> | `rhdt:broad-billed:mantle` | `#31722e` |  |
-| <img src="docs/swatches/375e39.svg" width="40" height="16" alt="#375e39"> | `rhdt:broad-billed:rump` | `#375e39` |  |
-| <img src="docs/swatches/2a5b88.svg" width="40" height="16" alt="#2a5b88"> | `rhdt:ok8:navy` | `#2a5b88` |  |
-| <img src="docs/swatches/d6ab1b.svg" width="40" height="16" alt="#d6ab1b"> | `rhdt:ok8:gold` | `#d6ab1b` |  |
-| <img src="docs/swatches/8e3b1c.svg" width="40" height="16" alt="#8e3b1c"> | `rhdt:ok8:rust` | `#8e3b1c` |  |
-| <img src="docs/swatches/a936fb.svg" width="40" height="16" alt="#a936fb"> | `rhdt:ok8:violet` | `#a936fb` |  |
-| <img src="docs/swatches/4fbc90.svg" width="40" height="16" alt="#4fbc90"> | `rhdt:ok8:mint` | `#4fbc90` |  |
-| <img src="docs/swatches/f87fd8.svg" width="40" height="16" alt="#f87fd8"> | `rhdt:ok8:pink` | `#f87fd8` |  |
-| <img src="docs/swatches/228a8f.svg" width="40" height="16" alt="#228a8f"> | `rhdt:ok8:teal` | `#228a8f` |  |
-| <img src="docs/swatches/d0603d.svg" width="40" height="16" alt="#d0603d"> | `rhdt:ok8:coral` | `#d0603d` |  |
+| <img src="docs/swatches/000000.svg" width="40" height="16" alt="#000000"> | `rhdt:okabe-ito:black` | `#000000` | sRGB |
+| <img src="docs/swatches/e69f00.svg" width="40" height="16" alt="#E69F00"> | `rhdt:okabe-ito:orange` | `#e69f00` | sRGB |
+| <img src="docs/swatches/56b4e9.svg" width="40" height="16" alt="#56B4E9"> | `rhdt:okabe-ito:sky blue` | `#56b4e9` | sRGB |
+| <img src="docs/swatches/009e73.svg" width="40" height="16" alt="#009E73"> | `rhdt:okabe-ito:bluish green` | `#009e73` | sRGB |
+| <img src="docs/swatches/f0e442.svg" width="40" height="16" alt="#F0E442"> | `rhdt:okabe-ito:yellow` | `#f0e442` | sRGB |
+| <img src="docs/swatches/0072b2.svg" width="40" height="16" alt="#0072B2"> | `rhdt:okabe-ito:blue` | `#0072b2` | sRGB |
+| <img src="docs/swatches/d55e00.svg" width="40" height="16" alt="#D55E00"> | `rhdt:okabe-ito:vermilion` | `#d55e00` | sRGB |
+| <img src="docs/swatches/cc79a7.svg" width="40" height="16" alt="#CC79A7"> | `rhdt:okabe-ito:reddish purple` | `#cc79a7` | sRGB |
+| <img src="docs/swatches/1d5e85.svg" width="40" height="16" alt="#1d5e85"> | `rhdt:ok6:navy` | `#1d5e85` | sRGB |
+| <img src="docs/swatches/c8b222.svg" width="40" height="16" alt="#c8b222"> | `rhdt:ok6:gold` | `#c8b222` | sRGB |
+| <img src="docs/swatches/8b3e09.svg" width="40" height="16" alt="#8b3e09"> | `rhdt:ok6:brown` | `#8b3e09` | sRGB |
+| <img src="docs/swatches/f487c5.svg" width="40" height="16" alt="#f487c5"> | `rhdt:ok6:pink` | `#f487c5` | sRGB |
+| <img src="docs/swatches/469172.svg" width="40" height="16" alt="#469172"> | `rhdt:ok6:green` | `#469172` | sRGB |
+| <img src="docs/swatches/a351fb.svg" width="40" height="16" alt="#a351fb"> | `rhdt:ok6:violet` | `#a351fb` | sRGB |
+| <img src="docs/swatches/p3-00a543.svg" width="40" height="16" alt="#00a543"> | `rhdt:colibri:emerald` | `#00a543` | Display P3; also `rhdt:emerald`; Urosticte benjamini ♂ gorget, 2 specimens; exact color outside Display P3: `oklch(0.6187 0.2364 151.88)` |
+| <img src="docs/swatches/p3-d139bf.svg" width="40" height="16" alt="#d139bf"> | `rhdt:colibri:tourmaline` | `#d139bf` | Display P3; also `rhdt:tourmaline`; Heliangelus strophianus ♂ gorget, 2 specimens |
+| <img src="docs/swatches/p3-4737e5.svg" width="40" height="16" alt="#4737e5"> | `rhdt:colibri:amethyst` | `#4737e5` | Display P3; also `rhdt:amethyst`; Eriocnemis vestita ♂ gorget, 15 specimens |
+| <img src="docs/swatches/p3-ba682c.svg" width="40" height="16" alt="#ba682c"> | `rhdt:colibri:amber` | `#ba682c` | Display P3; also `rhdt:amber`; Coeligena bonapartei ♂ rump, 5 specimens |
+| <img src="docs/swatches/p3-007ac1.svg" width="40" height="16" alt="#007ac1"> | `rhdt:colibri:sapphire` | `#007ac1` | Display P3; also `rhdt:sapphire`; Lepidopyga coeruleogularis ♂ gorget, 2 specimens; exact color outside Display P3: `oklch(0.5563 0.1832 238.53)` |
+| <img src="docs/swatches/p3-aa1742.svg" width="40" height="16" alt="#aa1742"> | `rhdt:colibri:ruby` | `#aa1742` | Display P3; also `rhdt:ruby`; Chrysolampis mosquitus ♂ crown, 4 specimens |
+| <img src="docs/swatches/p3-008479.svg" width="40" height="16" alt="#008479"> | `rhdt:colibri:jade` | `#008479` | Display P3; also `rhdt:jade`; Aglaiocercus coelestis ♀ crown, 9 specimens; exact color outside Display P3: `oklch(0.5437 0.1601 184.45)` |
+| <img src="docs/swatches/p3-808c28.svg" width="40" height="16" alt="#808c28"> | `rhdt:colibri:peridot` | `#808c28` | Display P3; also `rhdt:peridot`; Eriocnemis vestita ♂ rump, 15 specimens |
+| <img src="docs/swatches/p3-3a822e.svg" width="40" height="16" alt="#3a822e"> | `rhdt:colibri-dark:malachite` | `#3a822e` | Display P3; Lafresnaya lafresnayi ♂ gorget, 2 specimens; darker partner of `emerald` |
+| <img src="docs/swatches/p3-994b6f.svg" width="40" height="16" alt="#994b6f"> | `rhdt:colibri-dark:rhodolite` | `#994b6f` | Display P3; Heliomaster longirostris ♂ gorget, 3 specimens; darker partner of `tourmaline` |
+| <img src="docs/swatches/p3-232a87.svg" width="40" height="16" alt="#232a87"> | `rhdt:colibri-dark:iolite` | `#232a87` | Display P3; Goldmania violiceps ♂ crown, 2 specimens; darker partner of `amethyst` |
+| <img src="docs/swatches/p3-7c5028.svg" width="40" height="16" alt="#7c5028"> | `rhdt:colibri-dark:bronzite` | `#7c5028` | Display P3; Androdon aequatorialis ♂ crown, 2 specimens; darker partner of `amber` |
+| <img src="docs/swatches/p3-1842ce.svg" width="40" height="16" alt="#1842ce"> | `rhdt:colibri-dark:lapis` | `#1842ce` | Display P3; Chrysuronia oenone ♂ crown, 2 specimens; darker partner of `sapphire` |
+| <img src="docs/swatches/p3-632520.svg" width="40" height="16" alt="#632520"> | `rhdt:colibri-dark:garnet` | `#632520` | Display P3; Topaza pyra ♂ belly, 2 specimens; darker partner of `ruby` |
+| <img src="docs/swatches/p3-185662.svg" width="40" height="16" alt="#185662"> | `rhdt:colibri-dark:apatite` | `#185662` | Display P3; Aglaiocercus coelestis ♂ rump, 13 specimens; darker partner of `jade` |
+| <img src="docs/swatches/p3-42490d.svg" width="40" height="16" alt="#42490d"> | `rhdt:colibri-dark:serpentine` | `#42490d` | Display P3; Heliodoxa imperatrix ♂ crown, 2 specimens; darker partner of `peridot` |
+| <img src="docs/swatches/p3-d351b2.svg" width="40" height="16" alt="#d351b2"> | `rhdt:sunangel:gorget` | `#d351b2` | Display P3 |
+| <img src="docs/swatches/p3-42712b.svg" width="40" height="16" alt="#42712b"> | `rhdt:sunangel:crown` | `#42712b` | Display P3 |
+| <img src="docs/swatches/p3-435419.svg" width="40" height="16" alt="#435419"> | `rhdt:sunangel:mantle` | `#435419` | Display P3 |
+| <img src="docs/swatches/p3-423d19.svg" width="40" height="16" alt="#423d19"> | `rhdt:sunangel:rump` | `#423d19` | Display P3 |
+| <img src="docs/swatches/p3-f28f2f.svg" width="40" height="16" alt="#f28f2f"> | `rhdt:ruby-topaz:gorget` | `#f28f2f` | Display P3 |
+| <img src="docs/swatches/p3-aa1742.svg" width="40" height="16" alt="#aa1742"> | `rhdt:ruby-topaz:crown` | `#aa1742` | Display P3 |
+| <img src="docs/swatches/p3-2b1e0c.svg" width="40" height="16" alt="#2b1e0c"> | `rhdt:ruby-topaz:mantle` | `#2b1e0c` | Display P3 |
+| <img src="docs/swatches/p3-433020.svg" width="40" height="16" alt="#433020"> | `rhdt:ruby-topaz:rump` | `#433020` | Display P3 |
+| <img src="docs/swatches/p3-6344de.svg" width="40" height="16" alt="#6344de"> | `rhdt:starfrontlet:gorget` | `#6344de` | Display P3 |
+| <img src="docs/swatches/p3-3bd25a.svg" width="40" height="16" alt="#3bd25a"> | `rhdt:starfrontlet:crown` | `#3bd25a` | Display P3 |
+| <img src="docs/swatches/p3-505439.svg" width="40" height="16" alt="#505439"> | `rhdt:starfrontlet:mantle` | `#505439` | Display P3 |
+| <img src="docs/swatches/p3-ba682c.svg" width="40" height="16" alt="#ba682c"> | `rhdt:starfrontlet:rump` | `#ba682c` | Display P3 |
+| <img src="docs/swatches/p3-0242b7.svg" width="40" height="16" alt="#0242b7"> | `rhdt:sapphire:gorget` | `#0242b7` | Display P3 |
+| <img src="docs/swatches/p3-1842ce.svg" width="40" height="16" alt="#1842ce"> | `rhdt:sapphire:crown` | `#1842ce` | Display P3 |
+| <img src="docs/swatches/p3-4c6725.svg" width="40" height="16" alt="#4c6725"> | `rhdt:sapphire:mantle` | `#4c6725` | Display P3 |
+| <img src="docs/swatches/p3-8c4a28.svg" width="40" height="16" alt="#8c4a28"> | `rhdt:sapphire:rump` | `#8c4a28` | Display P3 |
+| <img src="docs/swatches/p3-d0cec9.svg" width="40" height="16" alt="#d0cec9"> | `rhdt:violet-crowned:gorget` | `#d0cec9` | Display P3 |
+| <img src="docs/swatches/p3-6643b2.svg" width="40" height="16" alt="#6643b2"> | `rhdt:violet-crowned:crown` | `#6643b2` | Display P3 |
+| <img src="docs/swatches/p3-736e36.svg" width="40" height="16" alt="#736e36"> | `rhdt:violet-crowned:mantle` | `#736e36` | Display P3 |
+| <img src="docs/swatches/p3-77713b.svg" width="40" height="16" alt="#77713b"> | `rhdt:violet-crowned:rump` | `#77713b` | Display P3 |
+| <img src="docs/swatches/p3-282b8a.svg" width="40" height="16" alt="#282b8a"> | `rhdt:broad-billed:gorget` | `#282b8a` | Display P3 |
+| <img src="docs/swatches/p3-609365.svg" width="40" height="16" alt="#609365"> | `rhdt:broad-billed:crown` | `#609365` | Display P3 |
+| <img src="docs/swatches/p3-427137.svg" width="40" height="16" alt="#427137"> | `rhdt:broad-billed:mantle` | `#427137` | Display P3 |
+| <img src="docs/swatches/p3-405d3d.svg" width="40" height="16" alt="#405d3d"> | `rhdt:broad-billed:rump` | `#405d3d` | Display P3 |
+| <img src="docs/swatches/2a5b88.svg" width="40" height="16" alt="#2a5b88"> | `rhdt:ok8:navy` | `#2a5b88` | sRGB |
+| <img src="docs/swatches/d6ab1b.svg" width="40" height="16" alt="#d6ab1b"> | `rhdt:ok8:gold` | `#d6ab1b` | sRGB |
+| <img src="docs/swatches/8e3b1c.svg" width="40" height="16" alt="#8e3b1c"> | `rhdt:ok8:rust` | `#8e3b1c` | sRGB |
+| <img src="docs/swatches/a936fb.svg" width="40" height="16" alt="#a936fb"> | `rhdt:ok8:violet` | `#a936fb` | sRGB |
+| <img src="docs/swatches/4fbc90.svg" width="40" height="16" alt="#4fbc90"> | `rhdt:ok8:mint` | `#4fbc90` | sRGB |
+| <img src="docs/swatches/f87fd8.svg" width="40" height="16" alt="#f87fd8"> | `rhdt:ok8:pink` | `#f87fd8` | sRGB |
+| <img src="docs/swatches/228a8f.svg" width="40" height="16" alt="#228a8f"> | `rhdt:ok8:teal` | `#228a8f` | sRGB |
+| <img src="docs/swatches/d0603d.svg" width="40" height="16" alt="#d0603d"> | `rhdt:ok8:coral` | `#d0603d` | sRGB |
 
 </details>
 <!-- named-colors:end -->
@@ -169,7 +171,7 @@ The full name of every color is `rhdt:<palette>:<name>`; the colors of the defau
 
 <img src="docs/colormaps.svg" alt="The nine colormaps with their OKLab lightness" width="100%">
 
-256-entry sRGB tables designed in OKLab, with the OKLab lightness of each shown underneath. All run dark to light; append
+256-entry tables in Display P3, designed in OKLab, with the OKLab lightness of each shown underneath (the figures are Display P3 too, see below). All run dark to light; append
 `_r` for light to dark, which is the usual direction for single-hue maps on a white background. `ok_orchid` is the default
 `image.cmap`.
 
@@ -196,8 +198,8 @@ hummingbirds:
   `amber`, `peridot` (the olive-yellow), `emerald`, `jade`, `sapphire`, `amethyst` and `tourmaline`. Every one is at least 3:1
   against white (the WCAG minimum for graphics), so they stay visible as thin lines on a screen; the dataset has no bright yellow
   that meets this, so the yellowish color is an olive. The first six colors are the distinct ones: as displayed they are at
-  least 16.9 apart (OKLab, times 100), and no pair shares a hue family. The last two, `jade` and `peridot`, add a teal and an
-  olive-yellow and are allowed to resemble earlier colors (`jade` is 10.3 from `sapphire`, `peridot` 9.4 from `emerald`); from
+  least 17.3 apart (OKLab, times 100), and no pair shares a hue family. The last two, `jade` and `peridot`, add a teal and an
+  olive-yellow and are allowed to resemble earlier colors (`jade` is 13.6 from `sapphire`, `peridot` 13.7 from `emerald`); from
   this dataset there are only about six clearly distinct bright hues, and a more distinct olive would be a dark, drab one.
   `colibri-dark` gives each of them a darker
   partner of similar hue, named after a gem of that color and in the same order, for secondary or background series:
@@ -210,8 +212,8 @@ hummingbirds:
   (the back) and `rump`, for `sunangel`, `ruby-topaz`, `starfrontlet`, `sapphire`, `violet-crowned` and `broad-billed`. For the
   first four these are **measured reflectance spectra** of males
   from the Colombian hummingbird database of Beltran, Shultz & Parra (*Evolution*,
-  [Dryad](https://doi.org/10.5061/dryad.02v6wwq8w)), taken at the angle of maximum reflectance and converted to sRGB (CIE 1931
-  observer, D65; colors outside the sRGB gamut keep their exact value, see below). The violet-crowned and broad-billed
+  [Dryad](https://doi.org/10.5061/dryad.02v6wwq8w)), taken at the angle of maximum reflectance and converted to Display P3 (CIE 1931
+  observer, D65; colors outside the Display P3 gamut keep their exact value, see below). The violet-crowned and broad-billed
   hummingbirds are not in the database, so their colors are sampled from the images (the violet-crowned has no gorget color; its
   white throat stands in). `examples/build_species_palettes.py` builds the palettes and prints how far each measured patch is from
   the image.
@@ -235,20 +237,38 @@ the spectra were measured on museum study skins and live birds, so the measured 
 images agree with the measurements within ΔE 2 to 13 (OKLab, times 100) for the gorgets and crowns; the largest differences are the starfrontlet rump (17), the starfrontlet gorget (13) and the sapphire mantle (13). The palettes use the measurements. The `colibri` palettes are the ones meant for cycles; the species palettes are for choosing
 colors by name.
 
-### Colors outside sRGB
+### Display P3
 
-Some measured colors, mostly iridescent greens, blues and reds, lie outside the sRGB gamut (5.5 % of the database).
-Matplotlib only knows sRGB, so the palettes hold their **nearest sRGB color** (chroma reduced at constant OKLab lightness and
-hue) and keep the **exact color** separately: `rhdt_mpl.wide_css("colibri", "ruby")` returns
-`"oklch(0.4949 0.2091 12.29)"`, and `rhdt_mpl.WIDE` has all of them (for the colibri palettes and the measured patches of the
-species palettes). They are marked with a dot in the figure above.
+Matplotlib has no color management: an RGB value is three numbers in [0, 1]. `rhdt_mpl` declares that these are Display P3
+numbers (the backend's `config.color_space`), and umbruch writes the PDF accordingly: painted colors as
+`color(display-p3 r g b)` with float precision, raster images with a Display P3 ICC profile. Display P3 has about 25 % more
+colors than sRGB, the same white point and the same transfer function, so grays are identical in both and every sRGB color has
+Display P3 numbers that look the same.
 
-In a PDF the exact colors are used. The backend (`umbruch_matplotlib.config.wide_colors`, filled by `rhdt_mpl.wide_colors()`)
-replaces each sRGB stand-in in the SVG by its `oklch()` string just before umbruch renders it, and umbruch (a version that reads
-wide colors in SVG) writes them as CIELAB colors, for lines, bars, markers and text alike. The replacement is by hex value, so a
-plain `"#b60042"` you pass yourself becomes the wide ruby too; and two entries with the same stand-in but different exact colors
-are left as sRGB. SVG output and any other Matplotlib backend show the sRGB stand-ins. On a screen or print that cannot show a
-wide color, the viewer maps it to its own gamut, so check that the difference matters for your medium before relying on it.
+- **Native Display P3:** the colormaps and the hummingbird palettes (`colibri`, `colibri-dark` and the species palettes).
+  The colormaps keep the lightness and hue of the sRGB tables they replace and the same *fraction* of the largest chroma the
+  gamut allows (0.9 for the single-hue maps), so they are as saturated relative to the gamut as before and use the extra
+  room: 1.0 to 1.4 times the chroma of the sRGB version (`examples/build_okmaps_p3.py`). The measured hummingbird colors are
+  converted from spectra straight to Display P3; most of those that lay outside sRGB now fit (`ruby`, `peridot`, `lapis`, ...).
+- **Defined in sRGB:** `okabe-ito`, `ok6` and `ok8` (Okabe–Ito is a published standard, the others were designed as sRGB).
+  `PALETTES` holds their sRGB hex, and `palette()`, `named_colors()` and the cycles return the equivalent Display P3 numbers,
+  so the colors look the same as in an sRGB figure. `rhdt_mpl.NATIVE_SPACE` says which space each palette is in.
+- **Not converted: everything you write yourself.** A hex code, `"red"`, `"C0"` or a built-in colormap such as `viridis` is
+  read as Display P3 numbers and so looks more saturated than in sRGB. `rhdt_mpl.from_srgb("tab:blue")` converts a color (or
+  an array of colors) given as sRGB; for a colormap `umbruch_matplotlib.convert_cmap("viridis", dst="display-p3")` does it.
+  Black, white and grays are the same in both spaces. The OKLab helpers below read and write the numbers of the current space.
+- **Gouraud shading** (`shading="gouraud"`) raises in a wide color space for now (umbruch paints meshes in sRGB); use `"flat"`
+  or `"nearest"`.
+- **Viewing:** Display P3 PDFs are color-managed by any viewer that reads ICC profiles; on an sRGB display the viewer maps
+  the colors to its gamut. The figures in this README are SVGs with Display P3 colors (`color(display-p3 ...)`, with an sRGB fallback for browsers that lack it) and Display P3 ICC profiles on their embedded images; on an sRGB display or in an older browser they show the sRGB version.
+
+#### Colors outside Display P3
+
+A few measured colors (`emerald`, `sapphire` and `jade` of `colibri`) lie slightly outside even Display P3. The palette holds
+their **nearest Display P3 color** (chroma reduced at constant OKLab lightness and hue) and keeps the **exact color**
+separately: `rhdt_mpl.wide_css("colibri", "emerald")` returns `"oklch(0.6187 0.2364 151.88)"`, and `rhdt_mpl.WIDE` has all
+of them. They are marked with a dot in the figure above. Unlike with sRGB, the exact color is not used in the PDF: the
+difference to the Display P3 color is small (1.0, 2.0 and 3.1 on the OKLab scale times 100 used above), and the backend has no wider space to put it in.
 
 ## Color helpers in OKLab
 
@@ -267,7 +287,7 @@ oklab.adjust("#de421b", dL=0.05, scale_C=0.8)   # set or shift L, C, h, or scale
 oklab.to_oklab(c), oklab.to_oklch(c), oklab.oklab(L, a, b), oklab.oklch(L, C, h), oklab.lightness(c)
 ```
 
-All functions take any Matplotlib color and return `#rrggbb`. A result outside the sRGB gamut is brought back by reducing
+All functions take any Matplotlib color and return `#rrggbb`, in the current color space (Display P3 after `import rhdt_mpl`). A result outside the gamut is brought back by reducing
 chroma at constant lightness and hue, not by clipping channels. `family` varies lightness only, so members of a family
 should also differ in marker or dash (hue alone is not enough for everyone).
 
@@ -294,11 +314,11 @@ Fonts: Noto Sans, Noto Sans Mono, Noto Serif and Noto Sans Math (SIL Open Font L
 ## Development
 
 ```
-python examples/make_docs.py                          # regenerate docs/*.svg (needs umbruch and pdftocairo)
+python examples/make_docs.py                          # regenerate docs/*.svg (needs umbruch, pdftocairo and `pip install pikepdf`)
 UMBRUCH=/path/to/umbruch python tests/test_rhdt_mpl.py
 python tests/test_oklab.py
 ```
 
 `examples/` also holds `gallery.py` (a four-panel figure), `compare_cycles.py` (the same data under several cycles),
-`colombia_spectra.py` (reflectance spectra to sRGB), `colombia_overview.py` and `colombia_picks.py` (figures of the Colombian
+`colombia_spectra.py` (reflectance spectra to Display P3 or sRGB), `colombia_overview.py` and `colombia_picks.py` (figures of the Colombian
 species) and `build_species_palettes.py`; the spectra are not in the repository.

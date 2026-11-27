@@ -24,7 +24,7 @@ axes.axisbelow: True
 axes.grid: False
 grid.color: B0B0B0
 grid.linewidth: 0.8
-axes.prop_cycle: cycler('color', ['00A051', 'E422C5', '007CB3', 'C76313', 'B60042', '4A36EE', '008176', '7D8C00'])   # colibri
+axes.prop_cycle: cycler('color', ['00A543', 'D139BF', '007AC1', 'BA682C', 'AA1742', '4737E5', '008479', '808C28'])   # colibri (Display P3 numbers)
 
 # Lines and markers (no marker edge)
 lines.linewidth: 1.5

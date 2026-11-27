@@ -70,18 +70,18 @@ rows = [
     ("with helpers", 'oklab.muted("rhdt:colibri:amber")',
      [("amber", PALETTES["colibri"]["amber"]), ("muted", oklab.muted("rhdt:colibri:amber"))]),
     ("sec", "OKLab helpers   from rhdt_mpl import oklab   all return \"#rrggbb\""),
-    ("muted   (chroma x 0.5, lighter)", 'oklab.muted("#c76313")',
-     [("#c76313", "#c76313"), ("muted", oklab.muted("#c76313")),
-      ("#007cb3", "#007cb3"), ("muted", oklab.muted("#007cb3")),
-      ("#008176", "#008176"), ("muted", oklab.muted("#008176"))]),
-    ("family   (lightness steps)", 'oklab.family("#007cb3", 4)', [(f"{i+1}", c) for i, c in enumerate(oklab.family("#007cb3", 4))]
-     + [("", None)] + [(f"{i+1}", c) for i, c in enumerate(oklab.family("#c76313", 4))]),
+    ("muted   (chroma x 0.5, lighter)", 'oklab.muted("rhdt:amber")',
+     [("rhdt:amber", "rhdt:amber"), ("muted", oklab.muted("rhdt:amber")),
+      ("rhdt:sapphire", "rhdt:sapphire"), ("muted", oklab.muted("rhdt:sapphire")),
+      ("rhdt:jade", "rhdt:jade"), ("muted", oklab.muted("rhdt:jade"))]),
+    ("family   (lightness steps)", 'oklab.family("rhdt:sapphire", 4)', [(f"{i+1}", c) for i, c in enumerate(oklab.family("rhdt:sapphire", 4))]
+     + [("", None)] + [(f"{i+1}", c) for i, c in enumerate(oklab.family("rhdt:amber", 4))]),
     ("lighten / darken", 'oklab.lighten(c, .12) / .darken(c, .12)',
-     [("dark", oklab.darken("#007cb3", .12)), ("c", "#007cb3"), ("light", oklab.lighten("#007cb3", .12)),
-      ("", None), ("dark", oklab.darken("#c76313", .12)), ("c", "#c76313"), ("light", oklab.lighten("#c76313", .12))]),
+     [("dark", oklab.darken("rhdt:sapphire", .12)), ("c", "rhdt:sapphire"), ("light", oklab.lighten("rhdt:sapphire", .12)),
+      ("", None), ("dark", oklab.darken("rhdt:amber", .12)), ("c", "rhdt:amber"), ("light", oklab.lighten("rhdt:amber", .12))]),
     ("rotate_hue / mix", 'oklab.rotate_hue(c, 25)   oklab.mix(a, b, t)',
-     [("−25°", oklab.rotate_hue("#008176", -25)), ("c", "#008176"), ("+25°", oklab.rotate_hue("#008176", 25)), ("", None)]
-     + [(f"t={t:.2f}".rstrip("0").rstrip("."), oklab.mix("#c76313", "#007cb3", t)) for t in (0, .25, .5, .75, 1)]),
+     [("−25°", oklab.rotate_hue("rhdt:jade", -25)), ("c", "rhdt:jade"), ("+25°", oklab.rotate_hue("rhdt:jade", 25)), ("", None)]
+     + [(f"t={t:.2f}".rstrip("0").rstrip("."), oklab.mix("rhdt:amber", "rhdt:sapphire", t)) for t in (0, .25, .5, .75, 1)]),
 ]
 RH = 0.62
 H = 0.55 + sum(0.5 if r[0] == "sec" else RH for r in rows)

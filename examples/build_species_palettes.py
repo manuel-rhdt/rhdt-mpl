@@ -1,9 +1,9 @@
 """Species palettes from measured spectra and from the reference images in docs/birds/.
 
 Colombian species: crown, gorget, belly, mantle and rump are the measured (KEEP lists the ones that become palette entries) reflectance spectra (the angle of maximum
-reflectance, males) converted to sRGB by colombia_spectra.py; wing, tail and bill, which the database does not
+reflectance, males) converted to Display P3 by colombia_spectra.py; wing, tail and bill, which the database does not
 measure, are sampled from the image.  The violet-crowned and broad-billed hummingbirds are not in the database, so all
-of their colors are sampled from their images.  Prints the dicts used in rhdt_mpl/palettes.py, and for every measured
+of their colors are sampled from their images (sRGB pictures, converted to Display P3).  Prints the dicts used in rhdt_mpl/palettes.py, and for every measured
 patch that has a box in the image the distance (OKLab x 100) between the image and the measurement.
 
     python examples/build_species_palettes.py DATA_DIR       # DATA_DIR holds refcolC.txt
@@ -16,6 +16,7 @@ from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import colombia_spectra as cs                  # noqa: E402
+from rhdt_mpl import colorspace as cspace      # noqa: E402
 from rhdt_mpl import oklab as ok               # noqa: E402
 
 IMAGES = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "docs", "birds")
@@ -81,6 +82,7 @@ def build(data_dir):
     out = {}
     for key, (fn, sp, box) in SPECIES.items():
         img = np.asarray(Image.open(os.path.join(IMAGES, fn)).convert("RGBA")).astype(float) / 255
+        img[..., :3] = cspace.convert(img[..., :3], "srgb", "display-p3")      # the pictures are sRGB, the palettes P3
         s = {p: sample(img, b, p in VIVID, p == "bill" and key in DARK_BILL) for p, b in box.items()}
         if sp:
             measured = cs.patch_colors(meta, spec, sp, "Males")
@@ -96,7 +98,9 @@ def build(data_dir):
 
 
 if __name__ == "__main__":
-    for key, (pal, diffs) in build(sys.argv[1]).items():
+    with cspace.using("display-p3"):
+        results = build(sys.argv[1])
+    for key, (pal, diffs) in results.items():
         print(f'    "{key}": {{' + ", ".join(f'"{k}": "{v}"' for k, v in pal.items()) + "},")
         if diffs:
             print(f"      # image vs spectrum (dE x100): {diffs}")

@@ -1,5 +1,13 @@
 import numpy as np
-from rhdt_mpl import oklab as ok, okmaps
+import pytest
+from rhdt_mpl import colorspace as cs, oklab as ok, okmaps
+
+
+@pytest.fixture(autouse=True)
+def srgb():
+    """The reference values below are sRGB ones."""
+    with cs.using("srgb"):
+        yield
 
 
 def close(a, b, tol=2e-4):
@@ -41,8 +49,39 @@ def test_family_is_ordered_in_lightness_with_constant_hue():
 
 
 def test_agrees_with_colormap_design_lightness():
-    t = okmaps.COLORMAPS["ok_orchid"].colors
-    assert abs(ok.lightness(t[0]) - 0.20) < 5e-3 and abs(ok.lightness(t[-1]) - 0.96) < 5e-3
+    t = okmaps.COLORMAPS["ok_orchid"].colors          # Display P3 numbers
+    with cs.using("display-p3"):
+        assert abs(ok.lightness(t[0]) - 0.20) < 5e-3 and abs(ok.lightness(t[-1]) - 0.96) < 5e-3
+
+
+def test_display_p3():
+    with cs.using("display-p3"):
+        assert close(ok.to_oklab("#ffffff"), (1, 0, 0)) and close(ok.to_oklab("#808080"), ok_gray)
+        # P3 red is more saturated than sRGB red, and the maximum chroma of a hue is larger
+        assert ok.to_oklch("#ff0000")[1] > 0.27
+        L, C, h = ok.to_oklch(ok.oklch(0.7, 0.4, 30))
+        assert abs(L - 0.7) < 2e-3 and abs(h - 30) < 1.5 and 0.23 < C < 0.4
+        assert ok.oklab(*ok.to_oklab("#12ab34")) == "#12ab34"
+    with cs.using("srgb"):
+        assert ok.to_oklch(ok.oklch(0.7, 0.4, 30))[1] < 0.23         # the same request, less room in sRGB
+
+
+ok_gray = (0.5999, 0, 0)         # gray 128/255: the transfer function is the same in both spaces
+
+
+def test_conversion_between_spaces():
+    import numpy as np
+    g = np.array([[0.2, 0.2, 0.2], [0.5, 0.5, 0.5], [1, 1, 1]])
+    assert np.allclose(cs.convert(g, "srgb", "display-p3"), g, atol=1e-6)      # same white point and transfer function
+    rng = np.random.default_rng(1)
+    s = rng.random((200, 3))
+    p3 = cs.convert(s, "srgb", "display-p3")
+    assert p3.min() >= 0 and p3.max() <= 1 and np.allclose(cs.convert(p3, "display-p3", "srgb"), s, atol=1e-6)
+    assert np.allclose(cs.rgb_to_oklab(s, "srgb"), cs.rgb_to_oklab(p3, "display-p3"), atol=1e-6)   # the same colors
+    out = cs.convert([[0.0, 1.0, 0.0]], "display-p3", "srgb")                   # P3 green is outside sRGB
+    assert out.min() >= 0 and out.max() <= 1
+    a, b = cs.rgb_to_oklab([0.0, 1.0, 0.0], "display-p3"), cs.rgb_to_oklab(out[0], "srgb")
+    assert abs(a[0] - b[0]) < 2e-3 and abs(np.arctan2(a[2], a[1]) - np.arctan2(b[2], b[1])) < 0.02   # lightness and hue kept
 
 
 if __name__ == "__main__":

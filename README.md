@@ -347,7 +347,7 @@ The package needs two things that are not on PyPI:
 - the **umbruch** executable (`$UMBRUCH`, `PATH`, or the `umbruch` Python package), from
   <https://github.com/manuel-rhdt/umbruch>, and
 - **umbruch-matplotlib**, from <https://github.com/manuel-rhdt/umbruch-matplotlib>. Its `pip` dependency on
-  `umbruch>=0.5.0` cannot be resolved from PyPI; install it with `--no-deps` when the executable is installed separately.
+  `umbruch>=0.5.3` cannot be resolved from PyPI; install it with `--no-deps` when the executable is installed separately.
 
 The math font (Noto Sans Math, set through `umbruch_matplotlib.config.math_font`) needs a version of umbruch-matplotlib that
 has this option. Without it the attribute is set but ignored, and formulas are set in umbruch's built-in math fonts.

@@ -70,6 +70,16 @@ plt.imshow(z, cmap="ok_ruby_sapphire", vmin=-m, vmax=m)    # diverging; also ok_
 
 <img src="docs/cmap_curves.svg" alt="Curves colored by damping, and a density in ok_blue_r" width="100%">
 
+## Math
+
+<img src="docs/math.svg" alt="Blackbody spectra and damped Rabi oscillations, with the Lindblad equation, a two-level Hamiltonian and Planck's law set below" width="100%">
+
+```python
+ax.set_ylabel(r"$B_\nu(T)\ (10^{-9}\,\mathrm{W\,m^{-2}\,Hz^{-1}\,sr^{-1}})$")
+ax.annotate(r"$\nu_{\max}=\dfrac{2.82\,k_B T}{h}$", xy=peak, xytext=(1.25, 32))
+fig.text(0.1, 0.1, r"$\dot\rho=-\dfrac{i}{\hbar}[H,\rho]+\sum_k\gamma_k\left(L_k\rho L_k^\dagger-\dfrac{1}{2}\{L_k^\dagger L_k,\rho\}\right)$")
+```
+
 ## OKLab helpers
 
 <img src="docs/oklab_helpers.svg" alt="The OKLab helpers applied to the colibri colors" width="100%">

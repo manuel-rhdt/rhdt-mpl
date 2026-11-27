@@ -173,13 +173,16 @@ def test_readme_lists_all_named_colors():
             assert any(f"`rhdt:{palette}:{name}` | `{hexv.lower()}`" in r for r in rows), (palette, name)
 
 
+DIVERGING = {"ok_green_magenta": (146, 324), "ok_ruby_sapphire": (12.4, 238.6)}      # name: hues of the two ends
+
+
 def test_colormaps():
     import matplotlib as mpl
     import numpy as np
     assert mpl.rcParams["image.cmap"] == "ok_orchid"
     from rhdt_mpl import okmaps
     cs = rhdt_mpl.colorspace
-    assert len(okmaps.COLORMAPS) == 10
+    assert len(okmaps.COLORMAPS) == 11
     for n, cm in okmaps.COLORMAPS.items():
         for m in (n, n + "_r"):
             assert m in mpl.colormaps and mpl.colormaps[m].N == 256
@@ -187,7 +190,7 @@ def test_colormaps():
         t = np.array(cm.colors)
         assert t.min() >= 0 and t.max() <= 1
         L = cs.rgb_to_oklab(t, "display-p3")[:, 0]
-        if n == "ok_green_magenta":                                       # diverging: dark -> light center -> dark
+        if n in DIVERGING:                                                # diverging: dark -> light center -> dark
             assert np.all(np.diff(L[:128]) > 0) and np.all(np.diff(L[128:]) < 0)
         else:
             assert np.all(np.diff(L) > 0)                                 # dark -> light
@@ -201,22 +204,27 @@ def test_colormaps():
     assert outside["ok_orchid"] > 100                                         # the default map really uses the room of P3
 
 
-def test_diverging_map():
+def test_diverging_maps():
+    for name, hues in DIVERGING.items():
+        _check_diverging(name, hues)
+
+
+def _check_diverging(name, hues):
     import numpy as np
     import matplotlib as mpl
     cs = rhdt_mpl.colorspace
-    t = np.array(rhdt_mpl.okmaps.COLORMAPS["ok_green_magenta"].colors)
+    t = np.array(rhdt_mpl.okmaps.COLORMAPS[name].colors)
     lab = cs.rgb_to_oklab(t, "display-p3")
     chroma = np.hypot(lab[:, 1], lab[:, 2])
     hue = np.degrees(np.arctan2(lab[:, 2], lab[:, 1])) % 360
     assert lab[127, 0] > 0.97 and chroma[127] < 0.02 and chroma[128] < 0.02      # a near-white center
     assert abs(lab[0, 0] - lab[-1, 0]) < 0.01 and 0.5 < lab[0, 0] < 0.6          # ends equally light
-    assert abs(hue[0] - 146) < 3 and abs(hue[-1] - 324) < 3                       # green and magenta ends
-    assert chroma[0] > 0.18 and chroma[-1] > 0.18                                 # vivid
+    assert abs(hue[0] - hues[0]) < 3 and abs(hue[-1] - hues[1]) < 3               # the two end hues
+    assert chroma[0] > 0.15 and chroma[-1] > 0.15                                 # vivid (blue is limited by the gamut)
     for arm in (lab[:128], lab[128:]):                                            # equal perceptual steps along an arm
         step = np.linalg.norm(np.diff(arm, axis=0), axis=1)[:-1]
         assert step.max() / step.min() < 1.05
-    r = mpl.colormaps["ok_green_magenta_r"]
+    r = mpl.colormaps[name + "_r"]
     assert np.allclose(r.colors, t[::-1])
 
 

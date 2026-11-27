@@ -35,6 +35,8 @@ cs = _load("colorspace", os.path.join(SRC, "colorspace.py"))      # not through 
 NAMES = ["ok_dusk", "ok_orchid", "ok_blue", "ok_teal", "ok_green", "ok_orange", "ok_red", "ok_purple", "ok_pink"]
 #: the diverging maps, designed directly in Display P3 (see diverging_p3)
 DIVERGING = {"ok_green_magenta": dict(hues=(146.0, 324.0), end_L=0.56, end_fraction=0.95, center_L=0.985,
+                                      chroma_exp=0.6, lightness_exp=1.3),
+             "ok_ruby_sapphire": dict(hues=(12.4, 238.6), end_L=0.56, end_fraction=0.95, center_L=0.985,
                                       chroma_exp=0.6, lightness_exp=1.3)}
 ALL = NAMES + list(DIVERGING)
 
@@ -42,7 +44,7 @@ HEADER = '''"""Personal colormaps (256-entry tables in Display P3, designed in O
 
 Multi-hue:   ok_dusk, ok_orchid
 Single-hue:  ok_blue, ok_teal, ok_green, ok_orange, ok_red, ok_purple, ok_pink
-Diverging:   ok_green_magenta (green - light center - magenta)
+Diverging:   ok_green_magenta (green - light center - magenta), ok_ruby_sapphire (ruby - light center - sapphire)
 All but the diverging map run dark -> light; append _r for light -> dark (usual for single-hue maps
 on a white background). Only needs matplotlib.
 

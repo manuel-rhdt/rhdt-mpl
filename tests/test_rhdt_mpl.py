@@ -221,9 +221,9 @@ def _check_diverging(name, hues):
     assert abs(lab[0, 0] - lab[-1, 0]) < 0.01 and 0.5 < lab[0, 0] < 0.6          # ends equally light
     assert abs(hue[0] - hues[0]) < 3 and abs(hue[-1] - hues[1]) < 3               # the two end hues
     assert chroma[0] > 0.15 and chroma[-1] > 0.15                                 # vivid (blue is limited by the gamut)
-    for arm in (lab[:128], lab[128:]):                                            # equal perceptual steps along an arm
+    for arm in (lab[:128], lab[128:]):                                            # nearly equal perceptual steps along an arm
         step = np.linalg.norm(np.diff(arm, axis=0), axis=1)[:-1]
-        assert step.max() / step.min() < 1.05
+        assert step.max() / step.min() < 1.15      # the gamut boundary of P3 bends the path a little
     r = mpl.colormaps[name + "_r"]
     assert np.allclose(r.colors, t[::-1])
 

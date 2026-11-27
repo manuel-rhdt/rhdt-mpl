@@ -181,7 +181,7 @@ last index); those of `ok_green_magenta` a green and a magenta from the colibri 
 and a more yellow green and more violet magenta, which keeps the ends apart for deuteranopes). Both have the same end lightness
 (0.56) and 0.95 of the largest P3 chroma, and meet in a near-white center. Chroma
 rises quickly and the lightness stays high there, so the middle is a clean pastel and not a silvery gray. Each arm changes
-at a constant rate in OKLab, and the two ends stay apart under simulated deuteranopia and protanopia (OKLab distance
+at nearly a constant rate in OKLab (steps within about 10 % of each other), and the two ends stay apart under simulated deuteranopia and protanopia (OKLab distance
 times 100 between the ends: 26 and 33 for `ok_green_magenta`, 22 and 21 for `ok_ruby_sapphire`, whose red side turns olive for
 deuteranopes). A fifth (`ok_green_magenta`) to a third (`ok_ruby_sapphire`) of the entries lie outside sRGB.
 

@@ -1,6 +1,6 @@
 # rhdt-mpl
 
-Personal Matplotlib defaults: PDF output through [umbruch](https://github.com/manuel-rhdt/umbruch) in Display P3, Noto fonts,
+Personal Matplotlib defaults: PDF output through [umbruch](https://github.com/manuel-rhdt/umbruch) in Display P3, Fira fonts,
 twelve colormaps, hummingbird palettes and OKLab color helpers.
 
 <img src="docs/features.svg" alt="Overview of the features" width="100%">
@@ -101,5 +101,5 @@ python examples/make_docs.py             # regenerate docs/ (needs pdftocairo an
 python -m pytest tests
 ```
 
-Hummingbird colors: Beltran, Shultz & Parra, [Dryad](https://doi.org/10.5061/dryad.02v6wwq8w). Noto fonts: SIL Open Font
-License 1.1, see `src/rhdt_mpl/fonts/LICENSE-Noto-OFL.txt`.
+Hummingbird colors: Beltran, Shultz & Parra, [Dryad](https://doi.org/10.5061/dryad.02v6wwq8w). Fonts (Fira Sans, Fira Mono, Fira Math, Noto Serif): SIL Open Font
+License 1.1, see `src/rhdt_mpl/fonts/`.

@@ -34,6 +34,6 @@ for r, (sp, common) in enumerate(SPECIES):
         ax.add_patch(Rectangle((x, y + 0.14), SW, 0.46, color=hexv, lw=0))
         ink = "white" if oklab.lightness(hexv) < 0.68 else "black"
         ax.text(x + SW / 2, y + 0.37, hexv + ("" if ing else " ∘"), fontsize=5.8, ha="center", va="center",
-                family="Noto Sans Mono", color=ink)
+                family="Fira Mono", color=ink)
         ax.text(x + SW / 2, y + 0.06, f"n={len(idx)}", fontsize=5, ha="center", va="center", color="0.45")
 fig.savefig(os.path.join(out, "colombia_picks.pdf"))

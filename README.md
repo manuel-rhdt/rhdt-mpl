@@ -338,19 +338,19 @@ should also differ in marker or dash (hue alone is not enough for everyone).
 ## Installation
 
 ```
-pip install --no-deps git+https://github.com/manuel-rhdt/rhdt-mpl
-pip install matplotlib
+pip install git+https://github.com/manuel-rhdt/umbruch-matplotlib
+pip install git+https://github.com/manuel-rhdt/rhdt-mpl
+pip install latex2mathml          # for math ($...$) in labels; the "math" extra of both packages
 ```
 
-The package needs two things that are not on PyPI:
+Python 3.12 or newer is needed (the requirement of umbruch-matplotlib). Neither package is on PyPI. `rhdt-mpl` needs a
+current umbruch-matplotlib (`main`): the Display P3 default uses its `config.color_space`, the math font its
+`config.math_font`, and it must be one that measures embedded fonts correctly (it requires umbruch 0.5.3 or newer for that).
+Without `config.math_font` the attribute is set but ignored, and formulas are set in umbruch's built-in math fonts.
 
-- the **umbruch** executable (`$UMBRUCH`, `PATH`, or the `umbruch` Python package), from
-  <https://github.com/manuel-rhdt/umbruch>, and
-- **umbruch-matplotlib**, from <https://github.com/manuel-rhdt/umbruch-matplotlib>. Its `pip` dependency on
-  `umbruch>=0.5.3` cannot be resolved from PyPI; install it with `--no-deps` when the executable is installed separately.
-
-The math font (Noto Sans Math, set through `umbruch_matplotlib.config.math_font`) needs a version of umbruch-matplotlib that
-has this option. Without it the attribute is set but ignored, and formulas are set in umbruch's built-in math fonts.
+[umbruch](https://github.com/manuel-rhdt/umbruch), the layout engine that writes the PDFs, is on PyPI as a wheel that carries
+its executable, so it is installed as a dependency of umbruch-matplotlib. Where there is no wheel for your platform, build it
+from the repository and point `$UMBRUCH` at the executable.
 
 Fonts: Noto Sans, Noto Sans Mono, Noto Serif and Noto Sans Math (SIL Open Font License 1.1, see
 `src/rhdt_mpl/fonts/LICENSE-Noto-OFL.txt`), about 5 MB.

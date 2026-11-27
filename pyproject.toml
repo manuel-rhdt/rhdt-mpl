@@ -6,8 +6,8 @@ build-backend = "setuptools.build_meta"
 name = "rhdt-mpl"
 version = "0.1.0"
 description = "Personal Matplotlib defaults: umbruch backend, Noto fonts, colibri / Okabe-Ito palettes"
-requires-python = ">=3.9"
-dependencies = ["matplotlib>=3.8", "umbruch-matplotlib", "umbruch>=0.5.3"]
+requires-python = ">=3.12"
+dependencies = ["matplotlib>=3.8", "umbruch-matplotlib"]
 
 [project.optional-dependencies]
 math = ["latex2mathml>=3.77"]

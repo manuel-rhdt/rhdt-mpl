@@ -201,6 +201,25 @@ plt.imshow(z, cmap="ok_blue_r")      # single-hue: ok_blue, ok_teal, ok_green, o
 plt.imshow(z, cmap="ok_ruby_sapphire", vmin=-m, vmax=m)  # diverging, centered on 0: ok_ruby_sapphire, ok_green_magenta
 ```
 
+### Examples
+
+Diverging maps on a signed quantity, centered on zero (`vmin=-m, vmax=m`): the Wigner function of an even cat state, whose
+interference term is negative between the two blobs.
+
+<img src="docs/cmap_wigner.svg" alt="The Wigner function of a cat state in ok_ruby_sapphire and ok_green_magenta" width="100%">
+
+The sequential maps on one smooth random field: the lightness orders the values in all three, the hue tells the
+levels apart.
+
+<img src="docs/cmap_fields.svg" alt="A smooth random field in ok_orchid, ok_ember and ok_lagoon" width="100%">
+
+A map as a color scale for lines (use the first 80 % of a dark-to-light map on a white background, so that the pale end
+does not vanish), and a single-hue map for a density, with the pale end for low counts.
+
+<img src="docs/cmap_curves.svg" alt="Damped oscillations colored by damping with ok_lagoon, and a banana-shaped density in ok_blue_r" width="100%">
+
+The script is `examples/colormap_examples.py`.
+
 ## Hummingbird palettes
 
 <img src="docs/colibri.svg" alt="The colibri palette and one palette per hummingbird species, with plumage-part names and hex codes, and the palettes used with a black theory line, a bright accent and quieter secondary lines" width="100%">

@@ -1,7 +1,7 @@
 # rhdt-mpl
 
 Personal Matplotlib defaults: the [umbruch](https://github.com/manuel-rhdt/umbruch) backend in the Display P3 color space,
-bundled Noto fonts, named palettes and cycles, nine colormaps, and helpers for adjusting colors in OKLab.
+bundled Noto fonts, named palettes and cycles, ten colormaps, and helpers for adjusting colors in OKLab.
 
 ```python
 import rhdt_mpl                      # import before pyplot
@@ -169,16 +169,24 @@ The full name of every color is `rhdt:<palette>:<name>`; the colors of the defau
 
 ## Colormaps
 
-<img src="docs/colormaps.svg" alt="The nine colormaps with their OKLab lightness" width="100%">
+<img src="docs/colormaps.svg" alt="The ten colormaps with their OKLab lightness" width="100%">
 
-256-entry tables in Display P3, designed in OKLab, with the OKLab lightness of each shown underneath (the figures are Display P3 too, see below). All run dark to light; append
+256-entry tables in Display P3, designed in OKLab, with the OKLab lightness of each shown underneath (the figures are Display P3 too, see below). All but the diverging map run dark to light; append
 `_r` for light to dark, which is the usual direction for single-hue maps on a white background. `ok_orchid` is the default
 `image.cmap`.
+
+`ok_green_magenta` is a diverging map for data with a meaningful center (use `vmin=-m, vmax=m`, or `TwoSlopeNorm`). Its arms
+are the colibri greens and magentas (hues 146° and 324° in OKLCH, between `emerald`/`tourmaline` and a more yellow green and more
+violet magenta), at the same end lightness (0.56) and 0.95 of the largest P3 chroma, meeting in a near-white center. Chroma
+rises quickly and the lightness stays high there, so the middle is a clean pastel and not a silvery gray. Each arm changes
+at a constant rate in OKLab, and the two ends stay apart under simulated deuteranopia and protanopia (OKLab distance
+times 100 between the ends: 26 and 33). About a fifth of its entries lie outside sRGB.
 
 ```python
 plt.imshow(z)                        # ok_orchid
 plt.imshow(z, cmap="ok_dusk")        # multi-hue: ok_dusk, ok_orchid
 plt.imshow(z, cmap="ok_blue_r")      # single-hue: ok_blue, ok_teal, ok_green, ok_orange, ok_red, ok_purple, ok_pink
+plt.imshow(z, cmap="ok_green_magenta", vmin=-m, vmax=m)   # diverging, centered on 0
 ```
 
 ## Hummingbird palettes

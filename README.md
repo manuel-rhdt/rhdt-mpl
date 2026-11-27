@@ -171,8 +171,7 @@ The full name of every color is `rhdt:<palette>:<name>`; the colors of the defau
 
 <img src="docs/colormaps.svg" alt="The nine colormaps with their OKLab lightness" width="100%">
 
-256-entry tables in Display P3, designed in OKLab, with the OKLab lightness of each shown underneath (the figure shows them
-as sRGB, which is all an SVG viewer can be relied on to do, so their saturation is clipped there). All run dark to light; append
+256-entry tables in Display P3, designed in OKLab, with the OKLab lightness of each shown underneath (the figures are Display P3 too, see below). All run dark to light; append
 `_r` for light to dark, which is the usual direction for single-hue maps on a white background. `ok_orchid` is the default
 `image.cmap`.
 
@@ -261,7 +260,7 @@ Display P3 numbers that look the same.
 - **Gouraud shading** (`shading="gouraud"`) raises in a wide color space for now (umbruch paints meshes in sRGB); use `"flat"`
   or `"nearest"`.
 - **Viewing:** Display P3 PDFs are color-managed by any viewer that reads ICC profiles; on an sRGB display the viewer maps
-  the colors to its gamut. SVG conversions such as the figures here are clipped to sRGB.
+  the colors to its gamut. The figures in this README are SVGs with Display P3 colors (`color(display-p3 ...)`, with an sRGB fallback for browsers that lack it) and Display P3 ICC profiles on their embedded images; on an sRGB display or in an older browser they show the sRGB version.
 
 #### Colors outside Display P3
 
@@ -315,7 +314,7 @@ Fonts: Noto Sans, Noto Sans Mono, Noto Serif and Noto Sans Math (SIL Open Font L
 ## Development
 
 ```
-python examples/make_docs.py                          # regenerate docs/*.svg (needs umbruch and pdftocairo)
+python examples/make_docs.py                          # regenerate docs/*.svg (needs umbruch, pdftocairo and `pip install pikepdf`)
 UMBRUCH=/path/to/umbruch python tests/test_rhdt_mpl.py
 python tests/test_oklab.py
 ```

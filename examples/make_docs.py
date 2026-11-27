@@ -1,6 +1,7 @@
 """Regenerate the SVG figures of the README into docs/.  Needs an umbruch binary ($UMBRUCH or PATH)
-and pdftocairo (poppler).  The figures are drawn by the umbruch backend to PDF and converted to SVG
-with the text as embedded glyph outlines, so they look the same in every browser.
+and pdftocairo (poppler).  The figures are drawn by the umbruch backend to PDF (Display P3) and converted to SVG
+with the text as embedded glyph outlines, so they look the same in every browser, and the colors as Display P3
+(wide_svg.py).
 
     python examples/make_docs.py
 """
@@ -8,6 +9,9 @@ import os
 import subprocess
 import sys
 import tempfile
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from wide_svg import pdf_to_wide_svg   # noqa: E402
 
 here = os.path.dirname(os.path.abspath(__file__))
 docs = os.path.join(os.path.dirname(here), "docs")
@@ -23,8 +27,7 @@ with tempfile.TemporaryDirectory() as tmp:
     for script, names in jobs:
         subprocess.run([sys.executable, os.path.join(here, script), tmp], check=True)
         for n in names:
-            subprocess.run(["pdftocairo", "-svg", os.path.join(tmp, n + ".pdf"), os.path.join(docs, n + ".svg")],
-                           check=True)
+            pdf_to_wide_svg(os.path.join(tmp, n + ".pdf"), os.path.join(docs, n + ".svg"))
             print("wrote", os.path.join(docs, n + ".svg"))
 
 # the table of all named colors in the README, with its swatch images

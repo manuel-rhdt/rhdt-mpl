@@ -1,6 +1,14 @@
 """Color palettes: Okabe-Ito (from site.manuel-rhdt.de/post/colors), ok6 and ok8, the colibri palettes measured in
-hummingbirds, and one palette per hummingbird species."""
+hummingbirds, and one palette per hummingbird species.
 
+``PALETTES`` holds every palette as hex in the color space it is defined in (``NATIVE_SPACE``): the hummingbird palettes
+(measured colors reach outside sRGB) in Display P3, Okabe-Ito, ok6 and ok8 in sRGB.  ``colors()`` and ``named_colors()``
+return them in the current color space of the package (``rhdt_mpl.colorspace.current()``), converted, and gamut-mapped
+by reducing chroma if the target is the smaller space."""
+import numpy as np
+from matplotlib.colors import to_hex, to_rgb
+
+from . import colorspace
 from .spectral_data import COLIBRI, COLIBRI_DARK, PARTNERS, SOURCES, WIDE      # noqa: E402,F401
 
 PALETTES = {
@@ -19,16 +27,21 @@ PALETTES = {
     # golden-tailed sapphire) they are measured reflectance spectra (Beltran, Shultz & Parra, Dryad doi:10.5061/dryad.02v6wwq8w);
     # the violet-crowned and the broad-billed hummingbird are not in that database, so all of their colors are sampled from their
     # images (the violet-crowned has no gorget color: its white throat stands in).  See examples/build_species_palettes.py.
-    "sunangel": {"gorget": "#e444b6", "crown": "#30721e", "mantle": "#3e5509", "rump": "#433d12"},
-    "ruby-topaz": {"gorget": "#ff8a1b", "crown": "#ba0040", "mantle": "#2e1d09", "rump": "#462f1d"},
-    "starfrontlet": {"gorget": "#6842e7", "crown": "#00d645", "mantle": "#4f5436", "rump": "#c76313"},
-    "sapphire": {"gorget": "#0043be", "crown": "#0043d6", "mantle": "#446817", "rump": "#96451e"},
-    "violet-crowned": {"gorget": "#d0cec9", "crown": "#6c41b8", "mantle": "#746e2c", "rump": "#787132"},
-    "broad-billed": {"gorget": "#272b90", "crown": "#4e9560", "mantle": "#31722e", "rump": "#375e39"},
+    "sunangel": {"gorget": "#d351b2", "crown": "#42712b", "mantle": "#435419", "rump": "#423d19"},
+    "ruby-topaz": {"gorget": "#f28f2f", "crown": "#aa1742", "mantle": "#2b1e0c", "rump": "#433020"},
+    "starfrontlet": {"gorget": "#6344de", "crown": "#3bd25a", "mantle": "#505439", "rump": "#ba682c"},
+    "sapphire": {"gorget": "#0242b7", "crown": "#1842ce", "mantle": "#4c6725", "rump": "#8c4a28"},
+    "violet-crowned": {"gorget": "#d0cec9", "crown": "#6643b2", "mantle": "#736e36", "rump": "#77713b"},
+    "broad-billed": {"gorget": "#282b8a", "crown": "#609365", "mantle": "#427137", "rump": "#405d3d"},
     "ok8": {"navy": "#2a5b88", "gold": "#d6ab1b", "rust": "#8e3b1c",
             "violet": "#a936fb", "mint": "#4fbc90", "pink": "#f87fd8",
             "teal": "#228a8f", "coral": "#d0603d"},
 }
+
+#: The color space of the hex values of each palette; the default is sRGB.
+NATIVE_SPACE = {name: "display-p3" for name in
+                ("colibri", "colibri-dark", "sunangel", "ruby-topaz", "starfrontlet", "sapphire", "violet-crowned",
+                 "broad-billed")}
 
 #: Line styles paired one-to-one with the ok6 colors for the "ok-print" cycle.
 OK_PRINT_LINESTYLES = ["-", "--", ":", "-.", (0, (5, 1, 1, 1)), (0, (1, 1))]
@@ -48,35 +61,30 @@ def cycle(name):
     return cycler(color=colors(name))
 
 
+def _in_current(name, hexval):
+    src, dst = NATIVE_SPACE.get(name, "srgb"), colorspace.current()
+    if src == dst:
+        return hexval
+    return to_hex(colorspace.convert(np.array(to_rgb(hexval)), src, dst))
+
+
 def colors(name, names=None):
-    """Hex colors of palette *name*; *names* selects and orders entries."""
+    """Hex colors of palette *name* in the current color space; *names* selects and orders entries."""
     pal = PALETTES[name]
-    return [pal[n] for n in (names or pal)]
+    return [_in_current(name, pal[n]) for n in (names or pal)]
 
 
 def named_colors():
-    """``{"rhdt:palette:name": hex}`` for every color of every palette, e.g.
+    """``{"rhdt:palette:name": hex}`` (in the current color space) for every color of every palette, e.g.
     ``"rhdt:colibri:ruby"``, ``"rhdt:okabe-ito:sky blue"``, ``"rhdt:ok6:navy"``; plus the short
     form ``"rhdt:emerald"`` for the colors of the default palette (colibri).  Short forms exist only
     there because a bare name is ambiguous across palettes (``blue`` has three different values)."""
-    out = {f"rhdt:{pal}:{name}": hexval for pal, d in PALETTES.items() for name, hexval in d.items()}
-    out.update({f"rhdt:{name}": hexval for name, hexval in PALETTES[DEFAULT_PALETTE].items()})
+    out = {f"rhdt:{pal}:{name}": _in_current(pal, hexval) for pal, d in PALETTES.items() for name, hexval in d.items()}
+    out.update({f"rhdt:{name}": _in_current(DEFAULT_PALETTE, hexval) for name, hexval in PALETTES[DEFAULT_PALETTE].items()})
     return out
 
 
 def wide_css(palette, name):
-    """The exact color of palette entry *name* as a CSS ``oklch()`` string when it lies outside the sRGB gamut (the hex
-    in the palette is then its nearest sRGB color), else ``None``."""
+    """The exact color of palette entry *name* as a CSS ``oklch()`` string when it lies outside the Display P3 gamut
+    (the hex in the palette is then its nearest Display P3 color), else ``None``."""
     return WIDE.get(palette, {}).get(name)
-
-
-def wide_colors():
-    """``{sRGB stand-in hex: CSS color}`` for every palette entry outside sRGB.  A stand-in shared by two entries
-    must stand for the same exact color; otherwise it is left out (it would be ambiguous)."""
-    out, clash = {}, set()
-    for pal, entries in WIDE.items():
-        for name, css in entries.items():
-            hexval = PALETTES[pal][name].lower()
-            if out.setdefault(hexval, css) != css:
-                clash.add(hexval)
-    return {h: c for h, c in out.items() if h not in clash}

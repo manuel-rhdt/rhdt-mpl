@@ -24,32 +24,42 @@ def test_backend_and_fonts(tmp_path=None):
     assert "NotoSansMath" in names and "STIX" not in names and "DejaVu" not in names
 
 
+def test_display_p3_is_the_default():
+    import umbruch_matplotlib as um
+    assert rhdt_mpl.colorspace.current() == "display-p3" and um.config.color_space == "display-p3"
+    assert {k for k, v in rhdt_mpl.NATIVE_SPACE.items() if v == "display-p3"} >= {"colibri", "colibri-dark"}
+    assert "ok6" not in rhdt_mpl.NATIVE_SPACE and "okabe-ito" not in rhdt_mpl.NATIVE_SPACE     # sRGB palettes
+
+
 def test_cycles():
     import matplotlib as mpl
-    assert list(rhdt_mpl.PALETTES["ok6"].values())[:2] == ["#1d5e85", "#c8b222"]
+    assert list(rhdt_mpl.PALETTES["ok6"].values())[:2] == ["#1d5e85", "#c8b222"]    # sRGB numbers
     assert len(rhdt_mpl.PALETTES["ok8"]) == 8
     rhdt_mpl.set_cycle("ok-print")
     k = mpl.rcParams["axes.prop_cycle"].by_key()
-    assert k["color"] == list(rhdt_mpl.PALETTES["ok6"].values())
+    assert k["color"] == rhdt_mpl.palette("ok6")                                      # the same colors in P3 numbers
+    assert k["color"][0] != "#1d5e85"
     assert k["linestyle"][4] == (0, (5, 1, 1, 1)) and len(k["linestyle"]) == 6
     rhdt_mpl.use(backend=False)     # restore the default cycle
 
 
 def test_named_colors():
     import matplotlib as mpl, matplotlib.colors as mc
-    assert mc.to_hex("rhdt:colibri:ruby") == "#b60042" and mc.to_hex("rhdt:okabe-ito:sky blue") == "#56b4e9"
-    assert mc.to_hex("rhdt:ok6:navy") == "#1d5e85" and mc.to_hex("rhdt:ok8:navy") == "#2a5b88"
-    assert mc.to_hex("rhdt:emerald") == "#00a051"                                # short form: default palette (colibri)
+    assert mc.to_hex("rhdt:colibri:ruby") == "#aa1742"                           # P3 numbers: the native values
+    assert mc.to_hex("rhdt:okabe-ito:sky blue") == rhdt_mpl.palette("okabe-ito")[2] != "#56b4e9"   # sRGB palette, converted
+    assert mc.to_hex("rhdt:ok6:navy") == rhdt_mpl.palette("ok6")[0]
+    assert mc.to_hex("rhdt:emerald") == "#00a543"                                # short form: default palette (colibri)
     assert not mc.is_color_like("rhdt:sky blue")                                  # other palettes need their full name
     assert not mc.is_color_like("rhdt:navy") and not mc.is_color_like("rhdt:okabe-ito:nope")
     assert mc.to_hex("orange") == "#ffa500" and not mc.is_color_like("okabe-ito:orange")     # no unprefixed names
+    assert rhdt_mpl.PALETTES["ok6"]["navy"] == "#1d5e85"                         # PALETTES keeps the native numbers
     n = sum(len(p) for p in rhdt_mpl.PALETTES.values()) + len(rhdt_mpl.PALETTES[rhdt_mpl.palettes.DEFAULT_PALETTE])
     assert len(rhdt_mpl.named_colors()) == n
-    assert list(mpl.color_sequences["rhdt:ok6"])[0] == "#1d5e85"
+    assert list(mpl.color_sequences["rhdt:ok6"])[0] == rhdt_mpl.palette("ok6")[0]
     with mpl.rc_context({"text.color": "rhdt:colibri-dark:garnet", "axes.edgecolor": "rhdt:ok6:gold"}):
-        assert mc.to_hex(mpl.rcParams["axes.edgecolor"]) == "#c8b222"
+        assert mc.to_hex(mpl.rcParams["axes.edgecolor"]) == rhdt_mpl.palette("ok6")[1]
         fig = plt.figure(); t = fig.text(0.5, 0.5, "x")
-        assert mc.to_hex(t.get_color()) == "#6c1f1d"
+        assert mc.to_hex(t.get_color()) == "#632520"
 
 
 def test_colibri():
@@ -60,17 +70,18 @@ def test_colibri():
     assert not set(rhdt_mpl.PALETTES["colibri"]) & set(rhdt_mpl.PALETTES["colibri-dark"])  # the dark colors have names of their own
     assert list(rhdt_mpl.PARTNERS.values()) == list(rhdt_mpl.PALETTES["colibri"])          # partners in the order of colibri
     assert list(rhdt_mpl.PARTNERS) == list(rhdt_mpl.PALETTES["colibri-dark"])
-    assert rhdt_mpl.PARTNERS["garnet"] == "ruby" and mc.to_hex("rhdt:colibri-dark:garnet") == "#6c1f1d"
+    assert rhdt_mpl.PARTNERS["garnet"] == "ruby" and mc.to_hex("rhdt:colibri-dark:garnet") == "#632520"
     assert list(rhdt_mpl.PALETTES["colibri"])[:2] == ["emerald", "tourmaline"]
-    assert mc.to_hex("rhdt:colibri:ruby") == "#b60042"                          # the stand-in of an out-of-gamut color
-    assert rhdt_mpl.wide_css("colibri", "ruby").startswith("oklch(0.49")
-    assert rhdt_mpl.wide_css("colibri", "amber") is None                        # inside sRGB: exact
+    assert mc.to_hex("rhdt:colibri:emerald") == "#00a543"                       # the nearest P3 color of one outside P3
+    assert rhdt_mpl.wide_css("colibri", "emerald").startswith("oklch(0.61")
+    assert rhdt_mpl.wide_css("colibri", "ruby") is None                         # outside sRGB, but inside Display P3: exact
+    assert set(rhdt_mpl.WIDE["colibri"]) == {"emerald", "sapphire", "jade"}
     stand = [h for k in ("colibri", "colibri-dark") for h in rhdt_mpl.PALETTES[k].values()]
     assert len(set(stand)) == 16                                                # stand-ins are distinct
     # every bright color is visible on white (WCAG contrast of at least 3:1)
+    cs = rhdt_mpl.colorspace
     for h in rhdt_mpl.PALETTES["colibri"].values():
-        c = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
-        lin = [v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4 for v in c]
+        lin = cs.linear_to_srgb_linear(cs.decode(mc.to_rgb(h)), "display-p3")      # luminance from linear sRGB weights
         assert 1.05 / (0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2] + 0.05) >= 3.0, h
     rhdt_mpl.set_cycle("colibri-dark")
     assert len(mpl_cycle()) == 8
@@ -86,8 +97,8 @@ def test_species_palettes():
     import matplotlib.colors as mc
     for key in ("sunangel", "ruby-topaz", "starfrontlet", "sapphire", "violet-crowned", "broad-billed"):
         assert list(rhdt_mpl.PALETTES[key]) == ["gorget", "crown", "mantle", "rump"]
-    assert mc.to_hex("rhdt:ruby-topaz:gorget") == "#ff8a1b"          # a measured spectrum
-    assert rhdt_mpl.palette("sapphire", ["gorget", "rump"]) == ["#0043be", "#96451e"]
+    assert mc.to_hex("rhdt:ruby-topaz:gorget") == "#f28f2f"          # a measured spectrum, in Display P3
+    assert rhdt_mpl.palette("sapphire", ["gorget", "rump"]) == ["#0242b7", "#8c4a28"]
     for gone in ("anna", "ruby-throated", "rufous", "costa", "crimson-topaz", "sparkling-violetear"):
         assert gone not in rhdt_mpl.PALETTES
 
@@ -98,27 +109,57 @@ def test_default_cycle_is_colibri():
     assert mpl_cycle() == list(rhdt_mpl.PALETTES["colibri"].values())
 
 
-def test_wide_colors_reach_the_pdf():
-    import re, zlib, umbruch_matplotlib as um
-    assert um.config.wide_colors["#b60042"] == rhdt_mpl.wide_css("colibri", "ruby")
+def _pdf_streams(path):
+    import re, zlib
+    data = open(path, "rb").read()
+    for m in re.finditer(rb"stream\r?\n(.*?)endstream", data, re.S):
+        try:
+            yield zlib.decompress(m.group(1))
+        except zlib.error:
+            yield m.group(1)
+
+
+def test_p3_colors_reach_the_pdf():
+    import re
+    import matplotlib.colors as mc
     fig, ax = plt.subplots(figsize=(2, 1.5))
     ax.plot([0, 1], [0, 1], color="rhdt:ruby", lw=4)
-    ax.text(0.5, 0.5, "#b60042")                       # the label keeps its hex text
-    path = os.path.join(tempfile.mkdtemp(), "w.pdf")
+    path = os.path.join(tempfile.mkdtemp(), "p3.pdf")
     fig.savefig(path)
     plt.close(fig)
-    data = open(path, "rb").read()
-    assert b"/Lab" in data
-    streams = [zlib.decompress(m.group(1)) for m in re.finditer(rb"stream\r?\n(.*?)endstream", data, re.S)
-               if m.group(1)[:1] == b"x"]
-    assert any(re.search(rb"/CS\d+ (cs|CS)", s) for s in streams)
+    streams = list(_pdf_streams(path))
+    profiles = [s for s in streams if s[36:40] == b"acsp"]
+    assert len(profiles) == 2                                 # umbruch's own sRGB profile and the Display P3 one
+    ruby = mc.to_rgb("rhdt:ruby")
+    found = [tuple(float(v) for v in m.groups()) for s in streams
+             for m in re.finditer(rb"([\d.]+) ([\d.]+) ([\d.]+) SC", s)]
+    assert any(max(abs(a - b) for a, b in zip(c, ruby)) < 2e-3 for c in found), (found, ruby)
 
 
-def test_wide_colors_only_where_painted():
+def test_srgb_opt_out():
+    import matplotlib as mpl, matplotlib.colors as mc
     import umbruch_matplotlib as um
-    svg = '<path fill="#B60042"/><g style="stroke: #b60042; fill:#123456"/><text>#b60042</text>'
-    out = um._apply_wide_colors(svg, um.config.wide_colors)
-    assert out.count("oklch(") == 2 and "<text>#b60042</text>" in out and "#123456" in out
+    try:
+        rhdt_mpl.use(backend=False, color_space="srgb")
+        assert um.config.color_space == "srgb"
+        assert rhdt_mpl.palette("ok6") == list(rhdt_mpl.PALETTES["ok6"].values())            # native: unchanged
+        assert rhdt_mpl.palette("colibri")[5] != rhdt_mpl.PALETTES["colibri"]["ruby"]        # P3 colors converted
+        assert mc.to_hex("rhdt:colibri:ruby") == rhdt_mpl.palette("colibri", ["ruby"])[0]
+        for h in rhdt_mpl.palette("colibri"):
+            assert all(0 <= v <= 1 for v in mc.to_rgb(h))                                    # inside sRGB
+        assert mpl.colormaps["ok_blue"](0.5)[:3] != rhdt_mpl.okmaps.COLORMAPS["ok_blue"](0.5)[:3]
+    finally:
+        rhdt_mpl.use(backend=False)
+    assert rhdt_mpl.colorspace.current() == "display-p3" and um.config.color_space == "display-p3"
+
+
+def test_from_srgb_converts_names_and_hex():
+    import numpy as np
+    assert np.allclose(rhdt_mpl.from_srgb("white"), 1) and np.allclose(rhdt_mpl.from_srgb("#808080")[:3], 128 / 255)
+    r = rhdt_mpl.from_srgb("red")                           # sRGB red is not saturated in Display P3
+    assert 0.9 < r[0] < 1 and 0.1 < r[1] < 0.3
+    assert np.allclose(rhdt_mpl.from_srgb("red", "srgb"), (1, 0, 0, 1))
+    assert np.shape(rhdt_mpl.from_srgb(["red", "blue"])) == (2, 4)
 
 
 def test_readme_lists_all_named_colors():
@@ -134,20 +175,26 @@ def test_readme_lists_all_named_colors():
 
 def test_colormaps():
     import matplotlib as mpl
+    import numpy as np
     assert mpl.rcParams["image.cmap"] == "ok_orchid"
     from rhdt_mpl import okmaps
+    cs = rhdt_mpl.colorspace
     assert len(okmaps.COLORMAPS) == 9
-    for n in okmaps.COLORMAPS:
+    for n, cm in okmaps.COLORMAPS.items():
         for m in (n, n + "_r"):
             assert m in mpl.colormaps and mpl.colormaps[m].N == 256
+        assert np.allclose(mpl.colormaps[n].colors, cm.colors)           # registered as they are in a P3 figure
+        t = np.array(cm.colors)
+        assert t.min() >= 0 and t.max() <= 1
+        L = cs.rgb_to_oklab(t, "display-p3")[:, 0]
+        assert np.all(np.diff(L) > 0)                                     # dark -> light
+    # native to P3: they use colors outside sRGB (some of their entries have a negative sRGB channel)
+    assert any((cs.linear_to_srgb_linear(cs.decode(np.array(cm.colors)), "display-p3") < -1e-3).any()
+               for cm in okmaps.COLORMAPS.values())
 
 
 if __name__ == "__main__":
-    test_colormaps()
-    test_cycles()
-    test_named_colors()
-    test_colibri()
-    test_species_palettes()
-    test_readme_lists_all_named_colors()
-    test_default_cycle_is_colibri()
-    test_backend_and_fonts("/tmp/claude-0/-home-user/b31222e4-7591-5457-af74-51ed8c3e5c07/scratchpad")
+    for n, f in list(globals().items()):
+        if n.startswith("test_"):
+            f()
+    print("rhdt_mpl tests ok")

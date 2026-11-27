@@ -6,7 +6,8 @@ angle of maximum reflectance; refmin.txt / refthird.txt: the angle of minimum an
 The data are not part of this repository; pass the path of the extracted files.
 
 A spectrum is turned into a screen color by integrating it against the CIE 1931 2 degree observer under illuminant
-D65 (colour-science), converting to linear sRGB, and, when the color lies outside the sRGB gamut, reducing chroma
+D65 (colour-science), converting to linear sRGB, then to the current color space of rhdt_mpl (Display P3 for the
+palettes: ``with rhdt_mpl.colorspace.using("display-p3")``) and, when the color lies outside its gamut, reducing chroma
 at constant OKLab lightness and hue (rhdt_mpl.oklab).  Reflectance beyond 700 nm is held at its value at 700 nm.
 
     from colombia_spectra import load, patch_colors
@@ -56,22 +57,23 @@ def spectrum_to_linear_rgb(reflectance_percent):
 
 
 def linear_rgb_to_hex(lin):
-    """Hex color; out-of-gamut colors keep OKLab lightness and hue and lose chroma.  Returns (hex, was_in_gamut)."""
-    from rhdt_mpl import oklab as ok
+    """Hex color in the current color space (``rhdt_mpl.colorspace``; use ``with colorspace.using("display-p3")``) from
+    linear sRGB; out-of-gamut colors keep OKLab lightness and hue and lose chroma.  Returns (hex, was_in_gamut)."""
+    from rhdt_mpl import colorspace as cs, oklab as ok
     lin = np.asarray(lin, float)
-    in_gamut = bool(np.all(lin >= -1e-4) and np.all(lin <= 1 + 1e-4))
-    lab = ok._M2 @ np.cbrt(ok._M1 @ np.clip(lin, 0, None))
-    if in_gamut:
-        return ok._hex(ok._linear_to_srgb(np.clip(lin, 0, 1))), True
-    return ok.oklab(*lab), False
+    here = cs.srgb_linear_to_linear(lin, cs.current())
+    if cs.in_gamut(here, 1e-4):
+        return ok._hex(cs.encode(np.clip(here, 0, 1))), True
+    return ok.oklab(*(ok._M2 @ np.cbrt(ok._M1 @ lin))), False
 
 
 def exact_oklch(lin):
-    """(L, C, h) of a linear sRGB color that may lie outside the gamut (no clipping), and whether it is outside."""
-    from rhdt_mpl import oklab as ok
+    """(L, C, h) of a linear sRGB color that may lie outside the gamut (no clipping), and whether it is outside the gamut
+    of the current color space."""
+    from rhdt_mpl import colorspace as cs, oklab as ok
     lin = np.asarray(lin, float)
     L, a, b = ok._M2 @ np.cbrt(ok._M1 @ lin)
-    wide = not bool(np.all(lin >= -1e-4) and np.all(lin <= 1 + 1e-4))
+    wide = not bool(cs.in_gamut(cs.srgb_linear_to_linear(lin, cs.current()), 1e-4))
     return float(L), float(np.hypot(a, b)), float(np.degrees(np.arctan2(b, a)) % 360), wide
 
 

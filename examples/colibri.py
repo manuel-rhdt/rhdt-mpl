@@ -24,7 +24,7 @@ ax.set_xlim(0, W); ax.set_ylim(0, H_SW); ax.axis("off")
 ax.text(0.08, H_SW - 0.2, "hummingbird palettes", fontsize=11, fontweight="bold", va="center")
 ax.text(W - 0.08, H_SW - 0.2, 'rhdt_mpl.palette("ruby-topaz")     color="rhdt:colibri:ruby"', fontsize=6,
         family="Noto Sans Mono", ha="right", va="center", color="0.25")
-ax.text(0.1, 0.1, "∘ the exact color lies outside sRGB; the swatch shows its nearest sRGB color", fontsize=5.6, color="0.35",
+ax.text(0.1, 0.1, "∘ the exact color lies outside Display P3; the swatch shows its nearest Display P3 color", fontsize=5.6, color="0.35",
         va="center")
 for r, (key, sub, pal) in enumerate(rows):
     y = H_SW - 0.5 - RH * (r + 1) + 0.12
@@ -36,7 +36,7 @@ for r, (key, sub, pal) in enumerate(rows):
         ink = "white" if oklab.lightness(hexv) < 0.68 else "black"
         ax.text(x + SW / 2, y + 0.32, name.replace(" ", "\n"), fontsize=5.8, ha="center",
                 va="center", color=ink, linespacing=0.95)
-        if rhdt_mpl.wide_css(key, name):                       # the exact color lies outside sRGB
+        if rhdt_mpl.wide_css(key, name):                       # the exact color lies outside Display P3
             ax.plot([x + SW - 0.06], [y + 0.46], "o", ms=2.2, mfc="none", mec=ink, mew=0.6)
         ax.text(x + SW / 2, y + 0.04, hexv, fontsize=4.8, ha="center", va="center", family="Noto Sans Mono", color="0.4")
 

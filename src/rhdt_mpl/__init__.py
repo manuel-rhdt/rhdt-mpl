@@ -3,28 +3,32 @@
     import rhdt_mpl          # before importing matplotlib.pyplot, ideally
     import matplotlib.pyplot as plt
 
-Importing the package selects the umbruch backend, registers the bundled Noto fonts,
-hands them to umbruch, and applies the ``rhdt`` style.  ``rhdt_mpl.use(...)`` redoes
+Importing the package selects the umbruch backend in the Display P3 color space, registers the bundled
+Noto fonts (the backend hands them to umbruch), and applies the ``rhdt`` style.  ``rhdt_mpl.use(...)`` redoes
 this explicitly; ``rhdt_mpl.set_palette(name)`` changes the color cycle.
 """
 import os
+import sys
 from importlib import resources
 
 import matplotlib as mpl
 import matplotlib.style
 from matplotlib import font_manager as fm
 
-from . import okmaps  # registers ok_dusk, ok_orchid (+ _r)
+from . import colorspace  # sRGB / Display P3, OKLab, gamut mapping
+from . import okmaps  # ok_dusk, ok_orchid, ... (+ _r), registered in the color space by use()
 from . import oklab  # OKLab color helpers
-from .palettes import (PALETTES, DEFAULT_PALETTE, DEFAULT_CYCLE, OK_PRINT_LINESTYLES, colors, cycle,
-                       named_colors, wide_css, wide_colors, WIDE, SOURCES, PARTNERS)
+from .colorspace import from_srgb
+from .palettes import (PALETTES, NATIVE_SPACE, DEFAULT_PALETTE, DEFAULT_CYCLE, OK_PRINT_LINESTYLES, colors, cycle,
+                       named_colors, wide_css, WIDE, SOURCES, PARTNERS)
 
-__all__ = ["use", "set_palette", "set_cycle", "cycle", "register_colors", "named_colors", "wide_css", "wide_colors", "SOURCES", "PARTNERS", "palette", "panel_labels", "PALETTES", "font_dir",
+__all__ = ["use", "set_palette", "set_cycle", "cycle", "register_colors", "named_colors", "wide_css", "from_srgb", "colorspace", "NATIVE_SPACE", "SOURCES", "PARTNERS", "palette", "panel_labels", "PALETTES", "font_dir",
            "TWO_COLUMN", "oklab"]
 
 BACKEND = "module://umbruch_matplotlib"
 TWO_COLUMN = 510 / 72   # figure width in inches used for the ML-PWS paper figures
 DEFAULT_CMAP = "ok_orchid"
+DEFAULT_COLOR_SPACE = "display-p3"
 MATH_FONT = "Noto Sans Math"   # needs a backend with config.math_font
 
 _here = resources.files(__package__)
@@ -73,29 +77,16 @@ def _register_fonts():
             fm.fontManager.addfont(os.path.join(font_dir, fn))
 
 
-def _install_bridge():
-    """Start umbruch with the bundled fonts (the backend's default bridge uses
-    ``--no-system-fonts`` and would only see umbruch's built-in families)."""
-    import umbruch_matplotlib as um
-    um.config.math_font = MATH_FONT
-    um.config.wide_colors = {**getattr(um.config, "wide_colors", {}), **wide_colors()}
-    if um.config.bridge is not None:
-        return
-    exe = um.find_umbruch()
-    if exe is None:
-        return          # the backend reports this itself when it is used
-    args = ("--no-system-fonts", "--font-dir", font_dir)
-    try:
-        server = um.UmbruchServer(exe, args=args)
-        server._start()
-        um.config.bridge = server
-    except Exception:
-        um.config.bridge = um.UmbruchCli(exe, args=args)
+def use(backend=True, style=True, color_space=DEFAULT_COLOR_SPACE):
+    """Apply the defaults.  ``backend=False`` keeps the current backend.
 
-
-def use(backend=True, style=True):
-    """Apply the defaults.  ``backend=False`` keeps the current backend."""
+    *color_space* is the space of every number Matplotlib is given from here on: ``"display-p3"`` (the default) or
+    ``"srgb"``.  It is passed to the backend, and the palettes, named colors, color cycle and colormaps are
+    registered in it.  Colors you write yourself (hex, names, ``"C0"``, built-in colormaps) are still read as numbers
+    of that space; ``from_srgb`` converts those."""
+    colorspace.set_current(color_space)
     _register_fonts()
+    okmaps.register(color_space)
     register_colors()
     if style:
         mpl.style.use(_style)
@@ -103,8 +94,12 @@ def use(backend=True, style=True):
             color=colors(DEFAULT_PALETTE, DEFAULT_CYCLE))
         mpl.rcParams["image.cmap"] = DEFAULT_CMAP
     if backend:
-        _install_bridge()
+        import umbruch_matplotlib as um
+        um.config.math_font = MATH_FONT
+        um.config.color_space = color_space
         mpl.use(BACKEND)
+    elif "umbruch_matplotlib" in sys.modules:
+        sys.modules["umbruch_matplotlib"].config.color_space = color_space
 
 
 use()

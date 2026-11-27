@@ -4,8 +4,10 @@ All functions take any Matplotlib color spec ("#EE7733", "C1", "tab:red", an RGB
 and return a ``#rrggbb`` string; alpha is ignored.  OKLCH is lightness L in [0, 1], chroma C
 (about 0 to 0.4 inside sRGB) and hue h in degrees.
 
-A result that falls outside the sRGB gamut is brought back by reducing chroma at constant
-lightness and hue, not by clipping channels (which shifts the hue).
+The numbers of a color are read, and the result is written, in the *current color space*
+(``rhdt_mpl.colorspace.current()``: Display P3 after ``rhdt_mpl.use()``, sRGB before).  A result that
+falls outside the gamut of that space is brought back by reducing chroma at constant lightness and hue,
+not by clipping channels (which shifts the hue).
 
     from rhdt_mpl import oklab
     oklab.muted("#EE7733")                  # same hue, less chroma, a bit lighter
@@ -17,37 +19,20 @@ lightness and hue, not by clipping channels (which shifts the hue).
 import numpy as np
 from matplotlib.colors import to_rgb
 
+from . import colorspace as cs
+from .colorspace import _M1, _M2          # noqa: F401  (also used by examples/colombia_spectra.py)
+
 __all__ = ["to_oklab", "to_oklch", "oklab", "oklch", "adjust", "lighten", "darken",
            "saturate", "desaturate", "rotate_hue", "mix", "muted", "family", "lightness"]
 
-_M1 = np.array([[0.4122214708, 0.5363325363, 0.0514459929],
-                [0.2119034982, 0.6806995451, 0.1073969566],
-                [0.0883024619, 0.2817188376, 0.6299787005]])
-_M2 = np.array([[0.2104542553, 0.7936177850, -0.0040720468],
-                [1.9779984951, -2.4285922050, 0.4505937099],
-                [0.0259040371, 0.7827717662, -0.8086757660]])
-_M1_INV = np.linalg.inv(_M1)
-_M2_INV = np.linalg.inv(_M2)
-
-
-def _srgb_to_linear(c):
-    c = np.asarray(c, float)
-    return np.where(c <= 0.04045, c / 12.92, ((c + 0.055) / 1.055) ** 2.4)
-
-
-def _linear_to_srgb(c):
-    c = np.asarray(c, float)
-    return np.where(c <= 0.0031308, 12.92 * c, 1.055 * np.abs(c) ** (1 / 2.4) - 0.055)
-
 
 def _rgb_to_lab(rgb):
-    lms = _M1 @ _srgb_to_linear(rgb)
-    return _M2 @ np.cbrt(lms)
+    return cs.rgb_to_oklab(np.asarray(rgb, float))
 
 
-def _lab_to_linear_rgb(lab):
-    lms = (_M2_INV @ np.asarray(lab, float)) ** 3
-    return _M1_INV @ lms
+def _hex(rgb):
+    rgb = np.clip(np.round(np.asarray(rgb, float) * 255), 0, 255).astype(int)
+    return "#%02x%02x%02x" % tuple(rgb)
 
 
 def to_oklab(color):
@@ -66,42 +51,16 @@ def lightness(color):
     return to_oklab(color)[0]
 
 
-def _hex(rgb):
-    rgb = np.clip(np.round(np.asarray(rgb, float) * 255), 0, 255).astype(int)
-    return "#%02x%02x%02x" % tuple(rgb)
-
-
-def _in_gamut(lin, eps=1e-6):
-    return bool(np.all(lin >= -eps) and np.all(lin <= 1 + eps))
-
-
 def oklch(L, C, h):
     """Hex color for OKLCH (*L*, *C*, *h* degrees), gamut-mapped by reducing *C*."""
-    if L <= 0:
-        return "#000000"
-    if L >= 1:
-        return "#ffffff"
     C = max(float(C), 0.0)
     hr = np.radians(h)
-
-    def lin(c):
-        return _lab_to_linear_rgb([L, c * np.cos(hr), c * np.sin(hr)])
-
-    if not _in_gamut(lin(C)):
-        lo, hi = 0.0, C
-        for _ in range(40):
-            mid = (lo + hi) / 2
-            if _in_gamut(lin(mid)):
-                lo = mid
-            else:
-                hi = mid
-        C = lo
-    return _hex(_linear_to_srgb(np.clip(lin(C), 0, 1)))
+    return _hex(cs.oklab_to_rgb([L, C * np.cos(hr), C * np.sin(hr)]))
 
 
 def oklab(L, a, b):
     """Hex color for OKLab (*L*, *a*, *b*), gamut-mapped by reducing chroma."""
-    return oklch(L, float(np.hypot(a, b)), float(np.degrees(np.arctan2(b, a))))
+    return _hex(cs.oklab_to_rgb([L, a, b]))
 
 
 def adjust(color, *, L=None, C=None, h=None, dL=0.0, dC=0.0, dh=0.0, scale_C=1.0):

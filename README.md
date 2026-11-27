@@ -8,12 +8,10 @@ twelve colormaps, hummingbird palettes and OKLab color helpers.
 ## Install
 
 ```
-pip install git+https://github.com/manuel-rhdt/umbruch-matplotlib
-pip install git+https://github.com/manuel-rhdt/rhdt-mpl
-pip install latex2mathml          # math ($...$) in labels
+pip install "rhdt-mpl[math] @ git+https://github.com/manuel-rhdt/rhdt-mpl"
 ```
 
-Python 3.12 or newer.
+Python 3.12 or newer. `[math]` adds math (`$...$`) in labels.
 
 ## Use
 

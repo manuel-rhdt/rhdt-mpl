@@ -32,7 +32,7 @@ def _load(name, path):
 
 
 cs = _load("colorspace", os.path.join(SRC, "colorspace.py"))      # not through the package: it imports okmaps
-NAMES = ["ok_dusk", "ok_orchid", "ok_blue", "ok_teal", "ok_green", "ok_orange", "ok_red", "ok_purple", "ok_pink"]
+NAMES = ["ok_orchid", "ok_blue", "ok_teal", "ok_green", "ok_orange", "ok_red", "ok_purple", "ok_pink"]
 #: the diverging maps, designed directly in Display P3 (see diverging_p3)
 DIVERGING = {"ok_green_magenta": dict(hues=(146.0, 324.0), end_L=0.56, end_fraction=0.95, center_L=0.985,
                                       chroma_exp=0.6, lightness_exp=1.3),
@@ -45,7 +45,7 @@ ALL = NAMES + list(DIVERGING) + list(SPIRALS)
 
 HEADER = '''"""Personal colormaps (256-entry tables in Display P3, designed in OKLab).
 
-Multi-hue:   ok_dusk, ok_orchid
+Multi-hue:   ok_orchid
 Single-hue:  ok_blue, ok_teal, ok_green, ok_orange, ok_red, ok_purple, ok_pink
 Spiral:      ok_ember (indigo - magenta - orange - cream), ok_lagoon (indigo - teal - green - mustard - cream)
 Diverging:   ok_green_magenta (green - light center - magenta), ok_ruby_sapphire (ruby - light center - sapphire)
@@ -186,7 +186,7 @@ def main(src):
         lines.append(f"_{name.upper()} = [")
         lines += [f"    ({r:.5f}, {g:.5f}, {b:.5f})," for r, g, b in t]
         lines.append("]\n")
-    # the tables are named as in the sRGB module (_OK_DUSK, ...) and exposed as ok_dusk, ...
+    # the tables are named as in the sRGB module (_OK_DUSK, ...) and exposed as ok_orchid, ...
     footer = FOOTER % ", ".join(f'("{n}", _{n.upper()})' for n in ALL)
     open(OUT, "w").write("\n".join(lines) + footer)
     print("wrote", OUT)

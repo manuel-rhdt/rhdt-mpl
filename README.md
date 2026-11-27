@@ -1,7 +1,7 @@
 # rhdt-mpl
 
 Personal Matplotlib defaults: the [umbruch](https://github.com/manuel-rhdt/umbruch) backend in the Display P3 color space,
-bundled Noto fonts, named palettes and cycles, thirteen colormaps, and helpers for adjusting colors in OKLab.
+bundled Noto fonts, named palettes and cycles, twelve colormaps, and helpers for adjusting colors in OKLab.
 
 ```python
 import rhdt_mpl                      # import before pyplot
@@ -169,7 +169,7 @@ The full name of every color is `rhdt:<palette>:<name>`; the colors of the defau
 
 ## Colormaps
 
-<img src="docs/colormaps.svg" alt="The thirteen colormaps with their OKLab lightness" width="100%">
+<img src="docs/colormaps.svg" alt="The twelve colormaps with their OKLab lightness" width="100%">
 
 256-entry tables in Display P3, designed in OKLab, with the OKLab lightness of each shown underneath (the figures are Display P3 too, see below). All but the diverging map run dark to light; append
 `_r` for light to dark, which is the usual direction for single-hue maps on a white background. `ok_orchid` is the default
@@ -195,8 +195,7 @@ times 100 between the ends: 26 and 33 for `ok_green_magenta`, 22 and 21 for `ok_
 deuteranopes). A fifth (`ok_green_magenta`) to a third (`ok_ruby_sapphire`) of the entries lie outside sRGB.
 
 ```python
-plt.imshow(z)                        # ok_orchid
-plt.imshow(z, cmap="ok_dusk")        # multi-hue: ok_dusk, ok_orchid
+plt.imshow(z)                        # ok_orchid (the default, multi-hue)
 plt.imshow(z, cmap="ok_ember")       # high-chroma spirals: ok_ember, ok_lagoon
 plt.imshow(z, cmap="ok_blue_r")      # single-hue: ok_blue, ok_teal, ok_green, ok_orange, ok_red, ok_purple, ok_pink
 plt.imshow(z, cmap="ok_ruby_sapphire", vmin=-m, vmax=m)  # diverging, centered on 0: ok_ruby_sapphire, ok_green_magenta
@@ -270,7 +269,7 @@ Display P3 numbers that look the same.
   The colormaps keep the lightness and hue of the sRGB tables they replace and the same *fraction* of the largest chroma the
   gamut allows (0.9 for the single-hue maps), so they are as saturated relative to the gamut as before and use the extra
   room: 1.0 to 1.4 times the chroma of the sRGB version. Only the maps designed near the sRGB boundary leave sRGB visibly
-  (`ok_blue`, `ok_orange`, `ok_red`, `ok_pink`); `ok_dusk`, `ok_teal`, `ok_green` and `ok_purple` were designed at lower
+  (`ok_blue`, `ok_orange`, `ok_red`, `ok_pink`); `ok_teal`, `ok_green` and `ok_purple` were designed at lower
   fractions or in hues where P3 adds little, and stay inside sRGB (`examples/build_okmaps_p3.py`). The default `ok_orchid` is
   tuned further: it would stay almost inside sRGB at the same fraction, so its fraction is 1.3 times that of the sRGB version
   (at most 0.95), and its hue is re-timed so that the pink reaches magenta at 40 % of the map instead of half way, which keeps

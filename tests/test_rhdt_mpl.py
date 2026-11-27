@@ -182,7 +182,7 @@ def test_colormaps():
     assert mpl.rcParams["image.cmap"] == "ok_orchid"
     from rhdt_mpl import okmaps
     cs = rhdt_mpl.colorspace
-    assert len(okmaps.COLORMAPS) == 13
+    assert len(okmaps.COLORMAPS) == 12
     for n, cm in okmaps.COLORMAPS.items():
         for m in (n, n + "_r"):
             assert m in mpl.colormaps and mpl.colormaps[m].N == 256

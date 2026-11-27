@@ -16,7 +16,7 @@ import matplotlib.style
 from matplotlib import font_manager as fm
 
 from . import colorspace  # sRGB / Display P3, OKLab, gamut mapping
-from . import okmaps  # ok_dusk, ok_orchid, ... (+ _r), registered in the color space by use()
+from . import okmaps  # ok_orchid, ok_blue, ... (+ _r), registered in the color space by use()
 from . import oklab  # OKLab color helpers
 from .colorspace import from_srgb
 from .palettes import (PALETTES, NATIVE_SPACE, DEFAULT_PALETTE, DEFAULT_CYCLE, OK_PRINT_LINESTYLES, colors, cycle,

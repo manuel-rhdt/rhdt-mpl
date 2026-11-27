@@ -26,6 +26,8 @@ grid.color: B0B0B0
 grid.linewidth: 0.8
 axes.prop_cycle: cycler('color', ['00A543', 'D139BF', '007AC1', 'BA682C', 'AA1742', '4737E5', '008479', '808C28'])   # colibri (Display P3 numbers)
 
+ytick.alignment: center      # centers Fira Sans digits on the ticks (center_baseline puts them ~1 pt low)
+
 # Lines and markers (no marker edge)
 lines.linewidth: 1.5
 lines.markersize: 4

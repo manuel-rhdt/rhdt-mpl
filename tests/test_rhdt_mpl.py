@@ -162,10 +162,10 @@ def test_from_srgb_converts_names_and_hex():
     assert np.shape(rhdt_mpl.from_srgb(["red", "blue"])) == (2, 4)
 
 
-def test_readme_lists_all_named_colors():
+def test_colors_page_lists_all_named_colors():
     import os
-    readme = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "README.md")).read()
-    rows = [l for l in readme.splitlines() if l.startswith("| <img")]
+    page = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "docs", "colors.md")).read()
+    rows = [l for l in page.splitlines() if l.startswith("| <img")]
     expected = sum(len(p) for p in rhdt_mpl.PALETTES.values())
     assert len(rows) == expected, (len(rows), expected)          # regenerate with examples/make_color_table.py
     for palette, colors in rhdt_mpl.PALETTES.items():

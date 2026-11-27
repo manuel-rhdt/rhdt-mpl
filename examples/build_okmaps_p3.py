@@ -5,6 +5,12 @@ its lightness and hue (0.9 for the single-hue maps, less for the quieter ones). 
 and hue of every entry and the same *fraction* of the largest chroma of the Display P3 gamut, so they are as saturated
 relative to their gamut as the originals and use the room P3 has: the chroma grows by 1.0 to 1.4 times.
 
+``ok_orchid`` is the exception (TWEAKS).  At the same fraction it stayed almost inside sRGB (35 of 256 entries outside), and
+its pink end took up less of the map than the purple (about 37 % against 50 % of the range at a chroma of at least 0.10).
+So its chroma fraction is multiplied by 1.3 (at most 0.95), and the hue along the map is re-timed with
+``w(t) = t + 0.4 t (1 - t)``, which reaches magenta-pink at 40 % of the map instead of 50 %.  The lightness of every entry,
+and so its dark -> light order, is unchanged.
+
     git show 312d922:src/rhdt_mpl/okmaps.py > okmaps_srgb.py      # the last version with sRGB tables
     python examples/build_okmaps_p3.py okmaps_srgb.py             # rewrites src/rhdt_mpl/okmaps.py
 """
@@ -26,13 +32,24 @@ def _load(name, path):
 
 
 cs = _load("colorspace", os.path.join(SRC, "colorspace.py"))      # not through the package: it imports okmaps
-NAMES = ["ok_dusk", "ok_orchid", "ok_blue", "ok_teal", "ok_green", "ok_orange", "ok_red", "ok_purple", "ok_pink"]
+NAMES = ["ok_orchid", "ok_blue", "ok_teal", "ok_green", "ok_orange", "ok_red", "ok_purple", "ok_pink"]
+#: the diverging maps, designed directly in Display P3 (see diverging_p3)
+DIVERGING = {"ok_green_magenta": dict(hues=(146.0, 324.0), end_L=0.56, end_fraction=0.95, center_L=0.985,
+                                      chroma_exp=0.6, lightness_exp=1.3),
+             "ok_ruby_sapphire": dict(hues=(12.4, 238.6), end_L=0.56, end_fraction=0.95, center_L=0.985,
+                                      chroma_exp=0.6, lightness_exp=1.3)}
+#: the spiral maps, designed directly in Display P3 (see spiral_p3)
+SPIRALS = {"ok_ember": dict(start_hue=265.0, turns=0.5, smoothing=8, hue_ease=1.0),
+           "ok_lagoon": dict(start_hue=265.0, turns=-0.6, smoothing=16, hue_ease=1.3)}
+ALL = NAMES + list(DIVERGING) + list(SPIRALS)
 
 HEADER = '''"""Personal colormaps (256-entry tables in Display P3, designed in OKLab).
 
-Multi-hue:   ok_dusk, ok_orchid
+Multi-hue:   ok_orchid
 Single-hue:  ok_blue, ok_teal, ok_green, ok_orange, ok_red, ok_purple, ok_pink
-All run dark -> light; append _r for light -> dark (usual for single-hue maps
+Spiral:      ok_ember (indigo - magenta - orange - cream), ok_lagoon (indigo - teal - green - mustard - cream)
+Diverging:   ok_green_magenta (green - light center - magenta), ok_ruby_sapphire (ruby - light center - sapphire)
+All but the diverging maps run dark -> light; append _r for light -> dark (usual for single-hue maps
 on a white background). Only needs matplotlib.
 
 The tables (``COLORMAPS``) are Display P3 numbers.  ``register(space)`` registers the maps with Matplotlib for figures
@@ -78,29 +95,99 @@ def max_chroma(L, h, space):
     return lo
 
 
-def to_p3(table):
-    """Display P3 table with the lightness, hue and fraction of the largest chroma of an sRGB table."""
+#: per map: *gain* multiplies the fraction of the largest chroma (at most *cap*), *warp* re-times the hue and the fraction
+#: along the map by w(t) = t + warp * t * (1 - t); the lightness is not touched
+TWEAKS = {"ok_orchid": dict(gain=1.3, cap=0.95, warp=0.4)}
+
+
+def to_p3(table, gain=1.0, cap=1.0, warp=0.0):
+    """Display P3 table with the lightness, hue and fraction of the largest chroma of an sRGB table (see TWEAKS)."""
     lab = cs.rgb_to_oklab(np.asarray(table), "srgb")
     L, a, b = lab.T
-    C, h = np.hypot(a, b), np.arctan2(b, a)
-    c_srgb, c_p3 = max_chroma(L, np.degrees(h), "srgb"), max_chroma(L, np.degrees(h), "display-p3")
+    C, h = np.hypot(a, b), np.unwrap(np.arctan2(b, a))
+    c_srgb = max_chroma(L, np.degrees(h), "srgb")
     frac = np.where(c_srgb > 1e-6, C / np.maximum(c_srgb, 1e-6), 0.0)
+    t = np.linspace(0, 1, len(L))
+    w = t + warp * t * (1 - t)
+    h, frac = np.interp(w, t, h), np.minimum(np.interp(w, t, frac) * gain, cap)
+    c_p3 = max_chroma(L, np.degrees(h), "display-p3")
     C2 = frac * c_p3
     rgb = cs.oklab_to_rgb(np.column_stack([L, C2 * np.cos(h), C2 * np.sin(h)]), "display-p3")
     return np.clip(rgb, 0, 1)
 
 
+def diverging_p3(hues, end_L=0.56, end_fraction=0.95, center_L=0.985, chroma_exp=0.6, lightness_exp=1.3, N=256):
+    """A diverging Display P3 table of *N* entries: two arms of constant OKLCH hue (*hues*, degrees, first arm at index 0)
+    that meet in a near-white center.  Along an arm at distance s from the center (0 to 1) the lightness is
+    ``center_L - (center_L - end_L) * s ** lightness_exp`` and the chroma ``end_fraction * s ** chroma_exp`` times the largest
+    chroma Display P3 allows there.  Each arm is then re-sampled at equal steps of OKLab distance, so that the colors
+    change equally fast everywhere along it (the two arms are about 10 % different in length)."""
+    n = 4001
+    s = np.linspace(0, 1, n)
+    arms = []
+    for hue in hues:
+        L = center_L - (center_L - end_L) * s ** lightness_exp
+        C = end_fraction * max_chroma(L, np.full(n, hue), "display-p3") * s ** chroma_exp
+        h = np.radians(hue)
+        lab = np.column_stack([L, C * np.cos(h), C * np.sin(h)])
+        arms.append((lab, np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(lab, axis=0), axis=1))])))
+    t = np.arange(N) / (N - 1)
+    sd = np.abs(2 * t - 1)
+    out = np.zeros((N, 3))
+    for (lab, arc), mask in zip(arms, (t < 0.5, t >= 0.5)):
+        pos = np.interp(sd[mask] * arc[-1], arc, np.arange(n))
+        i = np.floor(pos).astype(int).clip(0, n - 2)
+        f = (pos - i)[:, None]
+        out[mask] = lab[i] * (1 - f) + lab[i + 1] * f
+    return np.clip(cs.oklab_to_rgb(out, "display-p3"), 0, 1)
+
+
+def _gaussian(x, sigma):
+    k = np.arange(-int(4 * sigma), int(4 * sigma) + 1)
+    w = np.exp(-0.5 * (k / sigma) ** 2)
+    return np.convolve(np.pad(x, len(k) // 2, mode="edge"), w / w.sum(), mode="valid")
+
+
+def spiral_p3(start_hue, turns, smoothing, hue_ease=1.0, fraction=0.9, L0=0.25, L1=0.96, N=256):
+    """A high-chroma spiral in Display P3 with *N* entries, made in OKLab: the lightness rises linearly from *L0* to *L1*
+    while the hue turns *turns* times (negative: the other way) from *start_hue* degrees, at the rate
+    ``1 - (1 - t) ** hue_ease`` (1: constant; above 1: slowing down toward the light end).  The chroma is *fraction* of the
+    largest chroma Display P3 allows at that lightness and hue, where that largest chroma is first smoothed along the path
+    with a Gaussian of *smoothing* entries (it jumps at the corners of the gamut, and the map would follow it).  Last, the
+    path is re-sampled at equal steps of OKLab distance, so every step is as large to the eye as every other."""
+    n = 6001
+    t = np.linspace(0, 1, n)
+    L = L0 + (L1 - L0) * t
+    h = start_hue + 360 * turns * (1 - (1 - t) ** hue_ease)
+    cmax = max_chroma(L, h, "display-p3")
+    C = fraction * np.minimum(_gaussian(cmax, smoothing * n / N), cmax)
+    lab = np.column_stack([L, C * np.cos(np.radians(h)), C * np.sin(np.radians(h))])
+    arc = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(lab, axis=0), axis=1))])
+    pos = np.interp(np.linspace(0, arc[-1], N), arc, np.arange(n))
+    i = np.floor(pos).astype(int).clip(0, n - 2)
+    f = (pos - i)[:, None]
+    return np.clip(cs.oklab_to_rgb(lab[i] * (1 - f) + lab[i + 1] * f, "display-p3"), 0, 1)
+
+
 def main(src):
     mod = _load("okmaps_srgb", src)
     lines = [HEADER]
-    for name in NAMES:
-        t = to_p3(mod.COLORMAPS[name].colors)
-        assert np.all(np.diff(cs.rgb_to_oklab(t, "display-p3")[:, 0]) > 0), name       # still dark -> light
+    for name in ALL:
+        if name in SPIRALS:
+            t = spiral_p3(**SPIRALS[name])
+            assert np.all(np.diff(cs.rgb_to_oklab(t, "display-p3")[:, 0]) > 0), name   # dark -> light
+        elif name in DIVERGING:
+            t = diverging_p3(**DIVERGING[name])
+            L = cs.rgb_to_oklab(t, "display-p3")[:, 0]
+            assert np.all(np.diff(L[:128]) > 0) and np.all(np.diff(L[128:]) < 0), name  # dark -> light -> dark
+        else:
+            t = to_p3(mod.COLORMAPS[name].colors, **TWEAKS.get(name, {}))
+            assert np.all(np.diff(cs.rgb_to_oklab(t, "display-p3")[:, 0]) > 0), name   # still dark -> light
         lines.append(f"_{name.upper()} = [")
         lines += [f"    ({r:.5f}, {g:.5f}, {b:.5f})," for r, g, b in t]
         lines.append("]\n")
-    # the tables are named as in the sRGB module (_OK_DUSK, ...) and exposed as ok_dusk, ...
-    footer = FOOTER % ", ".join(f'("{n}", _{n.upper()})' for n in NAMES)
+    # the tables are named as in the sRGB module (_OK_DUSK, ...) and exposed as ok_orchid, ...
+    footer = FOOTER % ", ".join(f'("{n}", _{n.upper()})' for n in ALL)
     open(OUT, "w").write("\n".join(lines) + footer)
     print("wrote", OUT)
 

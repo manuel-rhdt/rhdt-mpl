@@ -118,8 +118,8 @@ for i, n in enumerate(names):
     y = H2 - 0.7 - 0.7 * (i + 1) + 0.2
     cm = okmaps.COLORMAPS[n]
     ax.text(0.1, y + 0.36, n + ("   (default)" if n == "ok_orchid" else ""), fontsize=7.5, fontweight="bold", va="bottom")
-    ax.text(0.1, y + 0.31, f'cmap="{n}"  /  "{n}_r"', fontsize=5.6,
-            family=MONO, va="top", color="0.25")
+    ax.text(0.1, y + 0.31, f'cmap="{n}"', fontsize=5.6, family=MONO, va="top", color="0.25")
+    ax.text(0.1, y + 0.22, f'cmap="{n}_r"', fontsize=5.6, family=MONO, va="top", color="0.45")
     ax.imshow(grad[None], extent=(bar_x, bar_x + bar_w, y + 0.18, y + 0.44), cmap=cm, aspect="auto")
     Ls = np.array([oklab.lightness(c) for c in cm.colors])
     greys = np.array([[int(oklab.oklab(L, 0, 0)[k:k + 2], 16) / 255 for k in (1, 3, 5)] for L in Ls])

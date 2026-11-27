@@ -1,7 +1,7 @@
 # rhdt-mpl
 
 Personal Matplotlib defaults: the [umbruch](https://github.com/manuel-rhdt/umbruch) backend in the Display P3 color space,
-bundled Noto fonts, named palettes and cycles, nine colormaps, and helpers for adjusting colors in OKLab.
+bundled Noto fonts, named palettes and cycles, twelve colormaps, and helpers for adjusting colors in OKLab.
 
 ```python
 import rhdt_mpl                      # import before pyplot
@@ -169,17 +169,56 @@ The full name of every color is `rhdt:<palette>:<name>`; the colors of the defau
 
 ## Colormaps
 
-<img src="docs/colormaps.svg" alt="The nine colormaps with their OKLab lightness" width="100%">
+<img src="docs/colormaps.svg" alt="The twelve colormaps with their OKLab lightness" width="100%">
 
-256-entry tables in Display P3, designed in OKLab, with the OKLab lightness of each shown underneath (the figures are Display P3 too, see below). All run dark to light; append
+256-entry tables in Display P3, designed in OKLab, with the OKLab lightness of each shown underneath (the figures are Display P3 too, see below). All but the diverging map run dark to light; append
 `_r` for light to dark, which is the usual direction for single-hue maps on a white background. `ok_orchid` is the default
 `image.cmap`.
 
+`ok_ember` and `ok_lagoon` are high-chroma spirals made in OKLab, in the spirit of cubehelix but perceptual: the lightness
+rises linearly from 0.25 to 0.96 while the hue turns from an indigo at 265° (`ok_ember`: half a turn through magenta and red to
+orange and cream; `ok_lagoon`: 0.6 of a turn the other way through teal and green to a mustard yellow and cream, slowing
+toward the end). The chroma is 0.9 of the largest Display P3 allows at that lightness and hue, where that largest
+chroma is first smoothed along the path (it jumps at the corners of the gamut), and the path is resampled at equal OKLab steps. Mean
+chroma is 0.18 and 0.12, peak 0.26 and 0.18 (viridis peaks at 0.19), and 141 and 221 of 256 entries lie outside sRGB, so on an sRGB
+screen they lose much of their saturation. Hue is not ordinal in a spiral; as with cubehelix, only the lightness orders the
+values, so they are not for reading exact values off a color bar.
+
+`ok_ruby_sapphire` and `ok_green_magenta` are diverging maps for data with a meaningful center (use `vmin=-m, vmax=m`, or
+`TwoSlopeNorm`). The arms of `ok_ruby_sapphire` are the colibri `ruby` (hue 12° in OKLCH, at index 0) and `sapphire` (239°, at the
+last index); those of `ok_green_magenta` a green and a magenta from the colibri colors (146° and 324°, between `emerald`/`tourmaline`
+and a more yellow green and more violet magenta, which keeps the ends apart for deuteranopes). Both have the same end lightness
+(0.56) and 0.95 of the largest P3 chroma, and meet in a near-white center. Chroma
+rises quickly and the lightness stays high there, so the middle is a clean pastel and not a silvery gray. Each arm changes
+at nearly a constant rate in OKLab (steps within about 10 % of each other), and the two ends stay apart under simulated deuteranopia and protanopia (OKLab distance
+times 100 between the ends: 26 and 33 for `ok_green_magenta`, 22 and 21 for `ok_ruby_sapphire`, whose red side turns olive for
+deuteranopes). A fifth (`ok_green_magenta`) to a third (`ok_ruby_sapphire`) of the entries lie outside sRGB.
+
 ```python
-plt.imshow(z)                        # ok_orchid
-plt.imshow(z, cmap="ok_dusk")        # multi-hue: ok_dusk, ok_orchid
+plt.imshow(z)                        # ok_orchid (the default, multi-hue)
+plt.imshow(z, cmap="ok_ember")       # high-chroma spirals: ok_ember, ok_lagoon
 plt.imshow(z, cmap="ok_blue_r")      # single-hue: ok_blue, ok_teal, ok_green, ok_orange, ok_red, ok_purple, ok_pink
+plt.imshow(z, cmap="ok_ruby_sapphire", vmin=-m, vmax=m)  # diverging, centered on 0: ok_ruby_sapphire, ok_green_magenta
 ```
+
+### Examples
+
+Diverging maps on a signed quantity, centered on zero (`vmin=-m, vmax=m`): the Wigner function of an even cat state, whose
+interference term is negative between the two blobs.
+
+<img src="docs/cmap_wigner.svg" alt="The Wigner function of a cat state in ok_ruby_sapphire and ok_green_magenta" width="100%">
+
+The sequential maps on one smooth random field: the lightness orders the values in all three, the hue tells the
+levels apart.
+
+<img src="docs/cmap_fields.svg" alt="A smooth random field in ok_orchid, ok_ember and ok_lagoon" width="100%">
+
+A map as a color scale for lines (use the first 80 % of a dark-to-light map on a white background, so that the pale end
+does not vanish), and a single-hue map for a density, with the pale end for low counts.
+
+<img src="docs/cmap_curves.svg" alt="Damped oscillations colored by damping with ok_lagoon, and a banana-shaped density in ok_blue_r" width="100%">
+
+The script is `examples/colormap_examples.py`.
 
 ## Hummingbird palettes
 
@@ -248,7 +287,12 @@ Display P3 numbers that look the same.
 - **Native Display P3:** the colormaps and the hummingbird palettes (`colibri`, `colibri-dark` and the species palettes).
   The colormaps keep the lightness and hue of the sRGB tables they replace and the same *fraction* of the largest chroma the
   gamut allows (0.9 for the single-hue maps), so they are as saturated relative to the gamut as before and use the extra
-  room: 1.0 to 1.4 times the chroma of the sRGB version (`examples/build_okmaps_p3.py`). The measured hummingbird colors are
+  room: 1.0 to 1.4 times the chroma of the sRGB version. Only the maps designed near the sRGB boundary leave sRGB visibly
+  (`ok_blue`, `ok_orange`, `ok_red`, `ok_pink`); `ok_teal`, `ok_green` and `ok_purple` were designed at lower
+  fractions or in hues where P3 adds little, and stay inside sRGB (`examples/build_okmaps_p3.py`). The default `ok_orchid` is
+  tuned further: it would stay almost inside sRGB at the same fraction, so its fraction is 1.3 times that of the sRGB version
+  (at most 0.95), and its hue is re-timed so that the pink reaches magenta at 40 % of the map instead of half way, which keeps
+  the pink end from looking narrower than the purple. Its lightness, and so its dark to light order, is unchanged. The measured hummingbird colors are
   converted from spectra straight to Display P3; most of those that lay outside sRGB now fit (`ruby`, `peridot`, `lapis`, ...).
 - **Defined in sRGB:** `okabe-ito`, `ok6` and `ok8` (Okabe–Ito is a published standard, the others were designed as sRGB).
   `PALETTES` holds their sRGB hex, and `palette()`, `named_colors()` and the cycles return the equivalent Display P3 numbers,
@@ -294,19 +338,19 @@ should also differ in marker or dash (hue alone is not enough for everyone).
 ## Installation
 
 ```
-pip install --no-deps git+https://github.com/manuel-rhdt/rhdt-mpl
-pip install matplotlib
+pip install git+https://github.com/manuel-rhdt/umbruch-matplotlib
+pip install git+https://github.com/manuel-rhdt/rhdt-mpl
+pip install latex2mathml          # for math ($...$) in labels; the "math" extra of both packages
 ```
 
-The package needs two things that are not on PyPI:
+Python 3.12 or newer is needed (the requirement of umbruch-matplotlib). Neither package is on PyPI. `rhdt-mpl` needs a
+current umbruch-matplotlib (`main`): the Display P3 default uses its `config.color_space`, the math font its
+`config.math_font`, and it must be one that measures embedded fonts correctly (it requires umbruch 0.5.3 or newer for that).
+Without `config.math_font` the attribute is set but ignored, and formulas are set in umbruch's built-in math fonts.
 
-- the **umbruch** executable (`$UMBRUCH`, `PATH`, or the `umbruch` Python package), from
-  <https://github.com/manuel-rhdt/umbruch>, and
-- **umbruch-matplotlib**, from <https://github.com/manuel-rhdt/umbruch-matplotlib>. Its `pip` dependency on
-  `umbruch>=0.5.0` cannot be resolved from PyPI; install it with `--no-deps` when the executable is installed separately.
-
-The math font (Noto Sans Math, set through `umbruch_matplotlib.config.math_font`) needs a version of umbruch-matplotlib that
-has this option. Without it the attribute is set but ignored, and formulas are set in umbruch's built-in math fonts.
+[umbruch](https://github.com/manuel-rhdt/umbruch), the layout engine that writes the PDFs, is on PyPI as a wheel that carries
+its executable, so it is installed as a dependency of umbruch-matplotlib. Where there is no wheel for your platform, build it
+from the repository and point `$UMBRUCH` at the executable.
 
 Fonts: Noto Sans, Noto Sans Mono, Noto Serif and Noto Sans Math (SIL Open Font License 1.1, see
 `src/rhdt_mpl/fonts/LICENSE-Noto-OFL.txt`), about 5 MB.
